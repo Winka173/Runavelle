@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="Catalog.cs" />
+    <Compile Include="Snapshot.cs" />
     <ProjectReference Include="../Core/Runavelle.Core.csproj" />
   </ItemGroup>
 </Project>

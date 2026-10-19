@@ -34,7 +34,7 @@ namespace Runavelle.Core
             var b = new MapBuilder("sunken_ruins", 44, 30, 2002)
                 .EdgeBand(1, 5, 9, TileType.Water)
                 .Castle(28, 13)
-                .Scatter(20, 4, 36, 26, TileType.Sand, 0.10f)
+                .Scatter(20, 4, 36, 26, TileType.Sand, 0.03f)
                 .Blob(14, 22, 2, TileType.Forest).Blob(10, 8, 2, TileType.Forest).Blob(22, 16, 1, TileType.Forest)
                 .Lane("west", "Cửa Tây", 3, 12, 16).Lane("north", "Cửa Bắc", 0, 20, 24).Lane("south", "Cửa Nam", 2, 18, 22)
                 .RoadFromLane("west").RoadFromLane("north").RoadFromLane("south");

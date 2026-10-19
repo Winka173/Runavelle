@@ -1,0 +1,6 @@
+{
+  "name": "Runavelle.Game",
+  "rootNamespace": "Runavelle.Game",
+  "references": ["Runavelle.Core"],
+  "autoReferenced": true
+}

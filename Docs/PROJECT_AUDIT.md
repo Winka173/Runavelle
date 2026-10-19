@@ -18,7 +18,7 @@ Audit date: 2026-10-19. Performed by Claude Code in a Linux cloud container.
 | Android SDK/NDK, Xcode | **Not available** | No player builds were produced. |
 
 ## Consequences / honest limits
-- The project targets **Unity 6 (6000.0.23f1 pinned in `ProjectSettings/ProjectVersion.txt`)**. This exact version was
+- The project targets **Unity 6000.4.8f1** (same editor as Arcane-Brigade; pinned in `ProjectSettings/ProjectVersion.txt`). This exact version was
   never opened here; any Unity 6000.x LTS should import it. First open in Unity is the first real Unity validation.
 - No `.meta` files are committed: Unity generates them on first import. Nothing references assets by GUID — the game
   bootstraps from code (`RuntimeInitializeOnLoadMethod`) and builds all visuals procedurally, so missing-reference
@@ -29,3 +29,11 @@ Audit date: 2026-10-19. Performed by Claude Code in a Linux cloud container.
 ## Architecture decision summary
 See `Docs/ARCHITECTURE.md`. Key choice: deterministic fixed-tick simulation in an engine-free assembly; Unity is a
 thin presentation/input layer. This maximises what can be verified without the Unity Editor.
+
+## Reference project review (Arcane-Brigade, same owner)
+Reviewed `Winka173/Arcane-Brigade` on user request to match technology and quality bar: Unity 6000.4.8f1, built-in
+renderer + SpriteRenderer, IMGUI UI (custom skin, Be Vietnam Pro), legacy Input Manager with touch drag, ScriptableObject
+catalogs built by Editor menus, PNG art generated with an image-generation tool, Python-synthesized audio, Editor menus for
+checks/captures/builds. Runavelle adopts the same editor version, packages, UI tech, fonts, input approach, Editor-menu
+workflow and Python audio pipeline. Differences (documented): content tables are C# data in an engine-free assembly (testable
+outside Unity) instead of ScriptableObjects; art is procedural Skia (user decision: no image-generation tool available here).

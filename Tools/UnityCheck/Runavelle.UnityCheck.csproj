@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Compile-check of the Unity presentation + editor layers against Unity reference assemblies
+       (run Tools/fetch_unity_refs.sh first). This does NOT replace opening the project in Unity 6. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>CS0618;CS0649;CS0414</NoWarn>
+    <DefineConstants>UNITY_EDITOR;UNITY_2021_3_OR_NEWER</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Assets/Runavelle/Scripts/Game/**/*.cs" />
+    <Compile Include="../../Assets/Runavelle/Scripts/Editor/**/*.cs" />
+    <ProjectReference Include="../Core/Runavelle.Core.csproj" />
+    <Reference Include="../.unityrefs/unityengine.modules/lib/netstandard2.0/*.dll" Private="false" />
+    <Reference Include="../.unityrefs/unity3d.unityeditor/lib/UnityEditor.dll" Private="false" />
+  </ItemGroup>
+</Project>

@@ -10,6 +10,13 @@ public static class Program
     public static int Main(string[] args)
     {
         var opts = args.Select(a => a.Split('=')).ToDictionary(p => p[0], p => p.Length > 1 ? p[1] : "1");
+        if (args.Length > 0 && args[0] == "catalog") { Catalog.Write(System.IO.Path.Combine("..", "..", "Docs", "Content_Catalog.md")); Console.WriteLine("catalog written"); return 0; }
+        if (args.Length > 0 && args[0] == "snapshot")
+        {
+            // snapshot <map> <general> <night> <seconds> <out.json> [strategy]
+            Snapshot.Write(args[1], args[2], int.Parse(args[3]), float.Parse(args[4], System.Globalization.CultureInfo.InvariantCulture), args[5], args.Length > 6 ? args[6] : "Balanced");
+            Console.WriteLine("snapshot written " + args[5]); return 0;
+        }
         var db = ContentDatabase.Create();
         int seeds = opts.TryGetValue("seeds", out var s) ? int.Parse(s) : 8;
         var maps = opts.TryGetValue("maps", out var m) && m != "all" ? m.Split(',').ToList() : db.MapOrder.ToList();

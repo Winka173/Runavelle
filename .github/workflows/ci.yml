@@ -1,0 +1,14 @@
+name: core-ci
+# Engine-free checks (no Unity license needed): compile the shared simulation, run NUnit tests,
+# compile-check the Unity layer against reference assemblies, and run a seeded balance smoke.
+on: [push, pull_request]
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: '8.0.x' }
+      - run: dotnet test Tools/Tests -v q
+      - run: ./Tools/fetch_unity_refs.sh && dotnet build Tools/UnityCheck -v q
+      - run: dotnet run --project Tools/Sim -c Release -- seeds=2

@@ -1,0 +1,7 @@
+{
+  "name": "Runavelle.Editor",
+  "rootNamespace": "Runavelle.EditorTools",
+  "references": ["Runavelle.Core", "Runavelle.Game"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

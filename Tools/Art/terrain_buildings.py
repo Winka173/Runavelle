@@ -79,6 +79,51 @@ def tile(kind, variant):
     cv.save(f"terrain/{kind}_{variant}")
 
 
+def blob(kind, variant):
+    """Soft-edged 1.6-tile patch of a terrain texture, overlaid on the grass base to hide the grid."""
+    import skia
+    rng = random.Random(hash((kind, 'blob', variant)) & 0xffff)
+    size = 104
+    base = {'dirt': DIRT, 'sand': SAND, 'plateau': PLATEAU, 'ice': ICE, 'water': WATER, 'shallows': SHALLOW, 'chasm': CHASM, 'lava': LAVA}[kind]
+    src = skia.Surface(size, size)
+    sc = Canvas.__new__(Canvas)
+    sc.w = sc.h = size; sc.surface = src; sc.c = src.getCanvas()
+    sc.c.clear(skia.Color(*base, 255))
+    sc.noise(rng, 160, lighten(base, 0.18), 130, (0.8, 2.2))
+    sc.noise(rng, 120, darken(base, 0.2), 130, (0.8, 2.4))
+    if kind in ('water', 'shallows'):
+        for i in range(9):
+            y = 8 + i * 11
+            x = rng.uniform(6, 70)
+            sc.line(x, y, x + rng.uniform(10, 22), y, lighten(base, 0.45), 2, 150)
+    if kind == 'lava':
+        sc.noise(rng, 50, rgb('#ffcf4a'), 170, (1.5, 4))
+    tex = src.makeImageSnapshot()
+    cv = Canvas(size, size)
+    pts = []
+    n = 18
+    for i in range(n):
+        a = i / n * 2 * math.pi
+        r = size * 0.43 * (0.86 + rng.uniform(-0.07, 0.1))
+        pts.append((size / 2 + math.cos(a) * r, size / 2 + math.sin(a) * r))
+    path = skia.Path(); path.moveTo(*pts[0])
+    for i in range(n):
+        p0, p1, p2, p3 = pts[(i - 1) % n], pts[i], pts[(i + 1) % n], pts[(i + 2) % n]
+        path.cubicTo(p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6, p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6, *p2)
+    path.close()
+    soft = kind not in ('chasm', 'lava')
+    paint = skia.Paint(AntiAlias=True)
+    paint.setShader(tex.makeShader(skia.TileMode.kClamp, skia.TileMode.kClamp, skia.SamplingOptions()))
+    if soft:
+        paint.setMaskFilter(skia.MaskFilter.MakeBlur(skia.kNormal_BlurStyle, 5))
+    cv.c.drawPath(path, paint)
+    if kind == 'chasm':
+        cv.c.drawPath(path, cv.paint(rgb('#7a5f48'), stroke=5))
+    elif kind in ('water', 'lava'):
+        cv.c.drawPath(path, cv.paint((235, 245, 255) if kind == 'water' else rgb('#ffcf4a'), 150, stroke=3))
+    cv.save(f"terrain/{kind}_blob_{variant}")
+
+
 def skia_rect(x, y, w, h):
     import skia
     return skia.Rect.MakeXYWH(x, y, w, h)
@@ -516,6 +561,9 @@ def run():
     for k, n in (('grass', 4), ('dirt', 2), ('sand', 2), ('plateau', 2), ('ice', 2), ('water', 2), ('shallows', 2), ('chasm', 2), ('lava', 2), ('bridge', 1), ('mountain', 2), ('forest', 2)):
         for v in range(n):
             tile(k, v)
+    for k in ('dirt', 'sand', 'plateau', 'ice', 'water', 'shallows', 'chasm', 'lava'):
+        for v in range(3):
+            blob(k, v)
     decor()
     for lv in ('1', '2', '3a', '3b'):
         castle(lv); house(lv); well(lv); archer(lv); shrine(lv)

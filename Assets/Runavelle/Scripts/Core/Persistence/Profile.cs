@@ -162,6 +162,20 @@ namespace Runavelle.Core
             return got;
         }
 
+        public static string Name(string id)
+        {
+            switch (id)
+            {
+                case "first_victory": return "Chiến thắng đầu tiên";
+                case "night_5": return "Qua đêm 5";
+                case "night_10": return "Qua đêm 10";
+                default: return NameMore(id) ?? id;
+            }
+        }
+
+        static partial void NameMoreImpl(string id, ref string name);
+        private static string NameMore(string id) { string n = null; NameMoreImpl(id, ref n); return n; }
+
         static partial void EvaluateMoreImpl(Profile p, GameSession s, bool victory, Action<string> grant);
         private static void EvaluateMore(Profile p, GameSession s, bool victory, Action<string> grant) => EvaluateMoreImpl(p, s, victory, grant);
     }
