@@ -264,6 +264,7 @@ namespace Runavelle.Game
             foreach (var id in _remove) { _telegraphs[id].Destroy(this); _telegraphs.Remove(id); }
 
             SyncKingdom();
+            SyncBanner();
             SyncHazards();
             SyncLaneMarkers(showLaneForecast);
             Vfx.Update(dt, settings);
@@ -310,6 +311,32 @@ namespace Runavelle.Game
                 float a = w.IsNight ? 0.16f + Mathf.Sin(Time * 0.4f) * 0.03f : 0.05f;
                 _mist.color = new Color(0.78f, 0.8f, 0.86f, a);
             }
+        }
+
+        /// <summary>Cosmetics chosen in the profile (set by GameRoot before the run view is created).</summary>
+        public static string GeneralBadge, CastleBanner;
+        private SpriteRenderer _bannerPole, _bannerCloth;
+
+        private void SyncBanner()
+        {
+            var c = _s.W.Castle;
+            if (CastleBanner == null || c == null) { if (_bannerPole != null) { _bannerPole.gameObject.SetActive(false); _bannerCloth.gameObject.SetActive(false); } return; }
+            if (_bannerPole == null)
+            {
+                _bannerPole = NewSR("bannerPole", ArtLibrary.Get("fx/pixel"), 0);
+                _bannerCloth = NewSR("bannerCloth", ArtLibrary.Get("fx/pixel"), 0);
+            }
+            _bannerPole.gameObject.SetActive(true);
+            _bannerCloth.gameObject.SetActive(true);
+            float x = c.Origin.X + 2.75f, y = c.Origin.Y + 2.4f;
+            _bannerPole.transform.position = new Vector3(x, y, 0);
+            _bannerPole.transform.localScale = new Vector3(0.6f, 8f, 1);
+            _bannerPole.color = new Color(0.25f, 0.2f, 0.18f);
+            float wave = Mathf.Sin(Time * 3f) * 0.04f;
+            _bannerCloth.transform.position = new Vector3(x + 0.22f, y + 0.32f + wave, 0);
+            _bannerCloth.transform.localScale = new Vector3(3.2f, 2.2f, 1);
+            _bannerCloth.color = CastleBanner == "banner_crimson" ? new Color(0.7f, 0.1f, 0.15f) : CastleBanner == "banner_void" ? new Color(0.35f, 0.15f, 0.6f) : new Color(1f, 0.8f, 0.25f);
+            _bannerPole.sortingOrder = _bannerCloth.sortingOrder = SortY(c.Origin.Y) + 6;
         }
 
         private SpriteRenderer _emblem, _kingdomRing;
@@ -404,6 +431,12 @@ namespace Runavelle.Game
                 _baseScale = u.Role == UnitRole.General ? 1.0f : u.IsBoss ? 1.0f : 1f;
                 bool friendly = u.Team == Team.Player;
                 _ring.color = u.Role == UnitRole.General ? new Color(1f, 0.85f, 0.35f, u.IsPlayerControlled ? 0.95f : 0.6f) : friendly ? new Color(0.35f, 0.75f, 1f, 0.55f) : new Color(1f, 0.3f, 0.25f, 0.6f);
+                // mastery cosmetic: badge ring under the player's General
+                if (u.IsPlayerControlled && u.Role == UnitRole.General && GeneralBadge != null)
+                {
+                    _ring.sprite = ArtLibrary.Get("fx/ring_thick");
+                    _ring.color = GeneralBadge == "badge_gold" ? new Color(1f, 0.82f, 0.25f, 1f) : new Color(0.85f, 0.9f, 1f, 1f);
+                }
                 float r = Mathf.Max(0.5f, u.Radius * 2.6f);
                 _ring.transform.localScale = new Vector3(r, r * 0.5f, 1);
                 _shadow.transform.localScale = new Vector3(r * 0.9f, r * 0.9f, 1);

@@ -49,6 +49,7 @@ namespace Runavelle.Core
             var level = Content.Level(levelId);
             var def = Content.BuildingOfLevel(levelId);
             if (!def.PlayerBuildable) return PlaceResult.Fail("Không thể xây thêm");
+            if (BannedFamilies.Contains(def.Family)) return PlaceResult.Fail("Bị cấm trong thử thách này");
             if (Array.IndexOf(def.RootLevels, levelId) < 0) return PlaceResult.Fail("Phải nâng cấp, không xây trực tiếp");
             if (!IsLevelUnlocked(level)) return PlaceResult.Fail("Chưa mở khoá");
             if (W.CountFamily(def.Family) >= def.MaxCount) return PlaceResult.Fail("Đã đạt số lượng tối đa (" + def.MaxCount + ")");

@@ -124,6 +124,7 @@ namespace Runavelle.Game
             var setup = new RunSetup { MapId = PickMap, GeneralId = PickGeneral, Seed = seed, Ascension = PickAscension, Endless = PickEndless, IsDaily = daily,
                 ChallengeId = PickChallenge, WeaponId = PickWeapon, RelicId = PickRelic };
             setup.UnlockedGenerals.AddRange(Profile.UnlockedGenerals(Db));
+            ApplyCosmetics();
             BeginSession(new GameSession(Db, setup));
             Profile.RunsPlayed++;
             if (!Profile.TutorialDone) ShowBanner("Ngày 1: Xây Nhà Dân (Vàng) và Giếng Mana (Mana) gần Lâu Đài.");
@@ -141,6 +142,7 @@ namespace Runavelle.Game
             {
                 var json = SaveStore.Read(RunPath, out bool backup);
                 if (json == null) { ShowToast("Không đọc được bản lưu."); DeleteRunSave(); return; }
+                ApplyCosmetics();
                 BeginSession(RunSave.Deserialize(Db, json));
                 if (backup) ShowToast("Đã khôi phục từ bản sao lưu.");
             }
@@ -194,7 +196,7 @@ namespace Runavelle.Game
                 else if (Session.Phase == RunPhase.Night) NightInput();
                 // fixed-step simulation: tick count depends only on time * speed, never on frame rate
                 float step = World.Dt;
-                float speed = Session.Phase == RunPhase.Night ? Speed : (Settings.FastDay ? 2f : 1f);
+                float speed = Session.Phase == RunPhase.Night ? Speed * (Settings.SlowNights ? 0.75f : 1f) : (Settings.FastDay ? 2f : 1f);
                 _acc += dt * speed;
                 int guard = 0;
                 while (_acc >= step && guard++ < 8)
@@ -240,6 +242,7 @@ namespace Runavelle.Game
                 case RunPhase.Day:
                     if (Session.AutosaveRequested) { Session.AutosaveRequested = false; SaveRun(); }
                     if (!Profile.TutorialDone) TutorialHint();
+                    FeatureHints();
                     break;
                 case RunPhase.DecreeDraft:
                 case RunPhase.GeneralEvolution:

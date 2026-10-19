@@ -191,14 +191,14 @@ namespace Runavelle.Core
             }
             var cats = new HashSet<DecreeCategory>();
             int guard = 0;
-            while (DecreeOffer.Count < 3 && pool.Count > 0 && guard++ < 50)
+            while (DecreeOffer.Count < DraftSize && pool.Count > 0 && guard++ < 50)
             {
                 var w = new List<float>();
                 foreach (var d in pool)
                 {
                     float x = d.Weight;
                     if (cats.Contains(d.Category)) x *= 0.35f;
-                    if (d.Category == DecreeCategory.Cursed && DecreeOffer.Count == 2 && AllOfferCursed()) x = 0f;
+                    if (d.Category == DecreeCategory.Cursed && DecreeOffer.Count == DraftSize - 1 && AllOfferCursed()) x = 0f;
                     w.Add(x);
                 }
                 int idx = rng.PickWeighted(w);
@@ -219,7 +219,7 @@ namespace Runavelle.Core
 
         public bool RerollDraft()
         {
-            if (Phase != RunPhase.DecreeDraft || RerollsUsed >= 1 || !Economy.TrySpend(RerollCost, "reroll")) return false;
+            if (Phase != RunPhase.DecreeDraft || RerollsUsed >= 1 || DraftSize < 3 || !Economy.TrySpend(RerollCost, "reroll")) return false;
             RerollsUsed++;
             GenerateDraft();
             return true;

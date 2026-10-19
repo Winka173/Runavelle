@@ -23,6 +23,8 @@ namespace Runavelle.Core
 
         partial void BossOverrideImpl(int night, ref string boss)
         {
+            var rule = RulesBoss(night);
+            if (rule != null) { boss = rule; return; }
             int idx = night == 5 ? 0 : night == 10 ? 1 : night == 15 ? 2 : -1;
             if (idx < 0 || W.Map.Bosses == null || idx >= W.Map.Bosses.Length) return;
             var id = W.Map.Bosses[idx];

@@ -563,12 +563,15 @@ namespace Runavelle.Game
             foreach (var n in rep.Notes) L("<color=#c0392b>" + n + "</color>");
             var top = RunAnalytics.Top(s.W.Analytics.Reactions.ToDictionary(k => k.Key, k => k.Value), 3);
             if (top.Count > 0) L("Phản ứng nổi bật: " + string.Join(", ", top.Select(t => ReactionTable.Get(t.Key).Name + " ×" + t.Value)));
+            if (s.Setup.Endless && s.Night >= s.TotalNights)
+                L("<color=#6a3fa8><b>Vô tận – đêm " + (s.Night + 1) + " thêm:</b> " + RunRules.MutatorFor(s.Setup.Seed, s.Night + 1).Name + " (hoặc RÚT LUI để kết thúc thắng lợi)</color>");
             if (s.Night < s.TotalNights || s.Setup.Endless)
             {
                 var plan = s.Waves.Plan(s.Night + 1, System.Math.Max(s.TotalNights, s.Night + 1));
                 L("<b>Tình báo đêm tới:</b> " + string.Join(", ", plan.Lanes.Select(l => s.LaneById(l)?.Name ?? l)) + (plan.Tags.Count > 0 ? " · " + string.Join(" · ", plan.Tags.Take(3)) : ""));
             }
             if (Gui.Btn(new Rect(r.center.x - 200, r.yMax - 96, 400, 72), "TIẾP TỤC", true, Gui.ButtonBig)) s.ContinueFromReport();
+            DrawRetireButton(r);
         }
 
         private void DrawDraft()
@@ -593,7 +596,7 @@ namespace Runavelle.Game
                 if (Gui.Btn(new Rect(cr.x + 60, cr.yMax + 14, cw - 120, 64), "BAN HÀNH", true, Gui.Button, d.Category == DecreeCategory.Cursed ? "purple" : null)) chosen = id;
                 x += cw + gap;
             }
-            if (Gui.Btn(new Rect(r.x + 30, r.y + 20, 260, 56), "Đổi " + CostShort(GameSession.RerollCost, false), s.RerollsUsed == 0 && s.Economy.CanAfford(GameSession.RerollCost), Gui.ButtonSmall)) s.RerollDraft();
+            if (Gui.Btn(new Rect(r.x + 30, r.y + 20, 260, 56), "Đổi " + CostShort(GameSession.RerollCost, false), s.RerollsUsed == 0 && s.DraftSize >= 3 && s.Economy.CanAfford(GameSession.RerollCost), Gui.ButtonSmall)) s.RerollDraft();
             if (chosen != null) s.ChooseDecree(chosen);
         }
 
@@ -662,7 +665,7 @@ namespace Runavelle.Game
         {
             var s = Session;
             var an = s.W.Analytics;
-            int nights = win ? s.TotalNights : s.Night - 1;
+            int nights = win ? System.Math.Max(s.TotalNights, s.Night) : s.Night - 1;
             float y = r.y;
             void L(string t, float h = 38) { Gui.Text(new Rect(r.x, y, r.width / 2 - 20, h), t, Gui.LabelSmall); y += h; }
             L($"<b>{s.W.PlayerGeneral.General.Name}</b> · {s.W.Map.Name} · sống sót <b>{nights}</b> đêm · hạ <b>{an.TotalKills}</b> kẻ địch · điểm {s.ComputeScore(win)}");
@@ -674,6 +677,7 @@ namespace Runavelle.Game
             L("Phản ứng hàng đầu: " + string.Join(", ", RunAnalytics.Top(an.Reactions.ToDictionary(k => k.Key, k => k.Value), 4).Select(k => ReactionTable.Get(k.Key).Name + " ×" + k.Value)), 60);
             L("Chiếu chỉ: " + string.Join(", ", s.TakenDecrees.Select(d => Db.Decrees[d].Name)), 60);
             if (s.KingdomEvolution != null) L("Tiến hoá vương quốc: " + s.KingdomEvolutions.Find(k => k.Id == s.KingdomEvolution)?.Name);
+            y = DrawEndExtras(r, y);
             // right column: defeat reasons + trajectory
             float ry = r.y;
             float rx = r.x + r.width / 2 + 10;

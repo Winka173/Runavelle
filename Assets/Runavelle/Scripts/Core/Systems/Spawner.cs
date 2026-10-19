@@ -83,6 +83,23 @@ namespace Runavelle.Core
         /// <summary>Mist hazard: ground enemies arrive hidden and are revealed this close to defenders (+1 for towers).</summary>
         public const float MistRevealRange = 3.2f;
 
+        /// <summary>Ascension 3+: elites and bosses roll one affix.</summary>
+        public bool EliteAffixes;
+        public static readonly string[] AffixNames = { "Thần Tốc", "Thành Lũy", "Cuồng Nộ", "Hộ Thuẫn" };
+
+        private void ApplyAffix(Unit u)
+        {
+            int k = _w.Rng.Range(0, AffixNames.Length);
+            u.Affix = AffixNames[k];
+            switch (k)
+            {
+                case 0: u.Speed *= 1.3f; break;
+                case 1: u.MaxHp *= 1.4f; u.Hp = u.MaxHp; break;
+                case 2: u.Attack.Interval /= 1.3f; break;
+                default: u.Status.ShieldHp = u.MaxHp * 0.3f; break;
+            }
+        }
+
         public bool OnHighGround(Building b) => _w.Map.Hazard == MapHazard.HighGround && _w.Map.Get(b.Origin.X, b.Origin.Y) == TileType.Plateau;
 
         private bool DamagedWallNear(Vec2 p, float r)
@@ -180,6 +197,8 @@ namespace Runavelle.Core
             u.Attack.Damage = Mods.Apply(u.Attack.Damage, Stat.Damage, def.Behavior == EnemyBehavior.Boss ? Scope.Bosses : Scope.Enemies);
             u.Speed = Mods.Apply(u.Speed, Stat.MoveSpeed, Scope.Enemies);
             if (def.Secondary != null) u.SecondaryAttack = def.Secondary.Clone();
+            u.BaseArmor = Mods.Apply(def.Armor, Stat.Armor, def.Behavior == EnemyBehavior.Boss ? Scope.Bosses : Scope.Enemies);
+            if (EliteAffixes && u.IsElite) ApplyAffix(u);
             u.SummonTimer = def.SummonInterval > 0 ? def.SummonInterval * 0.6f : 0f;
             u.ShiftTimer = def.ShiftInterval;
             if (def.StealthRange > 0f) { u.Stealthed = true; u.StealthRange = def.StealthRange; }

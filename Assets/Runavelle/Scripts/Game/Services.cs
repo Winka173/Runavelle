@@ -17,6 +17,8 @@ namespace Runavelle.Game
         public int Quality = 2;
         public bool TouchControls;          // forced on for mobile platforms
         public bool FastDay;
+        /// <summary>Accessibility: night combat runs at 75% speed (reaction time), stacks with the x2 toggle.</summary>
+        public bool SlowNights;
 
         public void Load(Profile p)
         {
@@ -33,6 +35,7 @@ namespace Runavelle.Game
             Quality = int.Parse(Get("quality", Application.isMobilePlatform ? "1" : "2"));
             TouchControls = Get("touch", Application.isMobilePlatform ? "1" : "0") == "1";
             FastDay = Get("fastday", "0") == "1";
+            SlowNights = Get("slownights", "0") == "1";
         }
 
         public void Save(Profile p)
@@ -50,6 +53,7 @@ namespace Runavelle.Game
             p.Settings["quality"] = Quality.ToString();
             p.Settings["touch"] = TouchControls ? "1" : "0";
             p.Settings["fastday"] = FastDay ? "1" : "0";
+            p.Settings["slownights"] = SlowNights ? "1" : "0";
         }
 
         public void Apply()

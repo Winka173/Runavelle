@@ -27,6 +27,11 @@ namespace Runavelle.Core
         public readonly List<RunSummary> History = new List<RunSummary>();
         public readonly Dictionary<string, string> Settings = new Dictionary<string, string>();
         public bool TutorialDone;
+        public int BestEndlessNight;
+        public readonly HashSet<string> MapsWon = new HashSet<string>();
+        public readonly HashSet<string> ChallengesWon = new HashSet<string>();
+        /// <summary>Best daily score per UTC date (yyyy-MM-dd).</summary>
+        public readonly Dictionary<string, int> DailyBest = new Dictionary<string, int>();
         public bool EndlessUnlocked => Victories > 0;
 
         public bool IsUnlocked(UnlockRule rule, int value)
@@ -60,6 +65,10 @@ namespace Runavelle.Core
             }
         }
 
+        public static int MasteryGain(GameSession s, bool victory, int nights)
+            => Math.Min(nights, s.TotalNights) + (victory ? 10 + (RunRules.Challenge(s.Setup.ChallengeId)?.MasteryBonus ?? 0) : 0) + s.Setup.Ascension * 3
+               + Math.Max(0, nights - s.TotalNights) + (s.Setup.IsDaily && victory ? 5 : 0);
+
         public int TotalMastery()
         {
             int n = 0;
@@ -87,16 +96,27 @@ namespace Runavelle.Core
         public List<string> RecordRun(GameSession s, bool victory)
         {
             RunsPlayed++;
-            int nights = victory ? s.TotalNights : s.Night - 1;
-            BestNight = Math.Max(BestNight, nights);
+            int nights = victory ? Math.Max(s.TotalNights, s.Night) : s.Night - 1;
+            // an Endless run that got past the campaign counts as a campaign victory
+            if (!victory && s.Setup.Endless && nights >= s.TotalNights) victory = true;
+            BestNight = Math.Max(BestNight, Math.Min(nights, s.TotalNights));
+            if (s.Setup.Endless) BestEndlessNight = Math.Max(BestEndlessNight, nights);
+            if (s.Setup.IsDaily)
+            {
+                string key = DateTime.UtcNow.ToString("yyyy-MM-dd");
+                DailyBest.TryGetValue(key, out int best);
+                DailyBest[key] = Math.Max(best, s.ComputeScore(victory));
+            }
             if (victory)
             {
+                MapsWon.Add(s.Setup.MapId);
+                if (s.Setup.ChallengeId != null) ChallengesWon.Add(s.Setup.ChallengeId);
                 Victories++;
                 int cur = MaxAscension(s.Setup.MapId);
                 if (s.Setup.Ascension > cur) MaxAscensionCleared[s.Setup.MapId] = s.Setup.Ascension;
             }
             GeneralMastery.TryGetValue(s.Setup.GeneralId, out int m);
-            GeneralMastery[s.Setup.GeneralId] = m + nights + (victory ? 10 : 0) + s.Setup.Ascension * 3;
+            GeneralMastery[s.Setup.GeneralId] = m + MasteryGain(s, victory, nights);
             History.Insert(0, new RunSummary { Map = s.Setup.MapId, General = s.Setup.GeneralId, Seed = s.Setup.Seed.ToString(), Result = victory ? "WIN" : "LOSS", Nights = nights,
                 Kills = s.W.Analytics.TotalKills, Ascension = s.Setup.Ascension, Score = s.ComputeScore(victory), Daily = s.Setup.IsDaily, Challenge = s.Setup.ChallengeId,
                 Date = DateTime.UtcNow.ToString("yyyy-MM-dd") });
@@ -120,8 +140,16 @@ namespace Runavelle.Core
             {
                 ["version"] = Version, ["victories"] = Victories, ["bestNight"] = BestNight, ["runs"] = RunsPlayed, ["tutorial"] = TutorialDone,
                 ["asc"] = asc, ["mastery"] = mast, ["achievements"] = new List<object>(Achievements), ["cosmetics"] = new List<object>(Cosmetics),
-                ["history"] = hist, ["settings"] = settings,
+                ["history"] = hist, ["settings"] = settings, ["bestEndless"] = BestEndlessNight,
+                ["mapsWon"] = new List<object>(MapsWon), ["challengesWon"] = new List<object>(ChallengesWon), ["daily"] = DailyToJson(),
             });
+        }
+
+        private Dictionary<string, object> DailyToJson()
+        {
+            var d = new Dictionary<string, object>();
+            foreach (var kv in DailyBest) d[kv.Key] = kv.Value;
+            return d;
         }
 
         public static Profile Deserialize(string json)
@@ -143,6 +171,11 @@ namespace Runavelle.Core
                 p.History.Add(new RunSummary { Map = MiniJson.Str(h, "map"), General = MiniJson.Str(h, "general"), Seed = MiniJson.Str(h, "seed"), Result = MiniJson.Str(h, "result"),
                     Nights = MiniJson.Int(h, "nights"), Kills = MiniJson.Int(h, "kills"), Ascension = MiniJson.Int(h, "asc"), Score = MiniJson.Int(h, "score"), Daily = MiniJson.Bool(h, "daily"),
                     Date = MiniJson.Str(h, "date"), Challenge = MiniJson.Str(h, "challenge") });
+            p.BestEndlessNight = MiniJson.Int(root, "bestEndless");
+            foreach (var a in MiniJson.Arr(root, "mapsWon") ?? new List<object>()) p.MapsWon.Add(a.ToString());
+            foreach (var a in MiniJson.Arr(root, "challengesWon") ?? new List<object>()) p.ChallengesWon.Add(a.ToString());
+            var daily = MiniJson.Obj(root, "daily");
+            if (daily != null) foreach (var kv in daily) p.DailyBest[kv.Key] = (int)(double)kv.Value;
             var st = MiniJson.Obj(root, "settings");
             if (st != null) foreach (var kv in st) p.Settings[kv.Key] = kv.Value?.ToString();
             return p;

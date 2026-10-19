@@ -54,12 +54,14 @@ namespace Runavelle.Core
                 int wantBarracks = Plan == Strategy.Army ? 1 + night / 5 : night >= 2 ? 1 + night / 8 : 0;
                 for (int i = towersNear; i < wantTowers; i++)
                 {
-                    string lvl = (Plan == Strategy.Elemental || i % 2 == 1) && W.Economy_Mana(_s) >= 30 ? MagicSchool : "archer_1";
+                    bool archersBanned = _s.BannedFamilies.Contains(BuildingFamily.ArcherTower);
+                    string lvl = archersBanned || ((Plan == Strategy.Elemental || i % 2 == 1) && W.Economy_Mana(_s) >= 30) ? MagicSchool : "archer_1";
                     if (!PlaceNear(lvl, front, 1, 5)) break;
                 }
+                if (_s.BannedFamilies.Contains(BuildingFamily.Barracks)) wantBarracks = 0;
                 for (int i = barracksNear; i < wantBarracks; i++)
                     if (!PlaceNear("barracks_" + SoldierPreference, front + (lane.Center - CastleCenter).Normalized * 1.5f, 1, 5)) break;
-                if (night >= 3) WallAcross(lane, 0.5f);
+                if (night >= 3 && !_s.BannedFamilies.Contains(BuildingFamily.Wall)) WallAcross(lane, 0.5f);
             }
 
             // 3. shrine mid-game

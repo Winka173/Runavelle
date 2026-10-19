@@ -36,6 +36,8 @@ public static class Program
         var strategies = opts.TryGetValue("strategies", out var st) ? st.Split(',').Select(x => Enum.Parse<AutoPlayer.Strategy>(x)).ToList() : new List<AutoPlayer.Strategy> { AutoPlayer.Strategy.Balanced };
         int asc = opts.TryGetValue("ascension", out var a) ? int.Parse(a) : 0;
         bool verbose = opts.ContainsKey("verbose");
+        string challenge = opts.TryGetValue("challenge", out var chl) ? chl : null;
+        bool endless = opts.ContainsKey("endless");
         Console.WriteLine($"Runavelle headless harness | seeds={seeds} maps={string.Join(",", maps)} generals={string.Join(",", generals)} strategies={string.Join(",", strategies)} asc={asc}");
         Console.WriteLine("map,general,strategy,seed,result,nights,kills,castle_dmg_total,reactions,peak_enemies,max_rx_tick,gold_end,mana_end,seconds,exception");
         int runs = 0, wins = 0, exceptions = 0;
@@ -47,7 +49,7 @@ public static class Program
         for (int i = 0; i < seeds; i++)
         {
             ulong seed = (ulong)(1000 + i * 7919);
-            var setup = new RunSetup { MapId = map, GeneralId = gen, Seed = seed, Ascension = asc };
+            var setup = new RunSetup { MapId = map, GeneralId = gen, Seed = seed, Ascension = asc, ChallengeId = challenge, Endless = endless };
             setup.UnlockedGenerals.AddRange(db.GeneralOrder);
             var sw = Stopwatch.StartNew();
             string ex = "";

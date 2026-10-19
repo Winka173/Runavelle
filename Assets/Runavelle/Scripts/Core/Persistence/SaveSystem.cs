@@ -246,11 +246,12 @@ namespace Runavelle.Core
                 AiGeneralLanes[i] = MiniJson.Str(ai[i], "lane");
                 Spawner.SpawnGeneral(Content.Generals[gid], Generals_RespawnPoint(), false, i, null);
             }
-            Plan = Waves.Plan(Night, Math.Max(TotalNights, Night), BossOverride);
+            Plan = MakePlan();
             ApplyDayHazards();
             ChooseObjective();
             if (AiGeneralLanes[0] != null || AiGeneralLanes[1] != null) PlaceAIGenerals();
             RebuildModifiers();
+            Plan = MakePlan();
             foreach (var b in W.Buildings) if (!b.Ruined) b.Hp = b.MaxHp;
             string phase = MiniJson.Str(root, "phase", "Day");
             if (Enum.TryParse(phase, out RunPhase ph)) Phase = ph;

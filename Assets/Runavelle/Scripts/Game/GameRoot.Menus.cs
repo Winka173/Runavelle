@@ -49,6 +49,7 @@ namespace Runavelle.Game
         private void DrawTitle()
         {
             Backdrop();
+            if (_codeEntry) { DrawCodeEntry(); return; } // modal: title buttons must not take the clicks
             var logo = ArtLibrary.Tex("ui/logo");
             float lx = Gui.Safe.x + 60;
             if (logo != null) GUI.DrawTexture(new Rect(lx - 20, Gui.Safe.y + 40, 760, 190), logo, ScaleMode.ScaleToFit);
@@ -58,17 +59,9 @@ namespace Runavelle.Game
             if (HasSavedRun) y += h + 16;
             if (Gui.Btn(new Rect(lx, y, w, h), "CHƠI MỚI", true, Gui.ButtonBig)) Screen = AppScreen.GeneralSelect;
             y += h + 16;
-            if (Gui.Btn(new Rect(lx, y, w, 64), "THỬ THÁCH HẰNG NGÀY", true, Gui.Button, "blue"))
-            {
-                var rng = new Rng(DailySeed());
-                var gens = Profile.UnlockedGenerals(Db);
-                PickGeneral = gens[rng.Range(0, gens.Count)];
-                var maps = Db.MapOrder.Where(m => Profile.MapUnlocked(Db.Maps[m])).ToList();
-                PickMap = maps[rng.Range(0, maps.Count)];
-                PickAscension = 0; PickEndless = false;
-                StartNewRun(daily: true);
-                ShowToast("Thử thách " + System.DateTime.UtcNow.ToString("dd/MM") + ": hạt giống chung cho mọi người chơi trong ngày (offline).");
-            }
+            float hw0 = (w - 16) / 2;
+            if (Gui.Btn(new Rect(lx, y, hw0, 64), "HẰNG NGÀY", true, Gui.Button, "blue")) StartDaily();
+            if (Gui.Btn(new Rect(lx + hw0 + 16, y, hw0, 64), "NHẬP MÃ", true, Gui.Button)) { _codeEntry = true; _codeError = null; }
             y += 64 + 14;
             float hw = (w - 16) / 2;
             if (Gui.Btn(new Rect(lx, y, hw, 60), "HỒ SƠ", true, Gui.Button)) Screen = AppScreen.History;
@@ -77,6 +70,7 @@ namespace Runavelle.Game
             if (Gui.Btn(new Rect(lx, y, hw, 60), "CÀI ĐẶT", true, Gui.Button)) { _settingsReturn = AppScreen.Title; Screen = AppScreen.Settings; }
             if (!Application.isMobilePlatform && Gui.Btn(new Rect(lx + hw + 16, y, hw, 60), "THOÁT", true, Gui.Button)) Application.Quit();
             Gui.Text(new Rect(Gui.Safe.xMax - 620, Gui.Safe.yMax - 50, 600, 40), $"Thắng: {Profile.Victories}   Đêm xa nhất: {Profile.BestNight}   Ván: {Profile.RunsPlayed}", new GUIStyle(Gui.Hint) { alignment = TextAnchor.MiddleRight }, Gui.Light, true);
+            DrawCodeEntry();
         }
 
         // ------------------------------------------------------------------ general select
@@ -140,10 +134,10 @@ namespace Runavelle.Game
             Gui.Rect(new Rect(0, 0, Gui.VW, Gui.VH), new Color(0.05f, 0.04f, 0.1f, 0.55f));
             Gui.Text(new Rect(0, Gui.Safe.y + 16, Gui.VW, 70), "Chọn Chiến Trường", Gui.Title, null, true);
             var maps = Db.MapOrder;
-            float w = 560, h = 132, gap = 14;
             int cols = maps.Count > 4 ? 2 : 1;
+            float w = 560, h = cols == 2 ? 104 : 132, gap = 14;
             float x0 = Gui.VW / 2 - (cols * (w + gap)) / 2 - (cols == 1 ? 300 : 0);
-            float y0 = Gui.Safe.y + 104;
+            float y0 = Gui.Safe.y + 96;
             for (int i = 0; i < maps.Count; i++)
             {
                 var m = Db.Maps[maps[i]];
@@ -151,26 +145,30 @@ namespace Runavelle.Game
                 var r = new Rect(x0 + (i % cols) * (w + gap), y0 + (i / cols) * (h + gap), w, h);
                 Gui.DrawPanel(r, PickMap != m.Id);
                 var st = new GUIStyle(Gui.H2) { normal = { textColor = PickMap == m.Id ? Gui.Ink : Gui.Light } };
-                Gui.Text(new Rect(r.x + 24, r.y + 14, w - 48, 44), (unlocked ? "" : "[Khoá] ") + m.Name + "  " + new string('★', m.Difficulty), st);
+                Gui.Text(new Rect(r.x + 24, r.y + 8, w - 48, 44), (unlocked ? "" : "[Khoá] ") + m.Name + "  " + new string('★', m.Difficulty), st);
                 var ls = new GUIStyle(Gui.LabelSmall) { normal = { textColor = PickMap == m.Id ? Gui.Ink : Gui.Light } };
-                Gui.Text(new Rect(r.x + 24, r.y + 58, w - 48, 70), unlocked ? "Được che chắn: " + m.ProtectedSides : "Mở khoá: sống tới đêm " + Profile.MapUnlockNight(m) + " hoặc thắng " + m.UnlockOrder + " ván", ls);
+                Gui.Text(new Rect(r.x + 24, r.y + 50, w - 48, h - 54), unlocked ? "Được che chắn: " + m.ProtectedSides : "Mở khoá: sống tới đêm " + Profile.MapUnlockNight(m) + " hoặc thắng " + m.UnlockOrder + " ván", ls);
                 if (unlocked && GUI.Button(r, GUIContent.none, GUIStyle.none)) { PickMap = m.Id; AudioService.Ui(); }
             }
             var sel = Db.Maps[PickMap];
-            var info = new Rect(cols == 1 ? x0 + w + 30 : Gui.VW / 2 - 560, cols == 1 ? y0 : Gui.Safe.yMax - 330, cols == 1 ? 620 : 1120, 220);
+            float rowsEnd = y0 + ((maps.Count + cols - 1) / cols) * (h + gap);
+            var info = cols == 1 ? new Rect(x0 + w + 30, y0, 620, 300) : new Rect(Gui.VW / 2 - 566, rowsEnd + 4, 552, 300);
             Gui.DrawPanel(info);
-            Gui.Text(new Rect(info.x + 20, info.y + 16, info.width - 40, 110), sel.Description, Gui.Label);
+            Gui.Text(new Rect(info.x + 20, info.y + 12, info.width - 40, 150), sel.Description, Gui.LabelSmall);
             // ascension + endless
             int maxAsc = Mathf.Min(10, Profile.MaxAscension(sel.Id) + 1);
             if (Profile.Victories == 0) maxAsc = 0;
             PickAscension = Mathf.Clamp(PickAscension, 0, maxAsc);
-            float ay = info.y + 130;
+            float ay = info.y + 166;
             Gui.Text(new Rect(info.x + 20, ay, 300, 44), "Thăng Cấp: " + PickAscension, Gui.H2);
             if (Gui.Btn(new Rect(info.x + 300, ay, 60, 52), "–", PickAscension > 0)) PickAscension--;
             if (Gui.Btn(new Rect(info.x + 370, ay, 60, 52), "+", PickAscension < maxAsc)) PickAscension++;
-            if (Profile.EndlessUnlocked && Gui.Btn(new Rect(info.x + 450, ay, 150, 52), PickEndless ? "Vô tận: BẬT" : "Vô tận: TẮT", true, Gui.ButtonSmall, PickEndless ? "purple" : null)) PickEndless = !PickEndless;
-            DrawAscensionNote(new Rect(info.x + 20, ay + 56, info.width - 40, 40));
-            DrawLoadoutPicker(new Rect(info.x, info.yMax + 12, info.width, 150));
+            if (Profile.EndlessUnlocked && Gui.Btn(new Rect(info.x + 440, ay, 100, 52), PickEndless ? "∞ BẬT" : "∞ TẮT", true, Gui.ButtonSmall, PickEndless ? "purple" : null)) PickEndless = !PickEndless;
+            DrawAscensionNote(new Rect(info.x + 20, ay + 56, info.width - 40, 74));
+            var side = cols == 1 ? new Rect(info.x, info.yMax + 12, info.width, 300) : new Rect(Gui.VW / 2 + 14, info.y, 552, 300);
+            DrawLoadoutPicker(new Rect(side.x, side.y, side.width, 150));
+            Gui.DrawPanel(new Rect(side.x, side.y + 156, side.width, 144));
+            DrawChallengePicker(new Rect(side.x + 20, side.y + 168, side.width - 30, 124));
             float by = Gui.Safe.yMax - 100;
             if (Gui.Btn(new Rect(Gui.Safe.x + 40, by, 260, 72), "← QUAY LẠI")) Screen = AppScreen.GeneralSelect;
             if (Gui.Btn(new Rect(Gui.Safe.xMax - 380, by, 340, 72), "BẮT ĐẦU", true, Gui.ButtonBig, "green")) { DeleteRunSave(); StartNewRun(); }
@@ -217,6 +215,7 @@ namespace Runavelle.Game
             Row("Biểu tượng nguyên tố (mù màu)", Settings.ElementGlyphs ? "Bật" : "Tắt", () => Settings.ElementGlyphs = !Settings.ElementGlyphs);
             Row("Điều khiển cảm ứng", Settings.TouchControls ? "Bật" : "Tắt", () => Settings.TouchControls = !Settings.TouchControls);
             Row("Ban ngày nhanh (x2)", Settings.FastDay ? "Bật" : "Tắt", () => Settings.FastDay = !Settings.FastDay);
+            Row("Nhịp đêm chậm (x0.75)", Settings.SlowNights ? "Bật" : "Tắt", () => Settings.SlowNights = !Settings.SlowNights);
             Row("Chất lượng / FPS", Settings.Quality == 0 ? "Tiết kiệm (30)" : Settings.Quality == 1 ? "Cân bằng (60)" : "Cao (60)", () => Settings.Quality = (Settings.Quality + 1) % 3);
             Row("Cỡ giao diện", Mathf.RoundToInt(Settings.UiScale * 100) + "%", () => Settings.UiScale = Settings.UiScale >= 1.3f ? 0.8f : Settings.UiScale + 0.1f);
             Row("Âm lượng tổng", Mathf.RoundToInt(Settings.Master * 100) + "%", () => Settings.Master = Settings.Master >= 1f ? 0f : Mathf.Min(1f, Settings.Master + 0.1f));
@@ -254,6 +253,14 @@ namespace Runavelle.Game
             Gui.Text(new Rect(r.x + 30, r.y + 16, 900, 56), "Hồ Sơ & Thông Thạo", Gui.H1);
             Gui.Text(new Rect(r.x + 30, r.y + 76, 1500, 40), $"Thắng {Profile.Victories} · Đêm xa nhất {Profile.BestNight} · Thành tựu {Profile.Achievements.Count} · Điểm thông thạo {Profile.TotalMastery()}", Gui.Label);
             DrawMasteryPanel(new Rect(r.x + 30, r.y + 120, 700, r.height - 140));
+            if (Gui.Btn(new Rect(r.xMax - 520, r.y + 16, 240, 52), "Các ván", _historyTab != 0, Gui.ButtonSmall)) _historyTab = 0;
+            if (Gui.Btn(new Rect(r.xMax - 270, r.y + 16, 240, 52), "Thành tựu", _historyTab != 1, Gui.ButtonSmall)) _historyTab = 1;
+            if (_historyTab == 1)
+            {
+                DrawAchievementsTab(new Rect(r.x + 760, r.y + 120, 820, r.height - 140));
+                if (Gui.Btn(new Rect(Gui.Safe.x + 40, Gui.Safe.yMax - 100, 260, 72), "QUAY LẠI")) Screen = AppScreen.Title;
+                return;
+            }
             float y = r.y + 120;
             Gui.Text(new Rect(r.x + 760, y, 800, 40), "<b>Các ván gần đây</b> (hạt giống có thể chia sẻ)", Gui.Label);
             y += 46;
@@ -276,7 +283,9 @@ namespace Runavelle.Game
                 Profile.GeneralMastery.TryGetValue(id, out int m);
                 if (y * 38 + 40 > r.height) break;
                 Gui.Text(new Rect(r.x, r.y + y * 38, 300, 36), Db.Generals[id].Name, Gui.LabelSmall);
-                Gui.Bar(new Rect(r.x + 200, r.y + y * 38 + 6, 360, 24), Mathf.Clamp01(m / 100f), Gui.Gold, m + " / 100");
+                int lvl = Mastery.Level(m);
+                int lo = Mastery.LevelThresholds[lvl], hi = lvl + 1 < Mastery.LevelThresholds.Length ? Mastery.LevelThresholds[lvl + 1] : lo;
+                Gui.Bar(new Rect(r.x + 200, r.y + y * 38 + 6, 460, 24), hi > lo ? Mathf.Clamp01((m - lo) / (float)(hi - lo)) : 1f, Gui.Gold, Mastery.LevelNames[lvl] + " · " + m + (hi > lo ? " / " + hi : ""));
                 y++;
             }
             DrawMasteryPanelImpl(r);

@@ -99,6 +99,8 @@ namespace Runavelle.Core
         {
             Content = content;
             Setup = setup;
+            var challenge = RunRules.Challenge(setup.ChallengeId);
+            if (challenge != null && challenge.TotalNights > 0) setup.TotalNights = challenge.TotalNights;
             var map = content.Maps[content.Migrate(setup.MapId)];
             W = new World(content, map, setup.Seed) { Night = 1 };
             Economy = new Economy(ContentDatabase.StartingGold, ContentDatabase.StartingMana);
@@ -132,8 +134,8 @@ namespace Runavelle.Core
             var g = content.Generals[content.Migrate(setup.GeneralId)];
             Spawner.SpawnGeneral(g, Generals_RespawnPoint(), true, -1, null);
             W.TopologyVersion++;
-            ConfigureWaves();
-            Plan = Waves.Plan(Night, TotalNights, BossOverride);
+            OnRunCreated();
+            Plan = MakePlan();
             ApplyDayHazards();
             ChooseObjective();
         }
@@ -270,12 +272,12 @@ namespace Runavelle.Core
         private void WarnSpecial(UnitDefinition def, SpawnLane lane, Vec2 pos, Unit u)
         {
             string msg = null;
-            if (u.IsBoss) msg = def.Name + " xuất hiện ở " + lane.Name + "!";
+            if (u.IsBoss) msg = def.Name + (u.Affix != null ? " (" + u.Affix + ")" : "") + " xuất hiện ở " + lane.Name + "!";
             else if (def.Flying) msg = "Kẻ bay tới từ " + lane.Name + " – vượt tường!";
             else if (def.Move == MoveKind.Burrow) msg = def.Name + " đang đào hầm từ " + lane.Name + "!";
             else if (def.StealthRange > 0f) msg = "Kẻ tàng hình lẻn vào từ " + lane.Name + "!";
             else if (def.Behavior == EnemyBehavior.Siege || def.Behavior == EnemyBehavior.GateBreaker) msg = def.Name + " (công thành) ở " + lane.Name + "!";
-            else if (def.Behavior == EnemyBehavior.Elite) msg = "Tinh anh " + def.Name + " ở " + lane.Name + "!";
+            else if (def.Behavior == EnemyBehavior.Elite) msg = "Tinh anh " + def.Name + (u.Affix != null ? " (" + u.Affix + ")" : "") + " ở " + lane.Name + "!";
             else if (def.ManaDrain > 0f) msg = def.Name + " nhắm vào Giếng Mana!";
             if (msg == null || !_warned.Add(def.Id)) return;
             W.Emit(SimEventType.Announcement, pos, 0, ElementId.None, u.Id, msg);
@@ -418,7 +420,7 @@ namespace Runavelle.Core
             foreach (var b in W.Buildings)
             {
                 if (b.Dead || b.Ruined) continue;
-                b.Hp = b.MaxHp;
+                b.Hp = b == W.Castle ? b.MaxHp : Math.Max(b.Hp, b.MaxHp * DawnRepairFraction);
                 b.ShieldHp = 0f;
                 b.Status.Clear();
                 b.DisabledTimer = 0f;
@@ -495,8 +497,8 @@ namespace Runavelle.Core
             W.Night = Night;
             Phase = RunPhase.Day;
             RerollsUsed = 0;
-            ConfigureWaves();
-            Plan = Waves.Plan(Night, Math.Max(TotalNights, Night), BossOverride);
+            if (IsEndlessNight) RebuildModifiers(); // stack tonight's endless mutator
+            Plan = MakePlan();
             OnDayStart();
             AutosaveRequested = true;
         }

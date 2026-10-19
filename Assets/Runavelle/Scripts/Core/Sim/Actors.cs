@@ -111,6 +111,8 @@ namespace Runavelle.Core
         public bool Stealthed;
         /// <summary>Reveal radius while stealthed (unit definition or map Mist).</summary>
         public float StealthRange;
+        /// <summary>Ascension elite affix name (null = none).</summary>
+        public string Affix;
         public float BurrowTimer;
         public float DashCooldown;
         public float UltCooldown;
