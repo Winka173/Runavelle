@@ -31,3 +31,24 @@ Command: `dotnet run --project Tools/Sim -c Release -- seeds=8` (8 seeds × 3 ma
 Total 72 runs: **20 wins (28%)**, 0 exceptions, wall time 17.4 s (~0.24 s per 15-night run).
 Interpretation: difficulty ordering of maps matches design; Roland (melee) underperforms with the bot's simple
 General control. Flagged for the Phase I balance pass.
+
+## Measured: Phase I roster (2026-10-19)
+Command: `dotnet run --project Tools/Sim -c Release -- seeds=8 generals=all` (8 seeds × 3 maps × 16 Generals = 384 runs; soldier
+type and magic school rotate per seed, identical across Generals; bot General now path-finds around buildings).
+Result: **162/384 wins (42%)**, 0 exceptions, 148 s. Per map: Moonstone 52%, Ember 41%, Sunken 33%.
+
+| General | Win | Avg nights | | General | Win | Avg nights |
+|---|---|---|---|---|---|---|
+| Seraphine | 75% | 13.6 | | Pyra | 42% | 12.3 |
+| Aurelia | 67% | 11.8 | | Isolde | 38% | 11.5 |
+| Elowen | 54% | 12.3 | | Kaelen | 38% | 11.1 |
+| Maelis | 50% | 10.6 | | Maren | 38% | 10.6 |
+| Nyxara | 46% | 11.3 | | Brannoc | 33% | 10.5 |
+| Varric | 46% | 11.0 | | Hilda | 33% | 9.7 |
+| Lyra | 42% | 11.8 | | Roland | 33% | 10.5 |
+| | | | | Tharion | 25% | 10.5 |
+| | | | | Corvin | 17% | 8.8 |
+
+Actions after this run: Seraphine aura regen 2.5%→1.8% and heal 35%→30%; Corvin damage 22→26, ultimate frenzy 30%→45%.
+Earlier in Phase I, Tharion/Aurelia/Hilda/Isolde/Corvin/Brannoc were buffed after a first pass showed 12–21% wins.
+Note: support Generals benefit from the bot's simple ultimate timing; human results will differ.

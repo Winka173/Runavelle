@@ -233,13 +233,13 @@ namespace Runavelle.Core
             {
                 var home = CastleCenter + new Vec2(0, -2.5f);
                 var v = home - g.Position;
-                _s.SetMoveInput(v.Magnitude > 0.6f ? v.Normalized : Vec2.Zero);
+                _s.SetMoveInput(v.Magnitude > 0.6f ? Steer(g, home) : Vec2.Zero);
                 return;
             }
-            Vec2 to = focus.Position - g.Position;
+            Vec2 goal = g.HpFraction < 0.25f ? CastleCenter : focus.Position; // kite home when low
+            Vec2 to = goal - g.Position;
             float stand = g.Attack.Range * 0.8f;
-            if (g.HpFraction < 0.25f) to = CastleCenter - g.Position; // kite home when low
-            _s.SetMoveInput(to.Magnitude > stand ? to.Normalized : Vec2.Zero);
+            _s.SetMoveInput(to.Magnitude > stand ? Steer(g, goal) : Vec2.Zero);
             _ultHold -= World.Dt;
             if (g.UltCooldown <= 0f && _ultHold <= 0f)
             {
@@ -247,7 +247,27 @@ namespace Runavelle.Core
                 foreach (var e in W.Units) if (!e.Dead && e.Team == Team.Enemy && Vec2.Distance(e.Position, g.Position) <= g.General.Ultimate.CastRadius) n++;
                 if (n >= 3 || (focus.IsBoss && Vec2.Distance(focus.Position, g.Position) < g.General.Ultimate.CastRadius)) { _s.RequestUltimate(); _ultHold = 1f; }
             }
-            if (g.DashCooldown <= 0f && to.Magnitude > 8f) _s.RequestDash();
+            if (g.DashCooldown <= 0f && to.Magnitude > 8f && _path.Count == 0) _s.RequestDash();
+        }
+
+        private readonly List<Int2> _path = new List<Int2>();
+        private int _pathIdx;
+        private float _repath;
+
+        /// <summary>Human-like steering: straight when the line is open, otherwise follow an A* path around buildings.</summary>
+        private Vec2 Steer(Unit g, Vec2 goal)
+        {
+            if (_s.Move.LineWalkable(g, g.Position, goal)) { _path.Clear(); return (goal - g.Position).Normalized; }
+            _repath -= World.Dt;
+            if (_path.Count == 0 || _pathIdx >= _path.Count || _repath <= 0f)
+            {
+                _repath = 0.5f;
+                _s.Nav.FindFriendlyPath(Int2.FromPosition(g.Position), Int2.FromPosition(goal), _path, 900);
+                _pathIdx = 0;
+            }
+            while (_pathIdx < _path.Count && Vec2.Distance(_path[_pathIdx].Center, g.Position) < 0.35f) _pathIdx++;
+            if (_pathIdx >= _path.Count) return (goal - g.Position).Normalized;
+            return (_path[_pathIdx].Center - g.Position).Normalized;
         }
 
         /// <summary>Runs the whole run to completion. Returns nights survived.</summary>

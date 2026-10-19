@@ -44,7 +44,7 @@ namespace Runavelle.Core
                 Body = new UnitDefinition { MaxHp = 430, Armor = 2, Speed = 3.8f, Radius = 0.32f, AggroRange = 4.5f,
                     Attack = new AttackSpec { Damage = 17, Interval = 0.8f, Range = 4.6f, ProjectileSpeed = 18f, StatusAmount = 26f } },
                 Aura = new GeneralAura { Description = "Lính và tháp gần Lyra: +50% hiệu ứng nguyên tố.", Radius = 5f, StatusMult = 1.5f, AffectsTowers = true },
-                Ultimate = new UltimateSpec { Name = "Chuỗi Cuồng Phong", Cooldown = 26f, CastRadius = 4.5f,
+                Ultimate = new UltimateSpec { Name = "Chuỗi Cuồng Phong", Cooldown = 24f, CastRadius = 4.5f,
                     Description = "Gọi mưa (vùng Ướt) rồi sét nảy qua 8 kẻ địch (60 sát thương mỗi kẻ) – Điện Giật tức thì.",
                     Effects = new List<AbilityEffect> { Fx(AbilityEffectKind.Zone, 3.5f, 0, ElementId.Water, 30, duration: 5f, zone: ZoneKind.Rain), Fx(AbilityEffectKind.ChainDamage, 4.5f, 60, ElementId.Lightning, 40, 8) } },
             });
@@ -80,10 +80,10 @@ namespace Runavelle.Core
                 Description = "Hỗ trợ Ánh Sáng. Duy trì tiền tuyến và có thể che chắn Lâu Đài lúc nguy cấp.",
                 Body = new UnitDefinition { MaxHp = 480, Armor = 4, Speed = 3.7f, Radius = 0.32f, AggroRange = 3.6f,
                     Attack = new AttackSpec { Damage = 15, Interval = 0.9f, Range = 3.6f, ProjectileSpeed = 14f, StatusAmount = 30f } },
-                Aura = new GeneralAura { Description = "Lính và công trình gần Seraphine hồi 2.5% máu/giây.", Radius = 5f, RegenFraction = 0.025f, AffectsTowers = true, AffectsWalls = true },
+                Aura = new GeneralAura { Description = "Lính và công trình gần Seraphine hồi 1.8% máu/giây.", Radius = 5f, RegenFraction = 0.018f, AffectsTowers = true, AffectsWalls = true },
                 Ultimate = new UltimateSpec { Name = "Ân Điển Bình Minh", Cooldown = 32f, CastRadius = 6f,
-                    Description = "Hồi 35% máu cho đồng minh và công trình trong 6 ô, nổ Rạng rỡ lên kẻ địch, Lâu Đài giảm 60% sát thương nhận trong 8 giây.",
-                    Effects = new List<AbilityEffect> { Fx(AbilityEffectKind.AllyHeal, 6f, value: 0.35f), Fx(AbilityEffectKind.AoeDamage, 4f, 50, ElementId.Light, 60), Fx(AbilityEffectKind.CastleShield, value: 0.6f, duration: 8f) } },
+                    Description = "Hồi 30% máu cho đồng minh và công trình trong 6 ô, nổ Rạng rỡ lên kẻ địch, Lâu Đài giảm 60% sát thương nhận trong 8 giây.",
+                    Effects = new List<AbilityEffect> { Fx(AbilityEffectKind.AllyHeal, 6f, value: 0.3f), Fx(AbilityEffectKind.AoeDamage, 4f, 50, ElementId.Light, 60), Fx(AbilityEffectKind.CastleShield, value: 0.6f, duration: 8f) } },
             });
             AddGeneral(new GeneralDefinition
             {

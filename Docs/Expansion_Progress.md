@@ -6,7 +6,7 @@ Statuses: `not_started`, `in_progress`, `verified` (built + automated checks ran
 | Phase | Status | Evidence / notes |
 |---|---|---|
 | MVP foundation (prerequisite – repo was empty) | verified (engine-free) | 31/31 tests, 72-run harness 0 exceptions, Unity-layer compile-check, art/audio generated, scene previews |
-| I – Generals & Armies | not_started | |
+| I – Generals & Armies | verified (engine-free) | 16 Generals (2 per element, all 4 groups, 32 evolutions), 12 soldier types × 2 branches, 2 AI slots; 39/39 tests; 384-run harness 0 exceptions |
 | II – Light & Shadow | not_started | |
 | III – Kingdom evolution, Decrees, Equipment | not_started | |
 | IV – Siegefronts (maps, factions, enemies, bosses) | not_started | |

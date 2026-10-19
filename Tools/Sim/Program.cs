@@ -20,7 +20,7 @@ public static class Program
         var db = ContentDatabase.Create();
         int seeds = opts.TryGetValue("seeds", out var s) ? int.Parse(s) : 8;
         var maps = opts.TryGetValue("maps", out var m) && m != "all" ? m.Split(',').ToList() : db.MapOrder.ToList();
-        var generals = opts.TryGetValue("generals", out var g) ? g.Split(',').ToList() : new List<string> { "roland", "lyra", "kaelen" };
+        var generals = opts.TryGetValue("generals", out var g) ? (g == "all" ? db.GeneralOrder.ToList() : g.Split(',').ToList()) : new List<string> { "roland", "lyra", "kaelen" };
         var strategies = opts.TryGetValue("strategies", out var st) ? st.Split(',').Select(x => Enum.Parse<AutoPlayer.Strategy>(x)).ToList() : new List<AutoPlayer.Strategy> { AutoPlayer.Strategy.Balanced };
         int asc = opts.TryGetValue("ascension", out var a) ? int.Parse(a) : 0;
         bool verbose = opts.ContainsKey("verbose");
@@ -36,6 +36,7 @@ public static class Program
         {
             ulong seed = (ulong)(1000 + i * 7919);
             var setup = new RunSetup { MapId = map, GeneralId = gen, Seed = seed, Ascension = asc };
+            setup.UnlockedGenerals.AddRange(db.GeneralOrder);
             var sw = Stopwatch.StartNew();
             string ex = "";
             int nights = 0;
@@ -44,8 +45,8 @@ public static class Program
             {
                 sess = new GameSession(db, setup);
                 var bot = new AutoPlayer(sess, strat, seed);
-                bot.SoldierPreference = new[] { "swordsman", "archer", "spearman", "mage" }[i % 4];
-                bot.MagicSchool = new[] { "magic_fire_1", "magic_water_1", "magic_lightning_1", "magic_ice_1" }[i % 4];
+                bot.SoldierPreference = db.SoldierOrder[i % db.SoldierOrder.Count].ToString().ToLowerInvariant();
+                bot.MagicSchool = "magic_" + Elements.Info(Elements.All[(i * 3) % 8]).Key + "_1";
                 nights = bot.RunToEnd();
             }
             catch (Exception e) { ex = e.GetType().Name + ": " + e.Message.Replace(',', ';') + " @ " + (e.StackTrace ?? "").Split('\n').FirstOrDefault()?.Trim().Replace(',', ';'); exceptions++; }
