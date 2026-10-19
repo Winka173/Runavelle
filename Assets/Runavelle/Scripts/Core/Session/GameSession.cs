@@ -97,7 +97,7 @@ namespace Runavelle.Core
             Content = content;
             Setup = setup;
             var map = content.Maps[content.Migrate(setup.MapId)];
-            W = new World(content, map, setup.Seed);
+            W = new World(content, map, setup.Seed) { Night = 1 };
             Economy = new Economy(ContentDatabase.StartingGold, ContentDatabase.StartingMana);
             Nav = new NavigationService(W);
             Combat = new CombatSystem(W);
