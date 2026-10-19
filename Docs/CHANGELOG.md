@@ -1,5 +1,12 @@
 # Changelog
 
+## Phase II — Light & Shadow
+- Shadow Court faction (eclipse theme): Shade Stalker (stealth assassin, revealed by Light/proximity), Eclipse Cultist
+  (curses defenders with Shadow), Fallen Templar (Light shield aura for allies). Maps now carry faction lists.
+- Rift Warlock phase 2 adds "Màn Nhật Thực" curse zone (defenders inside take +20%).
+- 6 Light/Shadow decrees with real hooks (Dawn Vigil, Eclipse Pact, Shadow Harvest, Radiant Walls, Umbral Sacrifice, Luminous Arsenal).
+- Synergy quick-inspect in the building panel (reactions available with nearby allied elements); Light/Shadow onboarding hint.
+
 ## Phase I — Generals & Armies
 - +10 Generals (Tharion, Aurelia, Nyxara, Isolde, Maren, Brannoc, Pyra, Corvin, Hilda, Maelis) → 16 total, 2 per element.
 - Two in-run evolutions for all 16 Generals (chosen after night 6), changing ultimate behaviour/aura, not just stats.

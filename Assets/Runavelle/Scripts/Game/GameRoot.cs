@@ -268,6 +268,7 @@ namespace Runavelle.Game
                 case 3: ShowBanner("Mẹo: Doanh Trại huấn luyện lính tự động bảo vệ khu vực quanh nó."); break;
                 case 4: ShowBanner("Mẹo: Nước + Sét = Điện Giật. Kết hợp nguyên tố của tháp, lính và tướng!"); break;
                 case 5: ShowBanner("Đêm 5 có BOSS. Xem dự báo bên phải: hướng tấn công và cảnh báo."); break;
+                case 6: ShowBanner("Mẹo: Bóng Ma tàng hình chỉ lộ diện gần lính/tháp hoặc khi trúng Ánh Sáng. Ánh Sáng + Bóng Tối = Nhật Thực."); break;
             }
         }
 

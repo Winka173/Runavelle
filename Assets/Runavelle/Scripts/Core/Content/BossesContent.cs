@@ -33,7 +33,8 @@ namespace Runavelle.Core
                     new BossPhase { Name = "Khe nứt", Abilities = { A(BossAbilityKind.Summon, "Mở Khe Nứt", 14f, 6f, 2.0f, 2.0f, count: 4, summon: "skeleton", exhaust: 4f) } },
                     new BossPhase { Name = "Dịch chuyển", StartsAtHp = 0.5f, Announcement = "Pháp Sư Khe Nứt bẻ cong không gian!",
                         Abilities = { A(BossAbilityKind.Summon, "Mở Khe Nứt", 11f, 2f, 2.0f, 2.0f, count: 5, summon: "goblin", exhaust: 4f),
-                                      A(BossAbilityKind.Teleport, "Bước Hư Không", 16f, 5f, 1.0f, value: 6f) } },
+                                      A(BossAbilityKind.Teleport, "Bước Hư Không", 16f, 5f, 1.0f, value: 6f),
+                                      A(BossAbilityKind.CurseZone, "Màn Nhật Thực", 13f, 3f, 1.6f, 2.6f, 6f, ElementId.Shadow, 20f, value: 6f) } },
                 },
             });
             Bosses.Add("siege_lord", new BossDefinition

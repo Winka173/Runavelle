@@ -379,6 +379,27 @@ namespace Runavelle.Game
                     y += 72;
                 }
             }
+            // quick inspect: reactions this structure can trigger with nearby allies
+            var mine = new List<ElementId> { b.Primary, b.Secondary, b.Level.Element, b.Level.Attack != null ? b.Level.Attack.Element : ElementId.None };
+            if (b.Def.Family == BuildingFamily.Barracks && b.Squad.Count > 0 && s.W.Get(b.Squad[0]) is Unit sq) mine.Add(sq.Attack.Element);
+            var links = Synergy.Near(s, b.Center, 6.5f, mine);
+            if (links.Count > 0 && y < r.yMax - 130)
+            {
+                Gui.Text(new Rect(r.x + 20, y, 560, 30), "<b>Cộng hưởng gần đây:</b>", Gui.LabelSmall);
+                y += 30;
+                foreach (var l in links.Take(3))
+                {
+                    Gui.Icon(new Rect(r.x + 20, y, 28, 28), ArtLibrary.ElementIcon(l.Mine));
+                    Gui.Icon(new Rect(r.x + 50, y, 28, 28), ArtLibrary.ElementIcon(l.Partner));
+                    Gui.Text(new Rect(r.x + 84, y, 500, 30), $"{l.Reaction.Name} ← {l.PartnerSource}", new GUIStyle(Gui.LabelSmall) { fontSize = 18 });
+                    y += 30;
+                }
+            }
+            else if (mine.Exists(e => e != ElementId.None) && y < r.yMax - 110)
+            {
+                Gui.Text(new Rect(r.x + 20, y, 560, 56), "Chưa có nguồn nguyên tố khác gần đây để tạo phản ứng.", new GUIStyle(Gui.LabelSmall) { fontSize = 18 }, Gui.Muted);
+                y += 56;
+            }
             if (b.Def.Family != BuildingFamily.Castle && b.Lifetime < 0f)
             {
                 var sv = s.SellValue(b);

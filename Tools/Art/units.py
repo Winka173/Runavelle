@@ -264,6 +264,9 @@ ENEMIES = {
     'ogre_gatesmasher': dict(body=rgb('#7a5a3a'), skin=rgb('#a8a07a'), head='none', tusks=True, weapon_kind='club', scale=1.45, belly=1.5, size=128),
     'bone_summoner': dict(body=rgb('#3a2a4a'), skin=rgb('#e8e0cc'), head='hood', hood=rgb('#2a1f3a'), weapon_kind='orbstaff', el=EL['shadow'], robe=True, scale=0.95, eye=rgb('#a35cf0')),
     'skeleton': dict(body=rgb('#d8d0bc'), skin=rgb('#ece6d6'), head='skull', weapon_kind='sword', weapon_col=rgb('#8d849e'), scale=0.85, legs=rgb('#d8d0bc')),
+    'shade_stalker': dict(body=rgb('#2a2236'), skin=rgb('#6a5a8a'), head='hood', hood=rgb('#1f1830'), weapon_kind='twin', weapon_col=rgb('#c9a8ff'), el=EL['shadow'], scale=0.85, eye=rgb('#c27aff')),
+    'eclipse_cultist': dict(body=rgb('#3a2a5a'), skin=rgb('#d8c8a8'), head='hood', hood=rgb('#2a1f45'), weapon_kind='orbstaff', el=EL['shadow'], robe=True, scale=0.9, cape=rgb('#e8c25a'), eye=rgb('#ffd04a')),
+    'fallen_templar': dict(body=rgb('#c9b06a'), skin=rgb('#8a7a9a'), head='helm', helm_col=rgb('#a89a6a'), plume=rgb('#5a3a8a'), weapon_kind='hammer', weapon_col=rgb('#fff1a8'), shield=rgb('#6a4a9a'), el=EL['light'], scale=1.15, belly=1.2, size=96),
     'dark_champion': dict(body=rgb('#2f2a3a'), skin=rgb('#5a5a6a'), head='helm', helm_col=rgb('#2f2a3a'), horns=True, weapon_kind='greatsword', weapon_col=rgb('#8a5ab0'), cape=rgb('#5a1f2f'), scale=1.25, belly=1.2, size=112, eye=rgb('#ff4a4a')),
 }
 

@@ -52,3 +52,9 @@ Result: **162/384 wins (42%)**, 0 exceptions, 148 s. Per map: Moonstone 52%, Emb
 Actions after this run: Seraphine aura regen 2.5%→1.8% and heal 35%→30%; Corvin damage 22→26, ultimate frenzy 30%→45%.
 Earlier in Phase I, Tharion/Aurelia/Hilda/Isolde/Corvin/Brannoc were buffed after a first pass showed 12–21% wins.
 Note: support Generals benefit from the bot's simple ultimate timing; human results will differ.
+
+## Measured: Phase II (Shadow Court added, 2026-10-19)
+Same command (`seeds=8 generals=all`, 384 runs): **136 wins (35%)**, 0 exceptions, 139 s. Per map: Moonstone 45%,
+Ember 36%, Sunken 26%. Per General: Aurelia 67%, Seraphine/Varric 50%, Elowen/Nyxara 46% … Brannoc 21%. The new
+Light/Shadow enemies (stealth assassin, cursing cultist, shield templar) made runs harder (42% → 35%) as intended.
+Light/Shadow reactions observed in bot runs: Solar Flare, Eclipse, Haunted Arc, Fortify, Soul Frost.

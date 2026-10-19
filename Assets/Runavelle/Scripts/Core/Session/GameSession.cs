@@ -109,7 +109,7 @@ namespace Runavelle.Core
             Defenders = new DefenderAI(W, Combat, Fx, Nav, Move, Spawner);
             Generals = new GeneralSystem(W, Combat, Fx, Nav, Move, Spawner);
             Bosses = new BossSystem(W, Combat, Fx, Nav, Move);
-            Waves = new WaveDirector(content, map, setup.Seed);
+            Waves = new WaveDirector(content, map, setup.Seed) { Factions = new List<Faction>(map.Factions) };
             Enemies.SpawnSummon = SpawnSummon;
             Bosses.SpawnSummon = SpawnSummon;
             Generals.SpawnBarrier = SpawnBarrier;

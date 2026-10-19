@@ -43,6 +43,8 @@ namespace Runavelle.Core
         /// <summary>Pre-placed ruined wall remnants (repairable cheaply) for maps that have them.</summary>
         public List<Int2> RuinWalls = new List<Int2>();
         public int Difficulty = 1;
+        /// <summary>Enemy factions that attack on this map (wave pools are filtered by these).</summary>
+        public List<Faction> Factions = new List<Faction> { Faction.Marauders, Faction.ShadowCourt };
         public int UnlockOrder;
 
         public bool InBounds(int x, int y) => x >= 0 && y >= 0 && x < Width && y < Height;

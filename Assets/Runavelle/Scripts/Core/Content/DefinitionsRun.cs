@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Runavelle.Core
 {
-    public enum BossAbilityKind { Slam, Summon, Meteor, Charge, FreezeTowers, DisruptTower, Teleport, Revive, Gust, Breath, ShieldSelf, TidalWave }
+    public enum BossAbilityKind { Slam, Summon, Meteor, Charge, FreezeTowers, DisruptTower, Teleport, Revive, Gust, Breath, ShieldSelf, TidalWave, CurseZone }
 
     public sealed class BossAbility
     {

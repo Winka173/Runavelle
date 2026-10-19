@@ -1063,6 +1063,34 @@
 "py": 0.1071,
 "w": 112
 },
+"enemy/eclipse_cultist_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.455,
+"py": 0.15,
+"w": 80
+},
+"enemy/eclipse_cultist_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.455,
+"py": 0.15,
+"w": 80
+},
+"enemy/fallen_templar_0": {
+"h": 96,
+"ppu": 64,
+"px": 0.4521,
+"py": 0.125,
+"w": 96
+},
+"enemy/fallen_templar_1": {
+"h": 96,
+"ppu": 64,
+"px": 0.4521,
+"py": 0.125,
+"w": 96
+},
 "enemy/fire_imp_0": {
 "h": 80,
 "ppu": 64,
@@ -1174,6 +1202,20 @@
 "px": 0.5,
 "py": 0.125,
 "w": 112
+},
+"enemy/shade_stalker_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4575,
+"py": 0.15,
+"w": 80
+},
+"enemy/shade_stalker_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4575,
+"py": 0.15,
+"w": 80
 },
 "enemy/shieldbearer_0": {
 "h": 80,

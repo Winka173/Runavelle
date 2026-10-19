@@ -124,12 +124,16 @@ namespace Runavelle.Core
                 var wi = DamageInfo.Simple(4f, iw.Primary, 22f, SourceKind.Wall, iw.Id, iw.Level.Name);
                 Deal(aw, wi);
             }
+            // Radiant Walls decree: attackers of walls/gates become Radiant (reveals stealth, sets up Light reactions)
+            if (target is Building lw && lw.IsWallLike && Mods.Has(Hook.RadiantWalls) && attacker is Unit la && la.Team == Team.Enemy && !info.IsReaction && info.Source == SourceKind.Enemy)
+                ApplyElement(la, ElementId.Light, Mods.HookValue(Hook.RadiantWalls), DamageInfo.Simple(0, ElementId.Light, 0, SourceKind.Wall, lw.Id, lw.Level.Name));
             // Radiant targets heal nearby allies when struck by the player's side
             if (target.Team == Team.Enemy && info.Source != SourceKind.Enemy && target.Status.Gauge[(int)ElementId.Light] >= StatusState.ReactThreshold && target.Status.ReactionIcd[31] <= 0f)
             {
                 target.Status.ReactionIcd[31] = 0.5f;
+                float vigil = 1f + (Mods.Has(Hook.DawnVigil) ? Mods.HookValue(Hook.DawnVigil) : 0f);
                 foreach (var ally in _w.UnitsInRadius(Team.Player, target.Position, 2.2f, _tmp2))
-                    Heal(ally, ally.MaxHp * 0.015f + 2f);
+                    Heal(ally, (ally.MaxHp * 0.015f + 2f) * vigil);
             }
 
             if (target.Hp <= 0f)
@@ -415,9 +419,16 @@ namespace Runavelle.Core
                     SpawnZone(ZoneKind.Sand, OtherTeam(victims), p, 2.2f, 4f, 6f * k, ElementId.None, 0.4f, src);
                     break;
                 case ReactionId.Eclipse:
-                    Aoe(victims, p, 1.8f, ReactionHit(src, (12 + 0.5f * a) * k, ElementId.Shadow), u => u.Status.AddVulnerability(0.4f, 5f));
+                {
+                    bool pact = Mods.Has(Hook.EclipsePact);
+                    Aoe(victims, p, pact ? 2.7f : 1.8f, ReactionHit(src, (12 + 0.5f * a) * k, ElementId.Shadow), u =>
+                    {
+                        u.Status.AddVulnerability(0.4f, 5f);
+                        if (pact) u.Status.StunTimer = Math.Max(u.Status.StunTimer, u.Status.CcDuration(1f, u.Def.CcResist));
+                    });
                     t.Status.AddVulnerability(0.4f, 5f);
                     break;
+                }
                 case ReactionId.Fortify:
                 {
                     Team allies = OtherTeam(victims);
@@ -534,13 +545,21 @@ namespace Runavelle.Core
             {
                 _w.Analytics.AddKill(u.Def.Id);
                 if (!u.Summoned) _w.PendingGold += (int)Math.Round(_w.Mods.Apply(u.Def.Bounty, Stat.Bounty, Scope.Any));
-                if (u.Status.Gauge[(int)ElementId.Shadow] >= StatusState.ReactThreshold) _w.PendingMana += 1;
+                if (u.Status.Gauge[(int)ElementId.Shadow] >= StatusState.ReactThreshold)
+                    _w.PendingMana += 1 + (Mods.Has(Hook.ShadowHarvest) ? (int)Mods.HookValue(Hook.ShadowHarvest) : 0);
                 _w.DeadEnemies.Add(u);
             }
             else
             {
                 _w.Analytics.SoldiersLost++;
                 _w.Analytics.NightSoldiersLost++;
+                if (u.Role == UnitRole.Soldier && Mods.Has(Hook.ShadowSacrifice))
+                {
+                    // the fallen soldier's shadow lashes out: damage + Mark around the body
+                    var sac = DamageInfo.Simple(Mods.HookValue(Hook.ShadowSacrifice), ElementId.Shadow, 40f, SourceKind.Soldier, u.Id, "Hiến Tế Bóng Đêm");
+                    sac.Generation = 0;
+                    Aoe(Team.Enemy, u.Position, 1.8f, sac);
+                }
             }
             _w.Emit(SimEventType.Kill, u.Position, 0, info.Element, u.Id, u.Def.Id, info.SourceActorId);
             OnKilled?.Invoke(t, info);

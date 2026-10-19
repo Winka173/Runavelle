@@ -218,6 +218,19 @@ namespace Runavelle.Core
                     });
                     break;
                 }
+                case BossAbilityKind.CurseZone:
+                {
+                    // darkness falls on the most fortified spot nearby: defenders inside take +20% damage
+                    Actor tgt = NearestStructure(boss.Position, 9f) ?? (Actor)_combat.NearestUnit(Team.Player, boss.Position, 9f, null);
+                    if (tgt == null) return;
+                    Vec2 at = _w.ClosestPoint(boss.Position, tgt);
+                    Telegraph(boss, ab, at, () =>
+                    {
+                        _combat.SpawnZone(ZoneKind.Gloom, Team.Enemy, at, ab.Radius, ab.Value, ab.Damage, ab.Element, ab.Status, Info(boss, ab));
+                        Exhaust(boss, ab);
+                    });
+                    break;
+                }
                 case BossAbilityKind.ShieldSelf:
                     Telegraph(boss, ab, boss.Position, () => { boss.Status.ShieldHp = boss.MaxHp * ab.Value; Exhaust(boss, ab); });
                     break;

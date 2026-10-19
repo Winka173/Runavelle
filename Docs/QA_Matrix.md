@@ -2,7 +2,7 @@
 
 Status: **PASS** (ran and passed), **FAIL**, **NOT RUN** (with reason). Nothing here is claimed without running it.
 
-## Automated (engine-free, `dotnet test Tools/Tests`) — 39/39 PASS after Phase I (2026-10-19)
+## Automated (engine-free, `dotnet test Tools/Tests`) — 47/47 PASS after Phase II (2026-10-19)
 | Area | Test | Status |
 |---|---|---|
 | Design locks | content validates; exactly 8 families; 8-element allow-list; 2 currencies; tiers ≤3 / one final choice; no full immunity | PASS |
@@ -22,6 +22,18 @@ Status: **PASS** (ran and passed), **FAIL**, **NOT RUN** (with reason). Nothing 
 | Shield Guardians intercept projectiles; Griffin Riders damage flyers; Rune Golem taunts; Battlemage casts ranged spell | PASS |
 | Player + 2 AI Generals through 12 nights: no stalled night, both AI Generals deal damage | PASS |
 | General evolution choice + AI roster survive save/load | PASS |
+
+## Phase II tests (added) — PASS
+| Test | Status |
+|---|---|
+| Ninth element impossible (enum/allow-list; save with element 9 loads as None) | PASS |
+| Light & Shadow present in Generals, soldier branches, magic towers, enemies, decrees, ≥3 reactions each, a Shadow boss ability | PASS |
+| Mixed-source Eclipse (Light tower + Shadow General) | PASS |
+| Purify heals structures, Fortify shields walls, Haunted Arc hits marked, Soul Frost executes normal but not elite | PASS |
+| Stealth assassin untargetable until revealed by Light/proximity | PASS |
+| Templar guards allies; Cultist marks defenders with Shadow | PASS |
+| Rift Warlock phase 2 creates an enemy curse (Gloom) zone | PASS |
+| Light/Shadow decree hooks (Shadow Harvest mana, Radiant Walls) | PASS |
 
 ## Compile checks
 | Check | Status |
