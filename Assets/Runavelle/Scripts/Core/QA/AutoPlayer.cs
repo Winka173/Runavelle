@@ -133,8 +133,14 @@ namespace Runavelle.Core
             if (_walled.Contains(lane.Id)) return;
             Vec2 c = CastleCenter;
             Vec2 dir = (lane.Center - c).Normalized;
-            Vec2 mid = c + (lane.Center - c) * t;
             Vec2 side = new Vec2(-dir.Y, dir.X);
+            // slide outward until the gate tile is buildable (cliffs/ramps can sit at the preferred spot)
+            Vec2 mid = c + (lane.Center - c) * t;
+            for (float tt = t; tt <= t + 0.35f; tt += 0.05f)
+            {
+                var m = c + (lane.Center - c) * tt;
+                if (_s.CanPlace("gate_wood", Int2.FromPosition(m)).Ok) { mid = m; break; }
+            }
             var a = Int2.FromPosition(mid - side * 3f);
             var b = Int2.FromPosition(mid + side * 3f);
             var gate = Int2.FromPosition(mid);

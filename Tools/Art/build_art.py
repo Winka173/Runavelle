@@ -8,7 +8,7 @@ import artlib  # noqa: E402
 import terrain_buildings  # noqa: E402
 
 MODULES = [terrain_buildings]
-for extra in ("units", "ui_fx"):
+for extra in ("units", "units_phase4", "ui_fx"):
     try:
         MODULES.append(__import__(extra))
     except ImportError:

@@ -80,6 +80,9 @@ namespace Runavelle.Core
             return a;
         }
 
+        /// <summary>Mist hazard: ground enemies arrive hidden and are revealed this close to defenders (+1 for towers).</summary>
+        public const float MistRevealRange = 3.2f;
+
         public bool OnHighGround(Building b) => _w.Map.Hazard == MapHazard.HighGround && _w.Map.Get(b.Origin.X, b.Origin.Y) == TileType.Plateau;
 
         private bool DamagedWallNear(Vec2 p, float r)
@@ -179,7 +182,9 @@ namespace Runavelle.Core
             if (def.Secondary != null) u.SecondaryAttack = def.Secondary.Clone();
             u.SummonTimer = def.SummonInterval > 0 ? def.SummonInterval * 0.6f : 0f;
             u.ShiftTimer = def.ShiftInterval;
-            if (def.StealthRange > 0f) u.Stealthed = true;
+            if (def.StealthRange > 0f) { u.Stealthed = true; u.StealthRange = def.StealthRange; }
+            else if (_w.Map.Hazard == MapHazard.Mist && def.BossId == null && def.Behavior != EnemyBehavior.Elite && !def.Flying)
+            { u.Stealthed = true; u.StealthRange = MistRevealRange; }
             if (def.Move == MoveKind.Burrow) { u.State = UnitState.Burrowed; }
             if (def.BossId != null)
             {

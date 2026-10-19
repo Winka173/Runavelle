@@ -247,6 +247,8 @@ namespace Runavelle.Core
                 Spawner.SpawnGeneral(Content.Generals[gid], Generals_RespawnPoint(), false, i, null);
             }
             Plan = Waves.Plan(Night, Math.Max(TotalNights, Night), BossOverride);
+            ApplyDayHazards();
+            ChooseObjective();
             if (AiGeneralLanes[0] != null || AiGeneralLanes[1] != null) PlaceAIGenerals();
             RebuildModifiers();
             foreach (var b in W.Buildings) if (!b.Ruined) b.Hp = b.MaxHp;

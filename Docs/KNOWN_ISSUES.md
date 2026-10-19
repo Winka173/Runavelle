@@ -9,3 +9,8 @@
 - AutoPlayer bot is weak; balance numbers reflect the bot, not humans. Roland underperforms with the bot.
 - IMGUI layout tuned for 16:9; ultra-wide/4:3 not visually verified.
 - Unity MCP / Blender MCP were not available in this environment; Blender was not used.
+- Phase IV: new enemies/bosses use the shared 2-frame humanoid rig (beasts/machines bespoke); flying bosses use the
+  standard flyer goal (dive at towers). Hazard overlays (tide, cracked ice, mist) and hazard VFX are only
+  compile-checked; the snapshot renderer shows base terrain, not these overlays.
+- Bot win rates rose sharply in Phase IV mainly because of the General-trap fix; difficulty for skilled players is
+  expected to come from Ascension (Phase V).

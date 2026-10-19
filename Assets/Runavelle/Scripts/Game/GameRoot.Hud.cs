@@ -171,6 +171,10 @@ namespace Runavelle.Game
                 Gui.Text(new Rect(x, y + 38, 52, 26), "×" + kv.Value, new GUIStyle(Gui.LabelSmall) { fontSize = 18, alignment = TextAnchor.MiddleCenter });
                 x += 52;
             }
+            if (s.Objective != null)
+                Gui.Text(new Rect(fr.x + 20, fr.yMax - 150, 420, 34), "<b>Nhiệm vụ phụ:</b> " + s.Objective.Text + " → " + Gui.Money(s.Objective.Reward.Gold, s.Objective.Reward.Mana), Gui.LabelSmall, Gui.Gold);
+            string hz = HazardNote(s);
+            if (hz != null) Gui.Text(new Rect(fr.x + 20, fr.yMax - 116, 420, 34), hz, Gui.LabelSmall, new Color(0.3f, 0.55f, 0.85f));
             if (Gui.Btn(new Rect(fr.x + 20, fr.yMax - 76, 420, 64), "BẮT ĐẦU ĐÊM", true, Gui.ButtonBig, "red")) StartNightAction();
 
             DrawAiGeneralPanel(new Rect(Gui.Safe.xMax - 476, fr.yMax + 10, 460, 170));
@@ -524,6 +528,21 @@ namespace Runavelle.Game
             if (Gui.Btn(new Rect(r.x + 80, y, 460, 64), q, true, Gui.ButtonSmall, "red")) QuitToTitle();
         }
 
+        private static string HazardNote(GameSession s)
+        {
+            switch (s.W.Map.Hazard)
+            {
+                case MapHazard.Tide: return s.W.TideHigh ? "Thủy triều LÊN đêm nay: bãi cạn ngập" : "Thủy triều xuống: bãi cạn đi được";
+                case MapHazard.LightningStrikes: return "Sét bão đánh cả hai phe";
+                case MapHazard.LavaVents: return "Miệng dung nham phun trào định kỳ";
+                case MapHazard.Mist: return "Sương mù: kẻ địch ẩn mình tới khi lại gần";
+                case MapHazard.ThinIce: return "Băng mỏng: Lửa làm vỡ băng dưới chân địch";
+                case MapHazard.HighGround: return "Tháp trên cao nguyên +1 tầm";
+                case MapHazard.RuinedWalls: return "Tường đổ nát dựng lại rẻ";
+                default: return null;
+            }
+        }
+
         private void DrawReport()
         {
             var s = Session;
@@ -538,6 +557,9 @@ namespace Runavelle.Game
             L("Thưởng chiến thắng: " + Gui.Money(rep.Reward.Gold, rep.Reward.Mana) + " · Tiền thưởng hạ gục: " + Gui.Money(rep.Bounty.Gold, rep.Bounty.Mana));
             if (rep.Reinforced > 0) L($"Bổ sung {rep.Reinforced} lính: -{rep.ReinforceCost} Vàng");
             if (rep.ManaDrained > 0) L($"<color=#c0392b>Bị hút {rep.ManaDrained} Mana</color>");
+            if (rep.Objective != null)
+                L(rep.ObjectiveDone ? "<color=#2e8b57>✔ Nhiệm vụ phụ: " + rep.Objective + " (+" + Gui.Money(rep.ObjectiveReward.Gold, rep.ObjectiveReward.Mana) + ")</color>"
+                                    : "<color=#8a7a6a>✘ Nhiệm vụ phụ: " + rep.Objective + "</color>");
             foreach (var n in rep.Notes) L("<color=#c0392b>" + n + "</color>");
             var top = RunAnalytics.Top(s.W.Analytics.Reactions.ToDictionary(k => k.Key, k => k.Value), 3);
             if (top.Count > 0) L("Phản ứng nổi bật: " + string.Join(", ", top.Select(t => ReactionTable.Get(t.Key).Name + " ×" + t.Value)));

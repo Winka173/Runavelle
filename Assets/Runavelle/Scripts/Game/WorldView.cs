@@ -264,8 +264,52 @@ namespace Runavelle.Game
             foreach (var id in _remove) { _telegraphs[id].Destroy(this); _telegraphs.Remove(id); }
 
             SyncKingdom();
+            SyncHazards();
             SyncLaneMarkers(showLaneForecast);
             Vfx.Update(dt, settings);
+        }
+
+        // ------------------------------------------------------------------ map hazards (Phase IV)
+        private readonly List<SpriteRenderer> _hazardTiles = new List<SpriteRenderer>();
+        private int _hazardVersion = -1;
+        private SpriteRenderer _mist;
+
+        /// <summary>Flooded shallows (high tide), cracked thin ice and night mist are drawn over the baked terrain.</summary>
+        private void SyncHazards()
+        {
+            var w = _s.W;
+            var map = w.Map;
+            int version = w.TopologyVersion * 2 + (w.TideHigh ? 1 : 0);
+            if (version != _hazardVersion)
+            {
+                _hazardVersion = version;
+                foreach (var sr in _hazardTiles) Return(sr);
+                _hazardTiles.Clear();
+                for (int y = 0; y < map.Height; y++)
+                    for (int x = 0; x < map.Width; x++)
+                    {
+                        var t = map.Get(x, y);
+                        bool flooded = t == TileType.Shallows && w.TideHigh;
+                        bool cracked = t == TileType.Ice && w.CrackedIce.Contains(y * map.Width + x);
+                        if (!flooded && !cracked) continue;
+                        var sr = Rent(ArtLibrary.Get("terrain/water_0"), OrderTerrain + 20);
+                        sr.transform.position = new Vector3(x + 0.5f, y + 0.5f, 0);
+                        sr.transform.localScale = new Vector3(1.01f, 1.01f, 1f);
+                        sr.color = cracked ? new Color(0.75f, 0.9f, 1f, 0.95f) : new Color(1f, 1f, 1f, 0.85f);
+                        _hazardTiles.Add(sr);
+                    }
+            }
+            if (map.Hazard == MapHazard.Mist)
+            {
+                if (_mist == null)
+                {
+                    _mist = NewSR("mist", ArtLibrary.Get("fx/pixel"), OrderNight - 1);
+                    _mist.transform.localScale = new Vector3(map.Width * 8 + 400, map.Height * 8 + 400, 1);
+                    _mist.transform.position = new Vector3(map.Width / 2f, map.Height / 2f, 0);
+                }
+                float a = w.IsNight ? 0.16f + Mathf.Sin(Time * 0.4f) * 0.03f : 0.05f;
+                _mist.color = new Color(0.78f, 0.8f, 0.86f, a);
+            }
         }
 
         private SpriteRenderer _emblem, _kingdomRing;

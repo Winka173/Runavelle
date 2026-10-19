@@ -109,6 +109,8 @@ namespace Runavelle.Core
         public float ShiftTimer;
         public ElementId ShiftedResist = ElementId.None;
         public bool Stealthed;
+        /// <summary>Reveal radius while stealthed (unit definition or map Mist).</summary>
+        public float StealthRange;
         public float BurrowTimer;
         public float DashCooldown;
         public float UltCooldown;
@@ -226,7 +228,7 @@ namespace Runavelle.Core
     {
         Hit, Kill, Reaction, BuildingDestroyed, WallBreached, Spawned, UltimateCast, Dash, BossPhase, Announcement, Heal,
         ProjectileFired, MeleeSwing, CastleHit, GeneralDowned, GeneralRevived, StatusApplied, Telegraph, Freeze, Summon, Building, Upgrade, Sell,
-        NightStart, NightEnd, Hazard, Stealth
+        NightStart, NightEnd, Hazard, Stealth, Explosion
     }
 
     public struct SimEvent

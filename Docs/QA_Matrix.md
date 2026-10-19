@@ -45,6 +45,19 @@ Status: **PASS** (ran and passed), **FAIL**, **NOT RUN** (with reason). Nothing 
 | Equipment: 8 weapons + 8 relics, slot validation, weapon secondary element, Phoenix Charm revive, one-secondary-element rule | PASS |
 | Full runs: drafts never offer ineligible/duplicate decrees | PASS |
 
+## Phase IV tests (added) — PASS
+| Test | Status |
+|---|---|
+| 8 maps in unlock order, all validate (lanes reach castle, 1–2 protected sides), 3-boss rotation each, distinct hazards | PASS |
+| 38–46 regular enemies, every faction ≥4 enemies and on ≥1 map, 10–12 bosses with ≥2 phases, counterplay text, valid summons | PASS |
+| Map boss rotation drives nights 5/10/15 | PASS |
+| Early nights never empty; flyer cap per night (8 maps × 6 seeds) | PASS |
+| High tide floods shallows yet every ground lane still reaches the castle | PASS |
+| Bomber self-destructs on a wall, no bounty; Zombie rises once unless Fire; Frost Wraith disables tower; Glacier armour chills melee | PASS |
+| Mist stealths ground enemies (not bosses/flyers); burning enemy cracks thin ice → impassable, refrozen at dawn; lightning/vents fire | PASS |
+| Side objective deterministic + met/unmet; houses cannot seal the General in (path still exists) | PASS |
+| Bot survives the first three nights on each new map (seed 5) | PASS |
+
 ## Compile checks
 | Check | Status |
 |---|---|

@@ -84,6 +84,8 @@ namespace Runavelle.Core
         public int TopologyVersion;
         /// <summary>Hazard state: high tide / mist density / etc. controlled by the HazardSystem.</summary>
         public bool TideHigh;
+        /// <summary>Thin-ice tiles cracked open by Fire this night (impassable water until dawn). Key = y * width + x.</summary>
+        public readonly HashSet<int> CrackedIce = new HashSet<int>();
         public int NextId = 1;
         /// <summary>Bounties / shadow-mark mana earned during the night; paid at dawn.</summary>
         public int PendingGold, PendingMana;
@@ -128,6 +130,7 @@ namespace Runavelle.Core
             if (!Map.InBounds(x, y)) return false;
             var t = Map.Get(x, y);
             if (t == TileType.Shallows && TideHigh) return false;
+            if (t == TileType.Ice && CrackedIce.Count > 0 && CrackedIce.Contains(y * Map.Width + x)) return false;
             return MapDefinition.GroundPassable(t);
         }
 

@@ -373,6 +373,8 @@ namespace Runavelle.Core
                 if (ShouldUlt(g)) CastUltimate(g);
             }
             var t = _w.Get(g.TargetId) as Unit;
+            // never chase out of the sector (skirmishers bait by fleeing)
+            if (t != null && Vec2.Distance(t.Position, post) > 7.5f + 1f) { t = null; g.TargetId = -1; }
             if (t != null && t.Targetable)
             {
                 float want = g.General.Ai == AiStyle.Frontline ? g.Attack.Range * 0.8f : g.Attack.Range * 0.85f;

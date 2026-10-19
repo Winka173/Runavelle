@@ -62,10 +62,53 @@ namespace Runavelle.Core
                     if (W.BuildingAt(x, y) != null) return PlaceResult.Fail("Đã có công trình");
                     if (NearSpawn(x, y)) return PlaceResult.Fail("Quá gần cửa xuất quân địch");
                 }
+            if (def.Family != BuildingFamily.Wall && SealsGeneral(origin, def.Size)) return PlaceResult.Fail("Sẽ chặn kín lối ra của Tướng");
             var cost = CostOf(level);
             if (RoyalArchitectAvailable && def.Family != BuildingFamily.Wall) cost = new Cost(0, cost.Mana);
             if (!Economy.CanAfford(cost)) return new PlaceResult { Ok = false, Reason = "Không đủ " + (cost.Gold > Economy.Gold ? "Vàng" : "Mana"), Cost = cost };
             return new PlaceResult { Ok = true, Cost = cost };
+        }
+
+        private readonly Queue<Int2> _sealQ = new Queue<Int2>();
+        private bool[] _sealSeen;
+
+        /// <summary>
+        /// True when a building at origin would cut the General's respawn point off from every ground lane
+        /// (houses ringed around the castle used to trap the General for the whole night). Walls are exempt: walls + gates are a deliberate choice.
+        /// </summary>
+        public bool SealsGeneral(Int2 origin, int size)
+        {
+            var start = Int2.FromPosition(Generals_RespawnPoint());
+            if (!ReachesLane(start, origin, 0)) return false; // already enclosed (e.g. by walls): not this building's fault
+            return !ReachesLane(start, origin, size);
+        }
+
+        private bool ReachesLane(Int2 start, Int2 o, int size)
+        {
+            var m = W.Map;
+            if (_sealSeen == null || _sealSeen.Length != m.Width * m.Height) _sealSeen = new bool[m.Width * m.Height];
+            else Array.Clear(_sealSeen, 0, _sealSeen.Length);
+            bool Blocked(int x, int y) => x >= o.X && y >= o.Y && x < o.X + size && y < o.Y + size;
+            if (Blocked(start.X, start.Y)) return false;
+            var goal = new HashSet<int>();
+            foreach (var l in m.Lanes) if (!l.FlyerOnly) foreach (var t in l.Tiles) goal.Add(t.Y * m.Width + t.X);
+            _sealQ.Clear();
+            _sealQ.Enqueue(start);
+            _sealSeen[start.Y * m.Width + start.X] = true;
+            while (_sealQ.Count > 0)
+            {
+                var c = _sealQ.Dequeue();
+                if (goal.Contains(c.Y * m.Width + c.X)) return true;
+                for (int k = 0; k < 4; k++)
+                {
+                    int nx = c.X + (k == 0 ? 1 : k == 1 ? -1 : 0), ny = c.Y + (k == 2 ? 1 : k == 3 ? -1 : 0);
+                    if (!m.InBounds(nx, ny) || _sealSeen[ny * m.Width + nx] || Blocked(nx, ny)) continue;
+                    _sealSeen[ny * m.Width + nx] = true;
+                    if (!W.FriendlyPassable(nx, ny)) continue;
+                    _sealQ.Enqueue(new Int2(nx, ny));
+                }
+            }
+            return false;
         }
 
         private int _royalArchitectNight;

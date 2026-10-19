@@ -42,6 +42,8 @@ namespace Runavelle.Core
         public MapHazard Hazard;
         /// <summary>Pre-placed ruined wall remnants (repairable cheaply) for maps that have them.</summary>
         public List<Int2> RuinWalls = new List<Int2>();
+        /// <summary>Boss ids for nights 5 / 10 / 15 on this map (null entries fall back to the default rotation).</summary>
+        public string[] Bosses = new string[3];
         public int Difficulty = 1;
         /// <summary>Enemy factions that attack on this map (wave pools are filtered by these).</summary>
         public List<Faction> Factions = new List<Faction> { Faction.Marauders, Faction.ShadowCourt };

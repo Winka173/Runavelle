@@ -1014,6 +1014,48 @@
 "py": 0.125,
 "w": 72
 },
+"enemy/ash_burrower_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4525,
+"py": 0.15,
+"w": 80
+},
+"enemy/ash_burrower_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4525,
+"py": 0.15,
+"w": 80
+},
+"enemy/banshee_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4575,
+"py": 0.15,
+"w": 80
+},
+"enemy/banshee_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4575,
+"py": 0.15,
+"w": 80
+},
+"enemy/bone_archer_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4575,
+"py": 0.15,
+"w": 80
+},
+"enemy/bone_archer_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4575,
+"py": 0.15,
+"w": 80
+},
 "enemy/bone_summoner_0": {
 "h": 80,
 "ppu": 64,
@@ -1028,6 +1070,48 @@
 "py": 0.15,
 "w": 80
 },
+"enemy/boss_bone_colossus_0": {
+"h": 184,
+"ppu": 64,
+"px": 0.4522,
+"py": 0.0652,
+"w": 184
+},
+"enemy/boss_bone_colossus_1": {
+"h": 184,
+"ppu": 64,
+"px": 0.4522,
+"py": 0.0652,
+"w": 184
+},
+"enemy/boss_corrupted_king_0": {
+"h": 184,
+"ppu": 64,
+"px": 0.4543,
+"py": 0.0652,
+"w": 184
+},
+"enemy/boss_corrupted_king_1": {
+"h": 184,
+"ppu": 64,
+"px": 0.4543,
+"py": 0.0652,
+"w": 184
+},
+"enemy/boss_frost_queen_0": {
+"h": 176,
+"ppu": 64,
+"px": 0.4545,
+"py": 0.0682,
+"w": 176
+},
+"enemy/boss_frost_queen_1": {
+"h": 176,
+"ppu": 64,
+"px": 0.4545,
+"py": 0.0682,
+"w": 176
+},
 "enemy/boss_gatebreaker_0": {
 "h": 176,
 "ppu": 64,
@@ -1041,6 +1125,20 @@
 "px": 0.4545,
 "py": 0.0682,
 "w": 176
+},
+"enemy/boss_hollow_emperor_0": {
+"h": 192,
+"ppu": 64,
+"px": 0.4521,
+"py": 0.0625,
+"w": 192
+},
+"enemy/boss_hollow_emperor_1": {
+"h": 192,
+"ppu": 64,
+"px": 0.4521,
+"py": 0.0625,
+"w": 192
 },
 "enemy/boss_rift_warlock_0": {
 "h": 160,
@@ -1070,6 +1168,146 @@
 "py": 0.0625,
 "w": 192
 },
+"enemy/boss_siege_titan_0": {
+"h": 176,
+"ppu": 64,
+"px": 0.4545,
+"py": 0.0682,
+"w": 176
+},
+"enemy/boss_siege_titan_1": {
+"h": 176,
+"ppu": 64,
+"px": 0.4545,
+"py": 0.0682,
+"w": 176
+},
+"enemy/boss_storm_serpent_0": {
+"h": 176,
+"ppu": 64,
+"px": 0.5,
+"py": 0.0682,
+"w": 176
+},
+"enemy/boss_storm_serpent_1": {
+"h": 176,
+"ppu": 64,
+"px": 0.5,
+"py": 0.0682,
+"w": 176
+},
+"enemy/boss_tempest_roc_0": {
+"h": 176,
+"ppu": 64,
+"px": 0.5,
+"py": 0.0455,
+"w": 176
+},
+"enemy/boss_tempest_roc_1": {
+"h": 176,
+"ppu": 64,
+"px": 0.5,
+"py": 0.0455,
+"w": 176
+},
+"enemy/boss_void_commander_0": {
+"h": 168,
+"ppu": 64,
+"px": 0.4548,
+"py": 0.0714,
+"w": 168
+},
+"enemy/boss_void_commander_1": {
+"h": 168,
+"ppu": 64,
+"px": 0.4548,
+"py": 0.0714,
+"w": 168
+},
+"enemy/boulder_roller_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.5,
+"py": 0.15,
+"w": 80
+},
+"enemy/boulder_roller_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.5,
+"py": 0.15,
+"w": 80
+},
+"enemy/catapult_0": {
+"h": 96,
+"ppu": 64,
+"px": 0.5,
+"py": 0.125,
+"w": 112
+},
+"enemy/catapult_1": {
+"h": 96,
+"ppu": 64,
+"px": 0.5,
+"py": 0.125,
+"w": 112
+},
+"enemy/cinder_caster_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.455,
+"py": 0.15,
+"w": 80
+},
+"enemy/cinder_caster_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.455,
+"py": 0.15,
+"w": 80
+},
+"enemy/clockwork_drone_0": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.125,
+"w": 64
+},
+"enemy/clockwork_drone_1": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.125,
+"w": 64
+},
+"enemy/crypt_knight_0": {
+"h": 104,
+"ppu": 64,
+"px": 0.4538,
+"py": 0.1154,
+"w": 104
+},
+"enemy/crypt_knight_1": {
+"h": 104,
+"ppu": 64,
+"px": 0.4538,
+"py": 0.1154,
+"w": 104
+},
+"enemy/cyclone_shaman_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4525,
+"py": 0.15,
+"w": 80
+},
+"enemy/cyclone_shaman_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4525,
+"py": 0.15,
+"w": 80
+},
 "enemy/dark_champion_0": {
 "h": 112,
 "ppu": 64,
@@ -1095,6 +1333,20 @@
 "h": 80,
 "ppu": 64,
 "px": 0.455,
+"py": 0.15,
+"w": 80
+},
+"enemy/ember_runner_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4625,
+"py": 0.15,
+"w": 80
+},
+"enemy/ember_runner_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4625,
 "py": 0.15,
 "w": 80
 },
@@ -1125,6 +1377,90 @@
 "px": 0.4625,
 "py": 0.15,
 "w": 80
+},
+"enemy/flame_priest_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4525,
+"py": 0.15,
+"w": 80
+},
+"enemy/flame_priest_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4525,
+"py": 0.15,
+"w": 80
+},
+"enemy/frost_wolf_0": {
+"h": 96,
+"ppu": 64,
+"px": 0.4583,
+"py": 0.125,
+"w": 96
+},
+"enemy/frost_wolf_1": {
+"h": 96,
+"ppu": 64,
+"px": 0.4583,
+"py": 0.125,
+"w": 96
+},
+"enemy/frost_wraith_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.455,
+"py": 0.15,
+"w": 80
+},
+"enemy/frost_wraith_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.455,
+"py": 0.15,
+"w": 80
+},
+"enemy/gale_raider_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.455,
+"py": 0.15,
+"w": 80
+},
+"enemy/gale_raider_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.455,
+"py": 0.15,
+"w": 80
+},
+"enemy/ghoul_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4575,
+"py": 0.15,
+"w": 80
+},
+"enemy/ghoul_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4575,
+"py": 0.15,
+"w": 80
+},
+"enemy/glacier_golem_0": {
+"h": 120,
+"ppu": 64,
+"px": 0.455,
+"py": 0.1,
+"w": 120
+},
+"enemy/glacier_golem_1": {
+"h": 120,
+"ppu": 64,
+"px": 0.455,
+"py": 0.1,
+"w": 120
 },
 "enemy/goblin_0": {
 "h": 80,
@@ -1182,6 +1518,48 @@
 "py": 0.15,
 "w": 80
 },
+"enemy/magma_brute_0": {
+"h": 104,
+"ppu": 64,
+"px": 0.4519,
+"py": 0.1154,
+"w": 104
+},
+"enemy/magma_brute_1": {
+"h": 104,
+"ppu": 64,
+"px": 0.4519,
+"py": 0.1154,
+"w": 104
+},
+"enemy/mana_leech_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4575,
+"py": 0.15,
+"w": 80
+},
+"enemy/mana_leech_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4575,
+"py": 0.15,
+"w": 80
+},
+"enemy/necromancer_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4525,
+"py": 0.15,
+"w": 80
+},
+"enemy/necromancer_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4525,
+"py": 0.15,
+"w": 80
+},
 "enemy/ogre_gatesmasher_0": {
 "h": 128,
 "ppu": 64,
@@ -1224,6 +1602,34 @@
 "py": 0.125,
 "w": 112
 },
+"enemy/rime_caster_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.455,
+"py": 0.15,
+"w": 80
+},
+"enemy/rime_caster_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.455,
+"py": 0.15,
+"w": 80
+},
+"enemy/rune_sentinel_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4475,
+"py": 0.15,
+"w": 80
+},
+"enemy/rune_sentinel_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4475,
+"py": 0.15,
+"w": 80
+},
 "enemy/shade_stalker_0": {
 "h": 80,
 "ppu": 64,
@@ -1252,6 +1658,20 @@
 "py": 0.15,
 "w": 80
 },
+"enemy/siege_golem_0": {
+"h": 112,
+"ppu": 64,
+"px": 0.4536,
+"py": 0.1071,
+"w": 112
+},
+"enemy/siege_golem_1": {
+"h": 112,
+"ppu": 64,
+"px": 0.4536,
+"py": 0.1071,
+"w": 112
+},
 "enemy/skeleton_0": {
 "h": 80,
 "ppu": 64,
@@ -1263,6 +1683,62 @@
 "h": 80,
 "ppu": 64,
 "px": 0.4575,
+"py": 0.15,
+"w": 80
+},
+"enemy/sky_lancer_0": {
+"h": 112,
+"ppu": 64,
+"px": 0.4643,
+"py": 0.1071,
+"w": 112
+},
+"enemy/sky_lancer_1": {
+"h": 112,
+"ppu": 64,
+"px": 0.4643,
+"py": 0.1071,
+"w": 112
+},
+"enemy/storm_harpy_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4575,
+"py": 0.15,
+"w": 80
+},
+"enemy/storm_harpy_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4575,
+"py": 0.15,
+"w": 80
+},
+"enemy/thunder_bird_0": {
+"h": 96,
+"ppu": 64,
+"px": 0.5,
+"py": 0.0833,
+"w": 96
+},
+"enemy/thunder_bird_1": {
+"h": 96,
+"ppu": 64,
+"px": 0.5,
+"py": 0.0833,
+"w": 96
+},
+"enemy/void_shifter_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4525,
+"py": 0.15,
+"w": 80
+},
+"enemy/void_shifter_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4525,
 "py": 0.15,
 "w": 80
 },
@@ -1279,6 +1755,34 @@
 "px": 0.4667,
 "py": 0.125,
 "w": 96
+},
+"enemy/yeti_0": {
+"h": 104,
+"ppu": 64,
+"px": 0.4538,
+"py": 0.1154,
+"w": 104
+},
+"enemy/yeti_1": {
+"h": 104,
+"ppu": 64,
+"px": 0.4538,
+"py": 0.1154,
+"w": 104
+},
+"enemy/zombie_shambler_0": {
+"h": 80,
+"ppu": 64,
+"px": 0.4525,
+"py": 0.15,
+"w": 80
+},
+"enemy/zombie_shambler_1": {
+"h": 80,
+"ppu": 64,
+"px": 0.4525,
+"py": 0.15,
+"w": 80
 },
 "fx/arrow": {
 "h": 16,

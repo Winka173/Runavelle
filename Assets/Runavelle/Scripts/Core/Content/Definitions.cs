@@ -20,7 +20,7 @@ namespace Runavelle.Core
     public enum EnemyBehavior
     {
         Melee, Ranged, Siege, GateBreaker, Flyer, Buffer, Summoner, Elite, Boss,
-        Burrower, Assassin, ManaDrainer, Necromancer, Shifter, Artillery, ShieldCarrier, Healer, Skirmisher
+        Burrower, Assassin, ManaDrainer, Necromancer, Shifter, Artillery, ShieldCarrier, Healer, Skirmisher, Bomber
     }
 
     public enum MoveKind { Ground, Flying, Burrow }

@@ -136,6 +136,9 @@ namespace Runavelle.Core
             // Radiant Walls decree: attackers of walls/gates become Radiant (reveals stealth, sets up Light reactions)
             if (target is Building lw && lw.IsWallLike && Mods.Has(Hook.RadiantWalls) && attacker is Unit la && la.Team == Team.Enemy && !info.IsReaction && info.Source == SourceKind.Enemy)
                 ApplyElement(la, ElementId.Light, Mods.HookValue(Hook.RadiantWalls), DamageInfo.Simple(0, ElementId.Light, 0, SourceKind.Wall, lw.Id, lw.Level.Name));
+            // Glacier Golem frost armour: melee attackers get chilled
+            if (target is Unit ga && ga.Team == Team.Enemy && ga.Def.HasTag("frost_armor") && attacker is Unit gf && gf.Team == Team.Player && !info.IsReaction && gf.Attack != null && gf.Attack.ProjectileSpeed <= 0f)
+                gf.Status.AddSlow(0.35f, 1.5f);
             if (target is Building fw && fw.IsWallLike && Mods.Has(Hook.FrostWalls) && attacker is Unit fa && fa.Team == Team.Enemy && !info.IsReaction && info.Source == SourceKind.Enemy)
                 ApplyElement(fa, ElementId.Ice, Mods.HookValue(Hook.FrostWalls), DamageInfo.Simple(0, ElementId.Ice, 0, SourceKind.Wall, fw.Id, fw.Level.Name));
             // Radiant targets heal nearby allies when struck by the player's side
@@ -559,6 +562,15 @@ namespace Runavelle.Core
                 u.Hp = u.MaxHp * 0.5f;
                 u.Status.Clear();
                 _w.Emit(SimEventType.GeneralRevived, u.Position, 0, ElementId.Light, u.Id, "rebirth");
+                return;
+            }
+            if (u.Team == Team.Enemy && u.Def.HasTag("undying") && u.ReviveCount == 0 && info.Element != ElementId.Fire && info.Element != ElementId.Light)
+            {
+                // Zombie: rises once at 40% unless burned or purified
+                u.ReviveCount++;
+                u.Hp = u.MaxHp * 0.4f;
+                u.Status.Clear();
+                _w.Emit(SimEventType.Summon, u.Position, 1, ElementId.Shadow, u.Id, "undying");
                 return;
             }
             u.Dead = true;

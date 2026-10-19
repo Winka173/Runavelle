@@ -58,8 +58,19 @@ namespace Runavelle.Core
                     {
                         u.AttackCooldown = u.Attack.Interval;
                         u.AttackAnim = 0.25f;
+                        if (u.Stealthed) { u.Stealthed = false; _w.Emit(SimEventType.Stealth, u.Position, 0, ElementId.Shadow, u.Id, "reveal"); }
                         _fx.Attack(u, target, u.Attack, u.Attack.Damage, u.Attack.Element == ElementId.None ? 2 : 1);
                         if (u.Def.ManaDrain > 0f && target is Building wb && wb.Def.Family == BuildingFamily.ManaWell) ManaDrained += (int)u.Def.ManaDrain;
+                        if (target is Building ft && u.Def.HasTag("tower_freeze") && (ft.Def.Family == BuildingFamily.ArcherTower || ft.Def.Family == BuildingFamily.MagicTower))
+                            ft.DisabledTimer = Math.Max(ft.DisabledTimer, 1.2f);
+                        if (u.Def.Behavior == EnemyBehavior.Bomber)
+                        {
+                            // self-destruct: the splash is dealt by the attack itself; no bounty for a suicide
+                            u.Summoned = true;
+                            _w.Emit(SimEventType.Explosion, u.Position, u.Attack.Splash, u.Attack.Element, u.Id, "bomber");
+                            _combat.Kill(u, DamageInfo.Simple(0, ElementId.None, 0, SourceKind.Enemy, u.Id, "self"));
+                            return;
+                        }
                         if (u.Def.Behavior == EnemyBehavior.Skirmisher) { u.State = UnitState.Fleeing; u.BurrowTimer = 0.9f; u.Home = u.Position + (u.Position - target.Position).Normalized * 1.8f; }
                     }
                     if (u.SecondaryAttack != null && u.SecondaryCooldown <= 0f && dist <= u.SecondaryAttack.Range)
@@ -297,10 +308,10 @@ namespace Runavelle.Core
                 // revealed near defenders/towers or when damaged; Light status also reveals
                 bool reveal = u.Status.Gauge[(int)ElementId.Light] > 0f || _w.Time - u.LastHitTime < 0.5f;
                 if (!reveal)
-                    foreach (var f in _w.UnitsInRadius(Team.Player, u.Position, def.StealthRange, _tmp)) { reveal = true; break; }
+                    foreach (var f in _w.UnitsInRadius(Team.Player, u.Position, u.StealthRange, _tmp)) { reveal = true; break; }
                 if (!reveal)
                     foreach (var b in _w.Buildings)
-                        if (!b.Dead && !b.Ruined && b.Level.Attack != null && Vec2.Distance(b.Center, u.Position) <= def.StealthRange + 1f) { reveal = true; break; }
+                        if (!b.Dead && !b.Ruined && b.Level.Attack != null && Vec2.Distance(b.Center, u.Position) <= u.StealthRange + 1f) { reveal = true; break; }
                 if (!reveal && _w.Mods.Has(Hook.SeerLantern) && _w.PlayerGeneral != null && _w.PlayerGeneral.State != UnitState.Downed &&
                     Vec2.Distance(_w.PlayerGeneral.Position, u.Position) <= _w.Mods.HookValue(Hook.SeerLantern)) reveal = true;
                 if (reveal) { u.Stealthed = false; _w.Emit(SimEventType.Stealth, u.Position, 0, ElementId.Shadow, u.Id, "reveal"); }

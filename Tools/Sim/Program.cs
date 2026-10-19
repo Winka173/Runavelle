@@ -17,6 +17,18 @@ public static class Program
             Snapshot.Write(args[1], args[2], int.Parse(args[3]), float.Parse(args[4], System.Globalization.CultureInfo.InvariantCulture), args[5], args.Length > 6 ? args[6] : "Balanced");
             Console.WriteLine("snapshot written " + args[5]); return 0;
         }
+        if (args.Length > 0 && args[0] == "plan")
+        {
+            // plan <map> [seed]: wave composition per night (balance debugging)
+            var pdb = ContentDatabase.Create();
+            var ps = new GameSession(pdb, new RunSetup { MapId = args[1], GeneralId = "roland", Seed = args.Length > 2 ? ulong.Parse(args[2]) : 1000 });
+            for (int n = 1; n <= 15; n++)
+            {
+                var plan = ps.Waves.Plan(n, 15, x => { string bo = null; return pdb.Maps[args[1]].Bosses != null && (x == 5 || x == 10 || x == 15) ? pdb.Maps[args[1]].Bosses[x / 5 - 1] : bo; });
+                Console.WriteLine($"N{n} budget={plan.Budget} boss={plan.BossUnitId} lanes={string.Join("/", plan.Lanes)} :: " + string.Join(", ", plan.Groups.Select(gr => gr.Count + "x" + gr.UnitId)));
+            }
+            return 0;
+        }
         var db = ContentDatabase.Create();
         int seeds = opts.TryGetValue("seeds", out var s) ? int.Parse(s) : 8;
         var maps = opts.TryGetValue("maps", out var m) && m != "all" ? m.Split(',').ToList() : db.MapOrder.ToList();

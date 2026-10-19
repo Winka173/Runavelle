@@ -90,6 +90,10 @@ namespace Runavelle.Core
                 if (!Factions.Contains(u.Faction)) continue;
                 pool.Add(u);
             }
+            // thin faction mixes (early nights) are topped up with Marauders so every night has variety
+            if (pool.Count < 4 && !Factions.Contains(Faction.Marauders))
+                foreach (var u in _db.Units.Values)
+                    if (u.Role == UnitRole.Enemy && u.Behavior != EnemyBehavior.Boss && u.UnlockNight <= night && u.Faction == Faction.Marauders) pool.Add(u);
             pool.Sort((a, b) => string.CompareOrdinal(a.Id, b.Id));
             bool skyAvailable = sky.Count > 0;
 
@@ -105,6 +109,7 @@ namespace Runavelle.Core
             float t = 4f;
             int guard = 0;
             var used = new Dictionary<string, int>();
+            int flyers = 0;
             while (remaining > 0 && guard++ < 200)
             {
                 var weights = new List<float>();
@@ -126,6 +131,14 @@ namespace Runavelle.Core
                 int cap = def.HasTag("swarm") ? 8 : 4;
                 if (def.UnlockNight == night) cap = Math.Min(cap, def.HasTag("swarm") ? 6 : 2); // introduce gently
                 if (def.HasTag("siege") && night < 8) cap = Math.Min(cap, 1 + night / 4);
+                if (!def.HasTag("swarm") && night <= 4) { used.TryGetValue(def.Id, out int early); cap = Math.Min(cap, 2 - early); if (cap <= 0) { pool.Remove(def); continue; } } // no early brute spikes
+                if (def.Flying)
+                {
+                    // air pressure ramps with the night so early towers are not overwhelmed by swarms of flyers
+                    int flyerCap = 2 + night * 3 / 2 - flyers;
+                    if (flyerCap <= 0) { pool.Remove(def); continue; }
+                    cap = Math.Min(cap, flyerCap);
+                }
                 used.TryGetValue(def.Id, out int already);
                 if (def.HasTag("siege") && already >= 1 + night / 3) { pool.Remove(def); continue; }
                 int maxCount = Math.Max(1, Math.Min(cap, remaining / def.ThreatCost));
@@ -133,6 +146,7 @@ namespace Runavelle.Core
                 remaining -= count * def.ThreatCost;
                 used.TryGetValue(def.Id, out int cc);
                 used[def.Id] = cc + count;
+                if (def.Flying) flyers += count;
                 string lane = def.Flying && skyAvailable && rng.Chance(0.5f) ? sky[rng.Range(0, sky.Count)].Id : plan.Lanes[rng.Range(0, plan.Lanes.Count)];
                 plan.Groups.Add(new SpawnGroup { UnitId = def.Id, Count = count, LaneId = lane, Time = t, Interval = def.HasTag("swarm") ? 0.35f : 0.8f });
                 t += rng.Range(3f, 7f) + Math.Max(0, 6 - night) * 0.6f;

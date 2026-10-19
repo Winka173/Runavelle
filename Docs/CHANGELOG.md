@@ -1,5 +1,23 @@
 # Changelog
 
+## Phase IV — Siegefronts (maps, factions, enemies, bosses)
+- 6 factions with real rosters: Marauders, Shadow Court, Undead Legion, Siege Constructs, Ashborn, Frostbound, Wild Tempest
+  (+28 enemies → 43 regular enemies). New mechanics: self-exploding Bomber (no bounty), Zombie "undying" (rises once
+  unless killed by Fire/Light), Frost Wraith freezes towers, Glacier Golem chills melee attackers, catapult min range.
+- +8 multi-phase bosses (11 total): Siege Titan, Storm Serpent (flying), Void Commander, Frost Queen (3 phases),
+  Corrupted King (3), Bone Colossus, Tempest Roc (flying), Hollow Emperor (3, combines summon/possess/freeze/meteor/revive).
+  Each map has its own night 5/10/15 boss rotation.
+- 8 maps: + Stormcliff (lightning strikes both sides), Frosthaven (Fire cracks thin ice → water until dawn),
+  Shadowfen (mist: ground enemies arrive stealthed), Dawnspire (plateau ringed by cliffs, +1 tower range),
+  Shattered Crown (collapsed rampart, ruined gates rebuild cheaply); Sunken Ruins gets Tide (shallows flood on even
+  nights), Ember Highlands gets Lava Vents. Map unlock night capped at 15.
+- Nightly side objective (castle safe / ≤2 losses / swift / no ruins / General never downed) with dawn reward, shown in
+  the forecast and dawn report. Hazard note in the day forecast; tide/cracked-ice/mist overlays and hazard VFX.
+- Fixes: houses/towers can no longer seal the General's exit (placement rule) — this trap made the bot General idle
+  for whole nights; AI Generals no longer chase fleeing skirmishers out of their sector; stealthed enemies reveal
+  when they attack; thin faction pools are topped up with Marauders; early per-type and air caps in wave planning.
+- Tools: `Runavelle.Sim plan <map> [seed]` prints wave composition per night.
+
 ## Phase III — Kingdom Evolution, Decrees, Equipment
 - Kingdom Evolution after night 7: Fortress (stronger/thorned walls, free wall rebuild), Legion (+1 soldier, night
   reinforcements, free reinforcement, stronger auras), Arcanum (mana economy, magic-tower secondary slot from T2,

@@ -487,6 +487,34 @@ namespace Runavelle.Game
                         AudioService.Play("warning", 0.6f, 2, 0.3f);
                         if (!string.IsNullOrEmpty(e.Text) && e.ActorId >= 0) vfx.Label(at, e.Text, new Color(1f, 0.4f, 0.3f), 26f, 1f);
                         break;
+                    case SimEventType.Hazard:
+                        if (e.Text == "lightning")
+                        {
+                            vfx.Element(at, ElementId.Lightning, 1.6f);
+                            vfx.Ring(at, ArtLibrary.ElementColor(ElementId.Lightning), e.Value, 0.4f);
+                            Rig.Shake(0.25f);
+                            AudioService.Play("zap", 0.9f, 2, 0.1f);
+                        }
+                        else if (e.Text == "vent")
+                        {
+                            vfx.Element(at, ElementId.Fire, 1.6f);
+                            vfx.Smoke(at, 8, new Color(0.35f, 0.3f, 0.3f, 0.8f));
+                            AudioService.Play("breach", 0.6f, 2, 0.15f);
+                        }
+                        else if (e.Text == "ice_crack")
+                        {
+                            vfx.Burst(at, new Color(0.8f, 0.95f, 1f), 10, 2.2f, 0.3f);
+                            vfx.Label(at, "Băng vỡ!", new Color(0.7f, 0.9f, 1f), 24f, 1f);
+                            AudioService.Play("breach", 0.5f, 2, 0.15f);
+                        }
+                        break;
+                    case SimEventType.Explosion:
+                        vfx.Ring(at, ArtLibrary.ElementColor(e.Element == ElementId.None ? ElementId.Fire : e.Element), Mathf.Max(1f, e.Value), 0.45f, "fx/ring_thick");
+                        vfx.Element(at, ElementId.Fire, 1.4f);
+                        vfx.Smoke(at, 6);
+                        Rig.Shake(0.2f);
+                        AudioService.Play("breach", 0.7f, 3, 0.1f);
+                        break;
                     case SimEventType.Stealth:
                         vfx.Burst(at, new Color(0.7f, 0.5f, 1f), 6, 1.5f, 0.3f, "fx/smoke");
                         break;

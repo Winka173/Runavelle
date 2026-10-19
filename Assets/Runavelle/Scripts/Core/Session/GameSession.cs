@@ -37,6 +37,9 @@ namespace Runavelle.Core
         public int ReinforceCost;
         public int Reinforced;
         public List<string> Notes = new List<string>();
+        public string Objective;
+        public bool ObjectiveDone;
+        public Cost ObjectiveReward;
     }
 
     public struct PlaceResult
@@ -131,6 +134,8 @@ namespace Runavelle.Core
             W.TopologyVersion++;
             ConfigureWaves();
             Plan = Waves.Plan(Night, TotalNights, BossOverride);
+            ApplyDayHazards();
+            ChooseObjective();
         }
 
         private Vec2 Generals_RespawnPoint()
@@ -323,6 +328,7 @@ namespace Runavelle.Core
         private void OnKilled(Actor a, DamageInfo info)
         {
             if (a == W.Castle) DefeatCause = info.SourceName;
+            CountDowns(a);
         }
 
         // ------------------------------------------------------------------ phase flow
@@ -345,6 +351,7 @@ namespace Runavelle.Core
             _warned.Clear();
             foreach (var g in Plan.Groups) g.Spawned = 0;
             PlaceAIGenerals();
+            OnNightStart();
             W.Emit(SimEventType.NightStart, W.Castle.Center, Night);
             return true;
         }
@@ -370,6 +377,7 @@ namespace Runavelle.Core
                 Score = ComputeScore(false);
                 return;
             }
+            OnNightWon(rep);
             Dawn(rep);
             Phase = RunPhase.Report;
         }

@@ -153,7 +153,7 @@ namespace Runavelle.Game
                 var st = new GUIStyle(Gui.H2) { normal = { textColor = PickMap == m.Id ? Gui.Ink : Gui.Light } };
                 Gui.Text(new Rect(r.x + 24, r.y + 14, w - 48, 44), (unlocked ? "" : "[Khoá] ") + m.Name + "  " + new string('★', m.Difficulty), st);
                 var ls = new GUIStyle(Gui.LabelSmall) { normal = { textColor = PickMap == m.Id ? Gui.Ink : Gui.Light } };
-                Gui.Text(new Rect(r.x + 24, r.y + 58, w - 48, 70), unlocked ? "Được che chắn: " + m.ProtectedSides : "Mở khoá: sống tới đêm " + (3 + m.UnlockOrder * 2) + " hoặc thắng " + m.UnlockOrder + " ván", ls);
+                Gui.Text(new Rect(r.x + 24, r.y + 58, w - 48, 70), unlocked ? "Được che chắn: " + m.ProtectedSides : "Mở khoá: sống tới đêm " + Profile.MapUnlockNight(m) + " hoặc thắng " + m.UnlockOrder + " ván", ls);
                 if (unlocked && GUI.Button(r, GUIContent.none, GUIStyle.none)) { PickMap = m.Id; AudioService.Ui(); }
             }
             var sel = Db.Maps[PickMap];

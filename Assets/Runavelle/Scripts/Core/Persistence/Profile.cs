@@ -78,7 +78,8 @@ namespace Runavelle.Core
             return list;
         }
 
-        public bool MapUnlocked(MapDefinition m) => m.UnlockOrder == 0 || BestNight >= 3 + m.UnlockOrder * 2 || Victories >= m.UnlockOrder;
+        public bool MapUnlocked(MapDefinition m) => m.UnlockOrder == 0 || BestNight >= MapUnlockNight(m) || Victories >= m.UnlockOrder;
+        public static int MapUnlockNight(MapDefinition m) => System.Math.Min(15, 3 + m.UnlockOrder * 2);
 
         public int MaxAscension(string mapId) => MaxAscensionCleared.TryGetValue(mapId, out int v) ? v : -1;
 
