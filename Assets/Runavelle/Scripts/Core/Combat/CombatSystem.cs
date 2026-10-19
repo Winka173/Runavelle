@@ -201,6 +201,7 @@ namespace Runavelle.Core
             var t = Int2.FromPosition(p);
             if (u.IsFlying) return _w.Map.InBounds(t.X, t.Y);
             if (!_w.TerrainPassable(t.X, t.Y)) return false;
+            if (u.State == UnitState.Burrowed) return true;
             var b = _w.BuildingAt(t.X, t.Y);
             if (b == null || b.Ruined) return true;
             return u.Team == Team.Player && b.IsGate;

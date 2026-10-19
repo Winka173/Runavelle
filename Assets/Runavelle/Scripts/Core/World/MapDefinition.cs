@@ -14,6 +14,8 @@ namespace Runavelle.Core
         public List<Int2> Tiles = new List<Int2>();
         /// <summary>Only flyers spawn here (exceptional flank access; always telegraphed).</summary>
         public bool FlyerOnly;
+        /// <summary>Lane only becomes an attack front from this night on (narrow crossings open late).</summary>
+        public int MinNight = 1;
         public Vec2 Center
         {
             get
@@ -233,9 +235,9 @@ namespace Runavelle.Core
         }
 
         /// <summary>Lane: tiles in a line along a map edge, forced passable.</summary>
-        public MapBuilder Lane(string id, string name, int edge, int from, int to, bool flyerOnly = false)
+        public MapBuilder Lane(string id, string name, int edge, int from, int to, bool flyerOnly = false, int minNight = 1)
         {
-            var lane = new SpawnLane { Id = id, Name = name, FlyerOnly = flyerOnly };
+            var lane = new SpawnLane { Id = id, Name = name, FlyerOnly = flyerOnly, MinNight = minNight };
             for (int i = from; i <= to; i++)
             {
                 Int2 p;

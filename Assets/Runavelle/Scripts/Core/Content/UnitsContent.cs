@@ -121,8 +121,8 @@ namespace Runavelle.Core
             champ.Large = true; champ.CcResist = 0.5f; champ.AuraRadius = 3f; champ.AuraArmorBonus = 3f;
 
             // Boss bodies (mechanics in BossesContent.cs)
-            var b1 = Enemy("boss_gatebreaker", "Gã Phá Cổng Khổng Lồ", EnemyBehavior.Boss, M, "Boss đêm 5. Tụ lực đập nát tường (xem vòng đỏ).", 1700, 8, 1.3f, 0.6f, 20, 99, 30,
-                new AttackSpec { Damage = 36, Interval = 2.0f, Range = 1.3f, StructureMult = 2.2f }, "boss", "siege");
+            var b1 = Enemy("boss_gatebreaker", "Gã Phá Cổng Khổng Lồ", EnemyBehavior.Boss, M, "Boss đêm 5. Tụ lực đập nát tường (xem vòng đỏ).", 1300, 6, 1.3f, 0.6f, 20, 99, 30,
+                new AttackSpec { Damage = 34, Interval = 2.0f, Range = 1.3f, StructureMult = 1.6f }, "boss", "siege");
             b1.Large = true; b1.CcResist = 0.6f; b1.BossId = "gatebreaker";
             var b2 = Enemy("boss_rift_warlock", "Pháp Sư Khe Nứt", EnemyBehavior.Boss, M, "Boss đêm 10. Mở khe nứt tuôn quân, sau đó Kiệt sức (nhận +50% sát thương).", 2300, 4, 1.4f, 0.5f, 25, 99, 40,
                 new AttackSpec { Damage = 22, Interval = 1.4f, Range = 4.5f, ProjectileSpeed = 9f, Element = ElementId.Shadow, StatusAmount = 25f, HitsAir = true }, "boss", "caster");

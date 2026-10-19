@@ -52,6 +52,8 @@ namespace Runavelle.Core
         public readonly List<int> Squad = new List<int>();
         public float DisabledTimer;
         public float ShieldHp;
+        /// <summary>Temporary structures (General barriers) expire after this many seconds; &lt;0 = permanent.</summary>
+        public float Lifetime = -1f;
         public override ActorKind Kind => ActorKind.Building;
         public override bool IsStructure => true;
         public override bool Targetable => !Dead && !Ruined;
@@ -84,6 +86,7 @@ namespace Runavelle.Core
         public override float TakenMult(ElementId e) => Def.TakenMult(e) * (ShiftedResist != ElementId.None && e == ShiftedResist ? 0.5f : 1f);
 
         public AttackSpec Attack;
+        public AttackSpec SecondaryAttack;
         public float Speed;
         public float AttackCooldown;
         public float SecondaryCooldown;
@@ -151,6 +154,8 @@ namespace Runavelle.Core
         public bool Dead;
         public ElementId Element;
         public int Visual; // 0 arrow, 1 orb, 2 rock, 3 bolt
+        public ElementId GrantElement;
+        public float GrantStatus;
     }
 
     public sealed class Zone

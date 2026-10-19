@@ -27,7 +27,7 @@ namespace Runavelle.Core
             // 1. Castle
             AddBuilding(new BuildingDefinition { Id = "castle", Family = BuildingFamily.Castle, Name = "Lâu Đài", Size = 3, PlayerBuildable = false, BreachCost = 0f, MaxCount = 1,
                 Description = "Trái tim vương quốc. Mất Lâu Đài là thua. Hồi đầy máu mỗi bình minh.", RootLevels = new[] { "castle_1" } });
-            L("castle", new BuildingLevel { Id = "castle_1", Name = "Thành Trì", Tier = 1, MaxHp = 1300, Armor = 3,
+            L("castle", new BuildingLevel { Id = "castle_1", Name = "Thành Trì", Tier = 1, MaxHp = 1500, Armor = 3,
                 Description = "Bắn tên vào kẻ địch gần đó.", Attack = Arrow(14, 1.0f, 5.5f), Next = new[] { "castle_2" } });
             L("castle", new BuildingLevel { Id = "castle_2", Name = "Thành Trì Kiên Cố", Tier = 2, Cost = new Cost(120), MaxHp = 1900, Armor = 5,
                 Description = "Tường dày hơn, tên mạnh hơn.", Attack = Arrow(19, 0.9f, 6f), Next = new[] { "castle_3a", "castle_3b" } });

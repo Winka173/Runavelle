@@ -19,7 +19,7 @@ namespace Runavelle.Core
                 Counterplay = "Vòng đỏ báo trước cú đập 1.6 giây. Kéo tướng tới đánh trong lúc hắn tụ lực; tường đá chịu được 1 cú.",
                 Phases = new List<BossPhase>
                 {
-                    new BossPhase { Name = "Hành quân", Abilities = { A(BossAbilityKind.Slam, "Cú Đập Phá Thành", 9f, 5f, 1.6f, 2.2f, 170f, value: 1f) } },
+                    new BossPhase { Name = "Hành quân", Abilities = { A(BossAbilityKind.Slam, "Cú Đập Phá Thành", 9f, 5f, 1.6f, 2.2f, 140f, value: 1f) } },
                     new BossPhase { Name = "Giận dữ", StartsAtHp = 0.4f, SpeedMult = 1.25f, AttackSpeedMult = 1.2f, Announcement = "Gã Phá Cổng nổi giận!",
                         Abilities = { A(BossAbilityKind.Slam, "Cú Đập Phá Thành", 6.5f, 1f, 1.4f, 2.5f, 190f, value: 1f), A(BossAbilityKind.Charge, "Lao Húc", 12f, 3f, 1.2f, 1.2f, 90f, value: 5f) } },
                 },

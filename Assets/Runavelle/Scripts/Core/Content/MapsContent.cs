@@ -57,7 +57,7 @@ namespace Runavelle.Core
                 .Fill(30, 18, 34, 22, TileType.Mountain).Fill(8, 18, 12, 21, TileType.Mountain)
                 .Blob(16, 8, 2, TileType.Forest).Blob(30, 6, 2, TileType.Forest)
                 .Lane("west", "Hẻm Tây", 3, 10, 14).Lane("south", "Thung Nam", 2, 20, 24)
-                .Lane("north_pass", "Khe Hẹp Bắc", 0, 23, 24)
+                .Lane("north_pass", "Khe Hẹp Bắc (mở từ đêm 7)", 0, 23, 24, minNight: 7)
                 .RoadFromLane("west").RoadFromLane("south").RoadFromLane("north_pass", 1);
             c.Map.Name = "Cao Nguyên Than Hồng";
             c.Map.Description = "Núi dựng đứng phía Bắc và Đông. Hai mặt trận Tây, Nam và một khe hẹp xuyên núi phía Bắc.";
