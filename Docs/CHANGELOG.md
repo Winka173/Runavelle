@@ -1,5 +1,13 @@
 # Changelog
 
+## Phase III — Kingdom Evolution, Decrees, Equipment
+- Kingdom Evolution after night 7: Fortress (stronger/thorned walls, free wall rebuild), Legion (+1 soldier, night
+  reinforcements, free reinforcement, stronger auras), Arcanum (mana economy, magic-tower secondary slot from T2,
+  reaction mana). Shown as a castle banner + ground aura.
+- Royal Decrees 37 → 94 (Economy/Fortress/Army/General/Elemental/Cursed), 25+ new mechanics hooks, mutual exclusions.
+- General equipment: 8 weapons (element secondary or attack profile) + 8 relics; chosen before the run and between nights.
+- Real-time siege warnings (flyers, burrowers, stealth, siege, elites, mana drainers) once per type per night.
+
 ## Phase II — Light & Shadow
 - Shadow Court faction (eclipse theme): Shade Stalker (stealth assassin, revealed by Light/proximity), Eclipse Cultist
   (curses defenders with Shadow), Fallen Templar (Light shield aura for allies). Maps now carry faction lists.

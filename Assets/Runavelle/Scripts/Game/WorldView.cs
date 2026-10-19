@@ -263,8 +263,33 @@ namespace Runavelle.Game
             foreach (var kv in _telegraphs) if (!_seen.Contains(kv.Key)) _remove.Add(kv.Key);
             foreach (var id in _remove) { _telegraphs[id].Destroy(this); _telegraphs.Remove(id); }
 
+            SyncKingdom();
             SyncLaneMarkers(showLaneForecast);
             Vfx.Update(dt, settings);
+        }
+
+        private SpriteRenderer _emblem, _kingdomRing;
+
+        /// <summary>Kingdom Evolution is visible on the castle (banner) and as a coloured ground aura.</summary>
+        private void SyncKingdom()
+        {
+            var k = _s.KingdomEvolution;
+            if (k == null) { if (_emblem != null) { _emblem.gameObject.SetActive(false); _kingdomRing.gameObject.SetActive(false); } return; }
+            if (_emblem == null)
+            {
+                _emblem = NewSR("emblem", ArtLibrary.Get("building/emblem_" + k), 0);
+                _kingdomRing = NewSR("kingdomRing", ArtLibrary.Get("fx/ring_thick"), OrderGround + 2);
+            }
+            _emblem.gameObject.SetActive(true);
+            _kingdomRing.gameObject.SetActive(true);
+            _emblem.sprite = ArtLibrary.Get("building/emblem_" + k);
+            var c = _s.W.Castle;
+            _emblem.transform.position = new Vector3(c.Origin.X + 0.2f, c.Origin.Y + 2.6f, 0);
+            _emblem.sortingOrder = SortY(c.Origin.Y) + 5;
+            _kingdomRing.transform.position = new Vector3(c.Center.X, c.Center.Y, 0);
+            float pulse = 6.5f + Mathf.Sin(Time * 1.5f) * 0.15f;
+            _kingdomRing.transform.localScale = new Vector3(pulse, pulse, 1);
+            _kingdomRing.color = k == "fortress" ? new Color(0.75f, 0.75f, 0.85f, 0.35f) : k == "legion" ? new Color(1f, 0.45f, 0.35f, 0.35f) : new Color(0.7f, 0.5f, 1f, 0.4f);
         }
 
         private void SyncLaneMarkers(bool show)

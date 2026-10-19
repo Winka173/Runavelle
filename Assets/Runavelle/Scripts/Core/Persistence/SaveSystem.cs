@@ -248,7 +248,7 @@ namespace Runavelle.Core
             }
             Plan = Waves.Plan(Night, Math.Max(TotalNights, Night), BossOverride);
             if (AiGeneralLanes[0] != null || AiGeneralLanes[1] != null) PlaceAIGenerals();
-            RecomputeAllStats();
+            RebuildModifiers();
             foreach (var b in W.Buildings) if (!b.Ruined) b.Hp = b.MaxHp;
             string phase = MiniJson.Str(root, "phase", "Day");
             if (Enum.TryParse(phase, out RunPhase ph)) Phase = ph;

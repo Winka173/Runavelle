@@ -170,9 +170,31 @@ namespace Runavelle.Game
             if (Gui.Btn(new Rect(info.x + 370, ay, 60, 52), "+", PickAscension < maxAsc)) PickAscension++;
             if (Profile.EndlessUnlocked && Gui.Btn(new Rect(info.x + 450, ay, 150, 52), PickEndless ? "Vô tận: BẬT" : "Vô tận: TẮT", true, Gui.ButtonSmall, PickEndless ? "purple" : null)) PickEndless = !PickEndless;
             DrawAscensionNote(new Rect(info.x + 20, ay + 56, info.width - 40, 40));
+            DrawLoadoutPicker(new Rect(info.x, info.yMax + 12, info.width, 150));
             float by = Gui.Safe.yMax - 100;
             if (Gui.Btn(new Rect(Gui.Safe.x + 40, by, 260, 72), "← QUAY LẠI")) Screen = AppScreen.GeneralSelect;
             if (Gui.Btn(new Rect(Gui.Safe.xMax - 380, by, 340, 72), "BẮT ĐẦU", true, Gui.ButtonBig, "green")) { DeleteRunSave(); StartNewRun(); }
+        }
+
+        /// <summary>Two-slot equipment (Weapon + Relic) chosen before the run; only unlocked items are offered.</summary>
+        private void DrawLoadoutPicker(Rect r)
+        {
+            Gui.DrawPanel(r);
+            float y = r.y + 16;
+            foreach (var slot in new[] { EquipmentSlot.Weapon, EquipmentSlot.Relic })
+            {
+                var items = Db.Equipment.Values.Where(e => e.Slot == slot && Profile.IsUnlocked(e.Unlock, e.UnlockValue)).Select(e => e.Id).ToList();
+                items.Insert(0, null);
+                string cur = slot == EquipmentSlot.Weapon ? PickWeapon : PickRelic;
+                int i = Mathf.Max(0, items.IndexOf(cur));
+                var eq = cur != null ? Db.Equipment[cur] : null;
+                if (eq != null) Gui.Icon(new Rect(r.x + 20, y, 52, 52), "icon/eq_" + eq.Id);
+                Gui.Text(new Rect(r.x + 80, y - 2, r.width - 240, 60), (slot == EquipmentSlot.Weapon ? "<b>Vũ khí:</b> " : "<b>Di vật:</b> ") + (eq != null ? eq.Name + " – " + eq.Description : "(trống)"), Gui.LabelSmall);
+                if (Gui.Btn(new Rect(r.xMax - 150, y, 60, 52), "◄")) i = (i + items.Count - 1) % items.Count;
+                if (Gui.Btn(new Rect(r.xMax - 80, y, 60, 52), "►")) i = (i + 1) % items.Count;
+                if (slot == EquipmentSlot.Weapon) PickWeapon = items[i]; else PickRelic = items[i];
+                y += 64;
+            }
         }
 
         partial void DrawAscensionNoteImpl(Rect r);

@@ -43,7 +43,8 @@ namespace Runavelle.Core
 
         public void TickSoldier(Unit u, float dt)
         {
-            u.AttackCooldown -= dt * u.Status.AttackSpeedMult() * u.Buffs.AttackSpeedMult * (1f + _w.Mods.Percent(Stat.AttackSpeed, Scope.Soldiers, u.Def.Class));
+            float lust = _w.Mods.Has(Hook.Bloodlust) && u.HpFraction < 0.5f ? 1f + _w.Mods.HookValue(Hook.Bloodlust) : 1f;
+            u.AttackCooldown -= dt * u.Status.AttackSpeedMult() * u.Buffs.AttackSpeedMult * lust * (1f + _w.Mods.Percent(Stat.AttackSpeed, Scope.Soldiers, u.Def.Class));
             u.SecondaryCooldown -= dt;
             u.AttackAnim = Math.Max(0f, u.AttackAnim - dt);
             if (u.LifeTimer > 0f && (u.LifeTimer -= dt) <= 0f) { u.Dead = true; return; }

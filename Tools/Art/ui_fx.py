@@ -284,7 +284,55 @@ def title_backdrop():
     cv.save("ui/title_bg", ppu=100)
 
 
+def emblems():
+    specs = {'fortress': (rgb('#8d8a9e'), 'shield'), 'legion': (rgb('#c4553e'), 'swords'), 'arcanum': (rgb('#7a5ad0'), 'crystal')}
+    for k, (col, kind) in specs.items():
+        cv = Canvas(96, 128)
+        cv.inked_line(48, 124, 48, 18, rgb('#8a5a3a'), 4)
+        cv.poly([(50, 20), (92, 26), (86, 60), (92, 92), (50, 86)], col, ink=3)
+        if kind == 'shield':
+            cv.smooth([(58, 36), (80, 36), (80, 54), (69, 70), (58, 54)], lighten(col, 0.35), ink=2.5)
+        elif kind == 'swords':
+            cv.inked_line(58, 72, 80, 36, rgb('#e8e8f0'), 3)
+            cv.inked_line(80, 72, 58, 36, rgb('#e8e8f0'), 3)
+        else:
+            cv.poly([(69, 32), (79, 52), (69, 76), (59, 52)], rgb('#c9b0ff'), ink=2.5)
+            cv.glow(69, 54, 26, rgb('#c9b0ff'), 150)
+        cv.poly(star(48, 14, 9, 4), rgb('#e8c25a'), ink=2)
+        cv.save(f"building/emblem_{k}", pivot=(48, 124))
+
+
+def equipment_icons():
+    weapons = {'dawnblade': 'light', 'duskfang': 'shadow', 'stormbrand': 'lightning', 'frostbite': 'ice', 'emberheart': 'fire', 'tideglaive': 'water'}
+    for k, el in weapons.items():
+        cv = Canvas(64, 64)
+        cv.circle(32, 32, 28, darken(ELEMENT_COL[el], 0.6))
+        cv.inked_line(16, 48, 46, 18, rgb('#d9dee8'), 6)
+        cv.inked_line(14, 38, 26, 50, rgb('#e8c25a'), 5)
+        cv.glow(42, 22, 14, ELEMENT_COL[el], 220)
+        cv.save(f"icon/eq_{k}")
+    cv = Canvas(64, 64); cv.circle(32, 32, 28, rgb('#3a3036')); cv.inked_line(18, 50, 40, 26, rgb('#8a5a3a'), 5); cv.rect(30, 10, 26, 22, rgb('#9aa6b8'), r=4); cv.save("icon/eq_giants_maul")
+    cv = Canvas(64, 64); cv.circle(32, 32, 28, rgb('#3a3036')); cv.inked_line(14, 50, 52, 12, rgb('#e8eef8'), 3); cv.c.drawCircle(18, 46, 8, cv.paint(rgb('#e8c25a'), stroke=3)); cv.save("icon/eq_swift_rapier")
+    relic = {
+        'phoenix_charm': lambda cv: cv.smooth([(32, 10), (50, 30), (44, 50), (32, 56), (20, 50), (14, 30)], rgb('#ff7a2e')),
+        'marshal_seal': lambda cv: (cv.ellipse(32, 34, 20, 20, rgb('#c4553e')), cv.poly(star(32, 34, 12, 5), rgb('#e8c25a'), ink=2)),
+        'golden_hourglass': lambda cv: (cv.poly([(18, 12), (46, 12), (32, 32)], rgb('#e8c25a')), cv.poly([(18, 52), (46, 52), (32, 32)], rgb('#e8c25a'))),
+        'ancestral_ward': lambda cv: cv.smooth([(14, 14), (50, 14), (50, 34), (32, 54), (14, 34)], rgb('#9aa6b8')),
+        'windstep_boots': lambda cv: (cv.rect(18, 16, 16, 30, rgb('#8a5a3a'), r=4), cv.rect(18, 40, 30, 12, rgb('#8a5a3a'), r=5), glyph(cv, 'swirl', 46, 22, 10, ELEMENT_COL['wind'])),
+        'treasure_crown': lambda cv: cv.poly([(10, 46), (12, 18), (22, 32), (32, 12), (42, 32), (52, 18), (54, 46)], rgb('#e8c25a')),
+        'resonance_gem': lambda cv: (cv.poly([(32, 8), (52, 28), (32, 56), (12, 28)], rgb('#b79cff')), cv.glow(32, 30, 24, rgb('#b79cff'), 150)),
+        'seer_lantern': lambda cv: (cv.rect(20, 18, 24, 32, rgb('#3a3560'), r=6), cv.glow(32, 34, 20, rgb('#ffe58a'), 220), cv.c.drawArc(skia.Rect.MakeXYWH(22, 6, 20, 20), 180, 180, False, cv.paint(INK, stroke=4))),
+    }
+    for k, fn in relic.items():
+        cv = Canvas(64, 64)
+        cv.circle(32, 32, 30, rgb('#2c2843'), 200)
+        fn(cv)
+        cv.save(f"icon/eq_{k}")
+
+
 def run():
     icons()
     fx()
     ui()
+    emblems()
+    equipment_icons()

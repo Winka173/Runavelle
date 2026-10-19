@@ -63,9 +63,13 @@ namespace Runavelle.Core
                     if (NearSpawn(x, y)) return PlaceResult.Fail("Quá gần cửa xuất quân địch");
                 }
             var cost = CostOf(level);
+            if (RoyalArchitectAvailable && def.Family != BuildingFamily.Wall) cost = new Cost(0, cost.Mana);
             if (!Economy.CanAfford(cost)) return new PlaceResult { Ok = false, Reason = "Không đủ " + (cost.Gold > Economy.Gold ? "Vàng" : "Mana"), Cost = cost };
             return new PlaceResult { Ok = true, Cost = cost };
         }
+
+        private int _royalArchitectNight;
+        public bool RoyalArchitectAvailable => W.Mods.Has(Hook.RoyalArchitect) && _royalArchitectNight != Night;
 
         private int CountPlayerBuildings()
         {
@@ -79,6 +83,7 @@ namespace Runavelle.Core
             var r = CanPlace(levelId, origin);
             if (!r.Ok) return null;
             if (!Economy.TrySpend(r.Cost, "build:" + levelId)) return null;
+            if (RoyalArchitectAvailable && Content.BuildingOfLevel(levelId).Family != BuildingFamily.Wall) _royalArchitectNight = Night;
             var b = Spawner.CreateBuilding(levelId, origin);
             b.Invested = r.Cost;
             UndoStack.Add(b.Id);
@@ -178,11 +183,13 @@ namespace Runavelle.Core
         public PlaceResult CanImbue(Building b, ElementId e, bool secondary)
         {
             if (Phase != RunPhase.Day) return PlaceResult.Fail("Chỉ ấn nguyên tố ban ngày");
-            if (b == null || b.Ruined || !b.Level.CanImbue && !(secondary && b.Level.SecondarySlot)) return PlaceResult.Fail("Công trình này không ấn được");
+            bool wild = W.Mods.Has(Hook.WildMagic) && b != null && b.Def.Family == BuildingFamily.MagicTower && b.Level.Tier >= 2;
+            bool slot2 = b != null && (b.Level.SecondarySlot || wild);
+            if (b == null || b.Ruined || !b.Level.CanImbue && !(secondary && slot2)) return PlaceResult.Fail("Công trình này không ấn được");
             if (!Elements.IsValid(e) || e == ElementId.None) return PlaceResult.Fail("Nguyên tố không hợp lệ");
             if (secondary)
             {
-                if (!b.Level.SecondarySlot) return PlaceResult.Fail("Cần cấp 3 để mở ô phụ");
+                if (!slot2) return PlaceResult.Fail("Cần cấp 3 để mở ô phụ");
                 if (b.Primary == ElementId.None) return PlaceResult.Fail("Hãy ấn nguyên tố chính trước");
                 if (e == b.Primary) return PlaceResult.Fail("Ô phụ phải khác nguyên tố chính");
             }

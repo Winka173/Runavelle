@@ -148,6 +148,13 @@ namespace Runavelle.Core
                 a.LargeMult *= br.LargeMult;
                 a.FlyerMult *= br.FlyerMult;
             }
+            if (_w.Mods.Has(Hook.StormLegion) && a.Element == ElementId.Lightning) a.ChainCount += (int)_w.Mods.HookValue(Hook.StormLegion);
+            if (_w.Mods.Has(Hook.VeteranCore) && u.Veterancy > 0)
+            {
+                float vet = 1f + _w.Mods.HookValue(Hook.VeteranCore) * u.Veterancy;
+                a.Damage *= vet;
+                u.MaxHp *= vet;
+            }
             if (_w.Mods.Has(Hook.StormArrows) && cls == SoldierClass.Archer && a.Element == ElementId.None)
             {
                 a.Element = ElementId.Lightning; a.StatusAmount = _w.Mods.HookValue(Hook.StormArrows);
@@ -213,9 +220,15 @@ namespace Runavelle.Core
             a.Damage = Mods.Apply(a.Damage * aiMult * (evo?.DmgMult ?? 1f), Stat.Damage, scope, SoldierClass.None, a.Element);
             a.Interval /= Math.Max(0.2f, 1f + Mods.Percent(Stat.AttackSpeed, scope));
             a.HitsAir = true;
+            a.Range = Mods.Apply(a.Range, Stat.Range, scope);
             u.Attack = a;
+            u.SecondaryElement = ElementId.None;
+            if (u.IsPlayerControlled && EquippedWeapon != null && EquippedWeapon.SecondaryElement != a.Element) u.SecondaryElement = EquippedWeapon.SecondaryElement;
             u.Hp = fullHeal ? u.MaxHp : Math.Max(1f, u.MaxHp * frac);
         }
+
+        /// <summary>Set by GameSession from the run's loadout.</summary>
+        public EquipmentDefinition EquippedWeapon;
 
         public GeneralAura EffectiveAura(Unit g) => g.Evolution?.AuraOverride ?? g.General.Aura;
 

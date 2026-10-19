@@ -29,12 +29,46 @@ namespace Runavelle.Core
 
         private void ApplyEquipment()
         {
+            Spawner.EquippedWeapon = null;
             foreach (var id in new[] { Setup.WeaponId, Setup.RelicId })
             {
                 if (id == null || !Content.Equipment.TryGetValue(id, out var eq)) continue;
                 W.Mods.AddRange(eq.Modifiers);
                 foreach (var h in eq.Hooks) W.Mods.AddHook(h.Hook, h.Value);
+                if (eq.Slot == EquipmentSlot.Weapon) Spawner.EquippedWeapon = eq;
             }
+        }
+
+        /// <summary>Rebuilds all run modifiers from scratch (rules, equipment, decrees, kingdom) — used when the loadout changes.</summary>
+        public void RebuildModifiers()
+        {
+            ApplyRunRules();
+            foreach (var id in TakenDecrees)
+            {
+                var d = Content.Decrees[id];
+                W.Mods.AddRange(d.Modifiers);
+                foreach (var h in d.Hooks) W.Mods.AddHook(h.Hook, h.Value);
+            }
+            var k = KingdomEvolutions.Find(x => x.Id == KingdomEvolution);
+            if (k != null) { W.Mods.AddRange(k.Modifiers); foreach (var h in k.Hooks) W.Mods.AddHook(h.Hook, h.Value); }
+            RecomputeAllStats();
+        }
+
+        /// <summary>Pre-night loadout change (day only). Slot = Weapon or Relic; null id unequips.</summary>
+        public bool SetEquipment(EquipmentSlot slot, string id)
+        {
+            if (Phase != RunPhase.Day) return false;
+            if (id != null && (!Content.Equipment.TryGetValue(id, out var eq) || eq.Slot != slot)) return false;
+            if (slot == EquipmentSlot.Weapon) Setup.WeaponId = id; else Setup.RelicId = id;
+            RebuildModifiers();
+            return true;
+        }
+
+        public float BaseBudgetMult = 1f;
+
+        private void ConfigureWaves()
+        {
+            Waves.BudgetMult = BaseBudgetMult * (1f + (W.Mods.Has(Hook.Insomnia) ? W.Mods.HookValue(Hook.Insomnia) : 0f));
         }
 
         partial void BossOverrideImpl(int night, ref string boss);

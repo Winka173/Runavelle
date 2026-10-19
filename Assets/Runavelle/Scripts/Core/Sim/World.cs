@@ -88,6 +88,9 @@ namespace Runavelle.Core
         /// <summary>Bounties / shadow-mark mana earned during the night; paid at dawn.</summary>
         public int PendingGold, PendingMana;
         public readonly List<Unit> DeadEnemies = new List<Unit>();
+        /// <summary>Per-night once-only flags (Arcane Rebirth, Double Ultimate) and reaction counter (Elemental Overflow).</summary>
+        public bool RebirthUsed, DoubleUltUsed;
+        public int ReactionCounter;
         private readonly List<Unit> _scratch = new List<Unit>(64);
 
         public World(ContentDatabase content, MapDefinition map, ulong seed)

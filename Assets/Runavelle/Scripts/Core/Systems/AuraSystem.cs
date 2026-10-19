@@ -38,6 +38,7 @@ namespace Runavelle.Core
                 {
                     float regen = u.Buffs.Regen;
                     if (u.State == UnitState.Retreating && _w.Mods.Has(Hook.TacticalRetreat)) regen += _w.Mods.HookValue(Hook.TacticalRetreat);
+                    if (u.Role == UnitRole.Soldier && u.State != UnitState.Fighting && _w.Mods.Has(Hook.FieldMedics)) regen = Math.Max(regen, _w.Mods.HookValue(Hook.FieldMedics));
                     if (regen > 0f && u.Hp < u.MaxHp) u.Hp = Math.Min(u.MaxHp, u.Hp + u.MaxHp * regen * dt);
                 }
                 if (u.Team == Team.Enemy && u.Def.HealPerSecond > 0f) HealAllies(u, dt);

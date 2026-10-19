@@ -130,6 +130,8 @@ namespace Runavelle.Core
         public Vec2 Velocity;
         public GeneralEvolution Evolution;
         public BossRuntime Boss;
+        /// <summary>Veteran Core decree: nights survived (0..3).</summary>
+        public int Veterancy;
     }
 
     public sealed class BossRuntime

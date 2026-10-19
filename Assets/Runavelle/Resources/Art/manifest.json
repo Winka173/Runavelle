@@ -83,6 +83,27 @@
 "py": 0.3378,
 "w": 216
 },
+"building/emblem_arcanum": {
+"h": 128,
+"ppu": 64,
+"px": 0.5,
+"py": 0.0312,
+"w": 96
+},
+"building/emblem_fortress": {
+"h": 128,
+"ppu": 64,
+"px": 0.5,
+"py": 0.0312,
+"w": 96
+},
+"building/emblem_legion": {
+"h": 128,
+"ppu": 64,
+"px": 0.5,
+"py": 0.0312,
+"w": 96
+},
 "building/gate_bastion_h": {
 "h": 112,
 "ppu": 64,
@@ -1722,6 +1743,118 @@
 "w": 64
 },
 "icon/elite": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_ancestral_ward": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_dawnblade": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_duskfang": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_emberheart": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_frostbite": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_giants_maul": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_golden_hourglass": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_marshal_seal": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_phoenix_charm": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_resonance_gem": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_seer_lantern": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_stormbrand": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_swift_rapier": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_tideglaive": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_treasure_crown": {
+"h": 64,
+"ppu": 64,
+"px": 0.5,
+"py": 0.5,
+"w": 64
+},
+"icon/eq_windstep_boots": {
 "h": 64,
 "ppu": 64,
 "px": 0.5,

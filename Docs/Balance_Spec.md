@@ -58,3 +58,8 @@ Same command (`seeds=8 generals=all`, 384 runs): **136 wins (35%)**, 0 exception
 Ember 36%, Sunken 26%. Per General: Aurelia 67%, Seraphine/Varric 50%, Elowen/Nyxara 46% … Brannoc 21%. The new
 Light/Shadow enemies (stealth assassin, cursing cultist, shield templar) made runs harder (42% → 35%) as intended.
 Light/Shadow reactions observed in bot runs: Solar Flare, Eclipse, Haunted Arc, Fortify, Soul Frost.
+
+## Measured: Phase III (Kingdom Evolution, 94 decrees, equipment)
+`seeds=8 generals=all` (384 runs): **171 wins (45%)**, 0 exceptions, 165 s. Per map: Moonstone 51%, Ember 46%, Sunken 37%.
+General spread narrowed to 29–58% (Elowen 58% … Maelis 29%). Bot picks a random Kingdom Evolution and the first
+non-cursed decree; equipment is not used by the bot (loadout effects verified by tests instead).

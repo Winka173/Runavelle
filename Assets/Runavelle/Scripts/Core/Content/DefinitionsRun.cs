@@ -79,5 +79,7 @@ namespace Runavelle.Core
         public List<HookValue> Hooks = new List<HookValue>();
         public UnlockRule Unlock;
         public int UnlockValue;
+        /// <summary>Weapon: General basic attacks also apply this element (the one allowed secondary element).</summary>
+        public ElementId SecondaryElement = ElementId.None;
     }
 }

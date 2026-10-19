@@ -2,7 +2,7 @@
 
 Status: **PASS** (ran and passed), **FAIL**, **NOT RUN** (with reason). Nothing here is claimed without running it.
 
-## Automated (engine-free, `dotnet test Tools/Tests`) — 47/47 PASS after Phase II (2026-10-19)
+## Automated (engine-free, `dotnet test Tools/Tests`) — 58/58 PASS after Phase III (2026-10-19)
 | Area | Test | Status |
 |---|---|---|
 | Design locks | content validates; exactly 8 families; 8-element allow-list; 2 currencies; tiers ≤3 / one final choice; no full immunity | PASS |
@@ -34,6 +34,16 @@ Status: **PASS** (ran and passed), **FAIL**, **NOT RUN** (with reason). Nothing 
 | Templar guards allies; Cultist marks defenders with Shadow | PASS |
 | Rift Warlock phase 2 creates an enemy curse (Gloom) zone | PASS |
 | Light/Shadow decree hooks (Shadow Harvest mana, Radiant Walls) | PASS |
+
+## Phase III tests (added) — PASS
+| Test | Status |
+|---|---|
+| 80–100 decrees, unique names, ≥6 per category, each has an effect, mutual exclusions | PASS |
+| Every hook used by decrees/equipment/kingdoms is read by a system (source scan) | PASS |
+| Royal Architect, Arcane Rebirth, First Strike/Siege Breakers/Sky Watch, Emergency Masons + Mana Shield, Insomnia, Legion night reinforcement | PASS |
+| Kingdom evolutions change mechanics; Arcanum secondary slot persists through save/load | PASS |
+| Equipment: 8 weapons + 8 relics, slot validation, weapon secondary element, Phoenix Charm revive, one-secondary-element rule | PASS |
+| Full runs: drafts never offer ineligible/duplicate decrees | PASS |
 
 ## Compile checks
 | Check | Status |

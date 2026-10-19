@@ -54,7 +54,8 @@ namespace Runavelle.Core
         ShadowHarvest, EmergencyMasons, VeteranCore, ElementalOverflow, SiegeBreakers, SkyWatch, GeneralLifesteal,
         ManaShieldCastle, ReinforcedGates, FrostWalls, ChainOverload, EclipsePact, DawnVigil, CursedGold,
         GlassCannon, BurdenOfCrown, Insomnia, HeavyCrown, WildMagic, MercenaryLegion, IronDiscipline,
-        RoyalArchitect, QuickMasons, FieldMedics, Pathfinders, TowerRebuild, HeroicPresence, DoubleUltCharge, ShadowSacrifice
+        RoyalArchitect, QuickMasons, FieldMedics, Pathfinders, TowerRebuild, HeroicPresence, DoubleUltCharge, ShadowSacrifice,
+        LegionReinforce, FastRevive, SeerLantern
     }
 
     public sealed class HookValue

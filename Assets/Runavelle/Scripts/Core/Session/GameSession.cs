@@ -115,6 +115,7 @@ namespace Runavelle.Core
             Generals.SpawnBarrier = SpawnBarrier;
             Generals.SpawnAllySummon = SpawnAllySummon;
             Combat.OnKilled = OnKilled;
+            KingdomEvolutions.AddRange(content.Kingdoms);
             ApplyRunRules();
 
             Spawner.CreateBuilding("castle_1", map.CastleOrigin);
@@ -128,6 +129,7 @@ namespace Runavelle.Core
             var g = content.Generals[content.Migrate(setup.GeneralId)];
             Spawner.SpawnGeneral(g, Generals_RespawnPoint(), true, -1, null);
             W.TopologyVersion++;
+            ConfigureWaves();
             Plan = Waves.Plan(Night, TotalNights, BossOverride);
         }
 
@@ -251,10 +253,27 @@ namespace Runavelle.Core
                     var pos = tile.Center + new Vec2(W.Rng.Range(-0.3f, 0.3f), W.Rng.Range(-0.3f, 0.3f));
                     var def = Content.Unit(g.UnitId);
                     var u = Spawner.SpawnEnemy(def, pos, lane.Id, Plan.HpMult);
-                    if (u.IsBoss) W.Emit(SimEventType.Announcement, pos, 0, ElementId.None, u.Id, def.Name + " xuất hiện!");
+                    if (g.Spawned == 0) WarnSpecial(def, lane, pos, u);
                     g.Spawned++;
                 }
             }
+        }
+
+        private readonly HashSet<string> _warned = new HashSet<string>();
+
+        /// <summary>Real-time siege warnings (once per enemy type per night) for threats that need a specific answer.</summary>
+        private void WarnSpecial(UnitDefinition def, SpawnLane lane, Vec2 pos, Unit u)
+        {
+            string msg = null;
+            if (u.IsBoss) msg = def.Name + " xuất hiện ở " + lane.Name + "!";
+            else if (def.Flying) msg = "Kẻ bay tới từ " + lane.Name + " – vượt tường!";
+            else if (def.Move == MoveKind.Burrow) msg = def.Name + " đang đào hầm từ " + lane.Name + "!";
+            else if (def.StealthRange > 0f) msg = "Kẻ tàng hình lẻn vào từ " + lane.Name + "!";
+            else if (def.Behavior == EnemyBehavior.Siege || def.Behavior == EnemyBehavior.GateBreaker) msg = def.Name + " (công thành) ở " + lane.Name + "!";
+            else if (def.Behavior == EnemyBehavior.Elite) msg = "Tinh anh " + def.Name + " ở " + lane.Name + "!";
+            else if (def.ManaDrain > 0f) msg = def.Name + " nhắm vào Giếng Mana!";
+            if (msg == null || !_warned.Add(def.Id)) return;
+            W.Emit(SimEventType.Announcement, pos, 0, ElementId.None, u.Id, msg);
         }
 
         private Unit SpawnSummon(string unitId, Vec2 pos, string lane)
@@ -289,11 +308,14 @@ namespace Runavelle.Core
         {
             foreach (var b in W.Buildings)
             {
-                if (b.Dead || b.Ruined || b.Level.NightRespawnInterval <= 0f) continue;
-                if (b.Squad.Count >= Spawner.SquadSize(b)) { b.RespawnTimer = b.Level.NightRespawnInterval; continue; }
+                if (b.Dead || b.Ruined || b.Def.Family != BuildingFamily.Barracks) continue;
+                float interval = b.Level.NightRespawnInterval;
+                if (W.Mods.Has(Hook.LegionReinforce)) interval = interval > 0f ? Math.Min(interval, W.Mods.HookValue(Hook.LegionReinforce)) : W.Mods.HookValue(Hook.LegionReinforce);
+                if (interval <= 0f) continue;
+                if (b.Squad.Count >= Spawner.SquadSize(b)) { b.RespawnTimer = interval; continue; }
                 b.RespawnTimer -= dt;
                 if (b.RespawnTimer > 0f) continue;
-                b.RespawnTimer = b.Level.NightRespawnInterval;
+                b.RespawnTimer = interval;
                 Spawner.SpawnSoldier(b, b.Center);
             }
         }
@@ -318,6 +340,9 @@ namespace Runavelle.Core
             W.PendingMana = 0;
             Enemies.ManaDrained = 0;
             W.DeadEnemies.Clear();
+            W.RebirthUsed = false;
+            W.DoubleUltUsed = false;
+            _warned.Clear();
             foreach (var g in Plan.Groups) g.Spawned = 0;
             PlaceAIGenerals();
             W.Emit(SimEventType.NightStart, W.Castle.Center, Night);
@@ -371,6 +396,16 @@ namespace Runavelle.Core
             rep.ManaDrained = Math.Min(Economy.Mana, Enemies.ManaDrained);
             if (rep.ManaDrained > 0) Economy.TrySpend(new Cost(0, rep.ManaDrained), "mana_drain");
 
+            if (W.Mods.Has(Hook.ManaShieldCastle) && !Economy.TrySpend(new Cost(0, 10), "mana_shield")) rep.Notes.Add("Không đủ Mana duy trì Khiên Mana Lâu Đài");
+            // decree/kingdom repairs of ruins
+            foreach (var b in W.Buildings)
+            {
+                if (b.Dead || !b.Ruined) continue;
+                if (b.IsWallLike && W.Mods.Has(Hook.EmergencyMasons)) { b.Ruined = false; W.TopologyVersion++; rep.Notes.Add("Thợ xây khẩn cấp dựng lại " + b.Level.Name); continue; }
+                bool tower = b.Def.Family == BuildingFamily.ArcherTower || b.Def.Family == BuildingFamily.MagicTower;
+                if (tower && W.Mods.Has(Hook.TowerRebuild) && Economy.TrySpend(RebuildCost(b).Scaled(W.Mods.HookValue(Hook.TowerRebuild)), "tower_rebuild"))
+                { b.Ruined = false; W.TopologyVersion++; rep.Notes.Add("Đội thợ tháp dựng lại " + b.Level.Name); }
+            }
             // repairs: castle full, surviving structures full (free); ruins stay ruined until rebuilt
             foreach (var b in W.Buildings)
             {
@@ -386,7 +421,12 @@ namespace Runavelle.Core
             foreach (var b in W.Buildings)
             {
                 if (b.Dead || b.Ruined || b.Def.Family != BuildingFamily.Barracks) continue;
-                foreach (var id in b.Squad) if (W.Get(id) is Unit s) { s.Hp = s.MaxHp; s.Status.Clear(); s.State = UnitState.Idle; }
+                foreach (var id in b.Squad)
+                    if (W.Get(id) is Unit s)
+                    {
+                        if (W.Mods.Has(Hook.VeteranCore) && s.Veterancy < 3) { s.Veterancy++; Spawner.ApplySoldierStats(s, b, true); }
+                        s.Hp = s.MaxHp; s.Status.Clear(); s.State = UnitState.Idle;
+                    }
                 int missing = Spawner.SquadSize(b) - b.Squad.Count;
                 for (int i = 0; i < missing; i++)
                 {
@@ -447,6 +487,7 @@ namespace Runavelle.Core
             W.Night = Night;
             Phase = RunPhase.Day;
             RerollsUsed = 0;
+            ConfigureWaves();
             Plan = Waves.Plan(Night, Math.Max(TotalNights, Night), BossOverride);
             OnDayStart();
             AutosaveRequested = true;

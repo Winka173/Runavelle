@@ -63,11 +63,12 @@ namespace Runavelle.Core
             if (attacker.Status.BlindTimer > 0f && _w.Rng.Chance(0.5f)) return;
             // Aura-granted element (e.g. Kaelen's fire) rides on a second application
             var grant = attacker.Buffs.GrantElement;
+            if (grant == ElementId.None && attacker is Unit su && su.SecondaryElement != ElementId.None) { grant = su.SecondaryElement; }
             if (a.ProjectileSpeed <= 0f)
             {
                 _w.Emit(SimEventType.MeleeSwing, attacker.Position, 0, a.Element, attacker.Id, null, target.Id);
                 Impact(target, target.Position, info, a.Splash);
-                if (grant != ElementId.None && !target.Dead) _combat.ApplyElement(target, grant, attacker.Buffs.GrantStatus, info);
+                if (grant != ElementId.None && !target.Dead) _combat.ApplyElement(target, grant, attacker.Buffs.GrantElement != ElementId.None ? attacker.Buffs.GrantStatus : 18f, info);
                 return;
             }
             var p = new Projectile
@@ -76,7 +77,7 @@ namespace Runavelle.Core
                 TargetPos = _w.ClosestPoint(attacker.Position, target), Speed = a.ProjectileSpeed, Payload = info, Splash = a.Splash, Element = a.Element, Visual = visual,
             };
             if (grant != ElementId.None) p.GrantElement = grant;
-            p.GrantStatus = attacker.Buffs.GrantStatus;
+            p.GrantStatus = attacker.Buffs.GrantElement != ElementId.None ? attacker.Buffs.GrantStatus : 18f;
             _w.Projectiles.Add(p);
             _w.Emit(SimEventType.ProjectileFired, attacker.Position, 0, a.Element, attacker.Id, null, target.Id);
         }

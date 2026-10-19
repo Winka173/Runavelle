@@ -301,6 +301,8 @@ namespace Runavelle.Core
                 if (!reveal)
                     foreach (var b in _w.Buildings)
                         if (!b.Dead && !b.Ruined && b.Level.Attack != null && Vec2.Distance(b.Center, u.Position) <= def.StealthRange + 1f) { reveal = true; break; }
+                if (!reveal && _w.Mods.Has(Hook.SeerLantern) && _w.PlayerGeneral != null && _w.PlayerGeneral.State != UnitState.Downed &&
+                    Vec2.Distance(_w.PlayerGeneral.Position, u.Position) <= _w.Mods.HookValue(Hook.SeerLantern)) reveal = true;
                 if (reveal) { u.Stealthed = false; _w.Emit(SimEventType.Stealth, u.Position, 0, ElementId.Shadow, u.Id, "reveal"); }
             }
             if (def.Behavior == EnemyBehavior.ShieldCarrier)

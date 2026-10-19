@@ -67,6 +67,12 @@ namespace Runavelle.Core
             if (target.IsLarge) dmg *= info.LargeMult <= 0f ? 1f : info.LargeMult;
             if (target.IsFlying) dmg *= info.FlyerMult <= 0f ? 1f : info.FlyerMult;
             if (target.IsBoss && info.Source != SourceKind.Enemy) dmg *= 1f + Mods.Percent(Stat.BossDamage, Scope.Any);
+            if (info.Source != SourceKind.Enemy && target.Team == Team.Enemy && target is Unit hu)
+            {
+                if (Mods.Has(Hook.SiegeBreakers) && (hu.IsBoss || hu.Def.Behavior == EnemyBehavior.Siege || hu.Def.Behavior == EnemyBehavior.GateBreaker)) dmg *= 1f + Mods.HookValue(Hook.SiegeBreakers);
+                if (Mods.Has(Hook.SkyWatch) && hu.IsFlying) dmg *= 1f + Mods.HookValue(Hook.SkyWatch);
+                if (Mods.Has(Hook.FirstStrike) && !info.IsDot && !info.IsReaction && hu.Hp >= hu.MaxHp - 0.01f) dmg *= 1f + Mods.HookValue(Hook.FirstStrike);
+            }
             float vuln = target.Status.VulnAmount + BuffsOf(target).EnemyVuln;
             if (target.Status.Gauge[(int)ElementId.Shadow] >= StatusState.ReactThreshold) vuln += 0.2f;
             if (target.Status.Gauge[(int)ElementId.Light] >= StatusState.ReactThreshold) vuln += 0.1f;
@@ -76,6 +82,9 @@ namespace Runavelle.Core
             dmg *= 1f + Mods.Percent(Stat.DamageTaken, _w.ScopeOf(target), _w.ClassOf(target));
             float dr = BuffsOf(target).DamageReduction + target.Status.GuardAmount;
             if (target == _w.Castle && _w.CastleGuardTimer > 0f) dr += _w.CastleGuardAmount;
+            if (target == _w.Castle && Mods.Has(Hook.ManaShieldCastle)) dr += Mods.HookValue(Hook.ManaShieldCastle);
+            if (target is Unit gu && gu.Role == UnitRole.General && gu.IsPlayerControlled && Mods.Has(Hook.HeroicPresence) && _w.Castle != null && Vec2.Distance(gu.Position, _w.Castle.Center) <= 6f)
+                dr += Mods.HookValue(Hook.HeroicPresence);
             dmg *= 1f - Math.Min(0.8f, dr);
 
             // --- armor: physical hits only, never below 25%
@@ -113,7 +122,7 @@ namespace Runavelle.Core
 
             var attacker = _w.Get(info.SourceActorId);
             // --- reflect (Bastion walls / Fortress castle) vs melee attackers
-            if (target is Building rb && rb.Level.ReflectFraction > 0f && attacker is Unit au && au.Team == Team.Enemy && info.Source == SourceKind.Enemy && au.Attack.ProjectileSpeed <= 0f && dmg > 0f)
+            if (target is Building rb && (rb.Level.ReflectFraction > 0f || (rb.IsWallLike && Mods.Has(Hook.ThornWalls))) && attacker is Unit au && au.Team == Team.Enemy && info.Source == SourceKind.Enemy && au.Attack.ProjectileSpeed <= 0f && dmg > 0f)
             {
                 float refl = dmg * (rb.Level.ReflectFraction + (_w.Mods.Has(Hook.ThornWalls) ? _w.Mods.HookValue(Hook.ThornWalls) : 0f));
                 Deal(au, DamageInfo.Simple(refl, ElementId.None, 0f, SourceKind.Wall, rb.Id, rb.Level.Name));
@@ -127,6 +136,8 @@ namespace Runavelle.Core
             // Radiant Walls decree: attackers of walls/gates become Radiant (reveals stealth, sets up Light reactions)
             if (target is Building lw && lw.IsWallLike && Mods.Has(Hook.RadiantWalls) && attacker is Unit la && la.Team == Team.Enemy && !info.IsReaction && info.Source == SourceKind.Enemy)
                 ApplyElement(la, ElementId.Light, Mods.HookValue(Hook.RadiantWalls), DamageInfo.Simple(0, ElementId.Light, 0, SourceKind.Wall, lw.Id, lw.Level.Name));
+            if (target is Building fw && fw.IsWallLike && Mods.Has(Hook.FrostWalls) && attacker is Unit fa && fa.Team == Team.Enemy && !info.IsReaction && info.Source == SourceKind.Enemy)
+                ApplyElement(fa, ElementId.Ice, Mods.HookValue(Hook.FrostWalls), DamageInfo.Simple(0, ElementId.Ice, 0, SourceKind.Wall, fw.Id, fw.Level.Name));
             // Radiant targets heal nearby allies when struck by the player's side
             if (target.Team == Team.Enemy && info.Source != SourceKind.Enemy && target.Status.Gauge[(int)ElementId.Light] >= StatusState.ReactThreshold && target.Status.ReactionIcd[31] <= 0f)
             {
@@ -304,6 +315,8 @@ namespace Runavelle.Core
             float a = Math.Max(4f, src.Amount);
             float k = ReactionScale(t, src);
             _w.Analytics.AddReaction(r.Id, 0f);
+            _w.ReactionCounter++;
+            if (Mods.Has(Hook.ElementalOverflow) && _w.ReactionCounter % Math.Max(1, (int)Mods.HookValue(Hook.ElementalOverflow)) == 0) _w.PendingMana += 1;
             _w.Analytics.MaxReactionsInTick = Math.Max(_w.Analytics.MaxReactionsInTick, _w.ReactionsThisTick);
             _w.Emit(SimEventType.Reaction, p, 0f, src.Element, t.Id, r.Name, src.SourceActorId, r.Id);
             var tu = t as Unit;
@@ -315,7 +328,7 @@ namespace Runavelle.Core
                 case ReactionId.Overload:
                     var ov = ReactionHit(src, (30 + 1.2f * a) * k, ElementId.Fire);
                     ov.Knockback = 0.8f; ov.Origin = p;
-                    Aoe(victims, p, 2.0f, ov);
+                    Aoe(victims, p, 2.0f * (1f + (Mods.Has(Hook.ChainOverload) ? Mods.HookValue(Hook.ChainOverload) : 0f)), ov);
                     break;
                 case ReactionId.Melt:
                     t.Status.Gauge[(int)ElementId.Ice] = 0f;
@@ -534,10 +547,18 @@ namespace Runavelle.Core
             if (u.Role == UnitRole.General)
             {
                 u.State = UnitState.Downed;
-                u.DownedTimer = 12f;
+                u.DownedTimer = u.IsPlayerControlled && Mods.Has(Hook.FastRevive) ? Mods.HookValue(Hook.FastRevive) : 12f;
                 u.Status.Clear();
                 _w.Emit(SimEventType.GeneralDowned, u.Position, 12f, ElementId.None, u.Id, u.Def.Name);
                 OnKilled?.Invoke(t, info);
+                return;
+            }
+            if (u.Team == Team.Player && u.Role == UnitRole.Soldier && Mods.Has(Hook.ArcaneRebirth) && !_w.RebirthUsed)
+            {
+                _w.RebirthUsed = true;
+                u.Hp = u.MaxHp * 0.5f;
+                u.Status.Clear();
+                _w.Emit(SimEventType.GeneralRevived, u.Position, 0, ElementId.Light, u.Id, "rebirth");
                 return;
             }
             u.Dead = true;
@@ -545,6 +566,7 @@ namespace Runavelle.Core
             {
                 _w.Analytics.AddKill(u.Def.Id);
                 if (!u.Summoned) _w.PendingGold += (int)Math.Round(_w.Mods.Apply(u.Def.Bounty, Stat.Bounty, Scope.Any));
+                if (Mods.Has(Hook.ManaOnKill) && _w.Rng.Chance(Mods.HookValue(Hook.ManaOnKill))) _w.PendingMana += 1;
                 if (u.Status.Gauge[(int)ElementId.Shadow] >= StatusState.ReactThreshold)
                     _w.PendingMana += 1 + (Mods.Has(Hook.ShadowHarvest) ? (int)Mods.HookValue(Hook.ShadowHarvest) : 0);
                 _w.DeadEnemies.Add(u);

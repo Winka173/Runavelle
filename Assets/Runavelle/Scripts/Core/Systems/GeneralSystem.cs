@@ -142,6 +142,7 @@ namespace Runavelle.Core
                 foreach (var b in _w.Buildings)
                     if (b.IsWallLike && !b.Ruined && !b.Dead && Vec2.Distance(b.Center, g.Position) <= 8f) _combat.Heal(b, b.MaxHp * _w.Mods.HookValue(Hook.WallsMendOnUltimate));
             if (_w.Mods.Has(Hook.EchoUltimate) && g.IsPlayerControlled) g.UltCooldown *= 1f - _w.Mods.HookValue(Hook.EchoUltimate);
+            if (_w.Mods.Has(Hook.DoubleUltCharge) && g.IsPlayerControlled && !_w.DoubleUltUsed && _w.IsNight) { _w.DoubleUltUsed = true; g.UltCooldown = 0f; }
         }
 
         private DamageInfo Info(Unit g, AbilityEffect e, float power)

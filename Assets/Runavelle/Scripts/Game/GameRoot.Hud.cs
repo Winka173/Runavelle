@@ -174,6 +174,7 @@ namespace Runavelle.Game
             if (Gui.Btn(new Rect(fr.x + 20, fr.yMax - 76, 420, 64), "BẮT ĐẦU ĐÊM", true, Gui.ButtonBig, "red")) StartNightAction();
 
             DrawAiGeneralPanel(new Rect(Gui.Safe.xMax - 476, fr.yMax + 10, 460, 170));
+            DrawDayLoadout(new Rect(Gui.Safe.xMax - 476, fr.yMax + (s.AiSlotsAvailable > 0 ? 190 : 10), 460, 132));
             DrawBuildBar();
             if (BuildLevel == null && SelectedBuilding >= 0) DrawSelection();
             if (BuildLevel != null) DrawBuildHelp();
@@ -228,6 +229,29 @@ namespace Runavelle.Game
         }
 
         private int _aiPick;
+
+        private void DrawDayLoadout(Rect r)
+        {
+            var s = Session;
+            Gui.DrawPanel(r);
+            float y = r.y + 12;
+            foreach (var slot in new[] { EquipmentSlot.Weapon, EquipmentSlot.Relic })
+            {
+                var items = Db.Equipment.Values.Where(e => e.Slot == slot && Profile.IsUnlocked(e.Unlock, e.UnlockValue)).Select(e => e.Id).ToList();
+                items.Insert(0, null);
+                string cur = slot == EquipmentSlot.Weapon ? s.Setup.WeaponId : s.Setup.RelicId;
+                var eq = cur != null ? Db.Equipment[cur] : null;
+                if (eq != null) Gui.Icon(new Rect(r.x + 16, y, 46, 46), "icon/eq_" + eq.Id);
+                Gui.Text(new Rect(r.x + 68, y + 8, 300, 40), eq != null ? eq.Name : (slot == EquipmentSlot.Weapon ? "Vũ khí: trống" : "Di vật: trống"), Gui.LabelSmall);
+                if (Gui.Btn(new Rect(r.xMax - 76, y, 60, 48), "►"))
+                {
+                    int i = (Mathf.Max(0, items.IndexOf(cur)) + 1) % items.Count;
+                    s.SetEquipment(slot, items[i]);
+                    if (items[i] != null) ShowToast(Db.Equipment[items[i]].Name + ": " + Db.Equipment[items[i]].Description);
+                }
+                y += 56;
+            }
+        }
 
         private void DrawBuildBar()
         {
