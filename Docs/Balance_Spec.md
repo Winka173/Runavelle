@@ -63,3 +63,13 @@ Light/Shadow reactions observed in bot runs: Solar Flare, Eclipse, Haunted Arc, 
 `seeds=8 generals=all` (384 runs): **171 wins (45%)**, 0 exceptions, 165 s. Per map: Moonstone 51%, Ember 46%, Sunken 37%.
 General spread narrowed to 29–58% (Elowen 58% … Maelis 29%). Bot picks a random Kingdom Evolution and the first
 non-cursed decree; equipment is not used by the bot (loadout effects verified by tests instead).
+
+## Measured: Phase IV (8 maps, 6 factions, 11 bosses)
+`seeds=2 maps=all generals=all` (256 runs): **183 wins (71%)**, 0 exceptions, 193 s.
+Per map: Shadowfen 100%, Moonstone 94%, Stormcliff 88%, Frosthaven 88%, Sunken 84%, Ember 53%, Shattered Crown 41%, Dawnspire 25%.
+General spread 56–81% (Aurelia/Brannoc/Kaelen 81% … Seraphine 56%).
+The jump from 45% is mostly the General-trap fix (houses no longer seal the General in; previously the bot General
+sat idle for whole nights on many seeds). Tuning during the phase: Siege Titan 1350→1150 HP, armour 10→6, one boulder
+per summon; Catapult unlock 5→7; early per-type cap (≤2 of a non-swarm type through night 4) and a flyer cap
+(2 + 1.5×night). Open: Shadowfen's mist is too weak against the bot (100%) and Dawnspire is the hardest map —
+both to be revisited with Ascension in Phase V.
