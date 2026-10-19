@@ -58,6 +58,19 @@ Status: **PASS** (ran and passed), **FAIL**, **NOT RUN** (with reason). Nothing 
 | Side objective deterministic + met/unmet; houses cannot seal the General in (path still exists) | PASS |
 | Bot survives the first three nights on each new map (seed 5) | PASS |
 
+## Phase V tests (added) — PASS
+| Test | Status |
+|---|---|
+| 10 Ascension tiers each observable (start gold, draft size, slots, repairs, budget, affixes, enemy/boss stats, reward) | PASS |
+| Ascension 10 adds the map's night-10 boss to the final night (2 maps) | PASS |
+| Challenges: bans with reason, Blitz = 10 nights with final boss on night 10, Cursed Crown = 2 cursed rules (not picks), Glass Castle, Pauper | PASS |
+| Challenge curses and endless mutators survive save/load | PASS |
+| Endless continues past night 15 (bot), stacked mutators, no boss on night 17; boss rotation every 5 nights deterministic | PASS |
+| Share codes round-trip (case/dash-insensitive), checksum rejects tampering, Blitz restores 10 nights | PASS |
+| Daily run identical for the same date, varies across dates | PASS |
+| Profile: mastery formula, achievements (asc/challenge/flawless), cosmetics, serialization round-trip; endless past campaign = victory; retire | PASS |
+| Full bot runs at A10 and with 4 challenges complete without exceptions | PASS |
+
 ## Compile checks
 | Check | Status |
 |---|---|

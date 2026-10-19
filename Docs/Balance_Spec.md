@@ -73,3 +73,18 @@ sat idle for whole nights on many seeds). Tuning during the phase: Siege Titan 1
 per summon; Catapult unlock 5→7; early per-type cap (≤2 of a non-swarm type through night 4) and a flyer cap
 (2 + 1.5×night). Open: Shadowfen's mist is too weak against the bot (100%) and Dawnspire is the hardest map —
 both to be revisited with Ascension in Phase V.
+
+## Measured: Phase V (Ascension, Endless, Challenges)
+Ascension sweep, `seeds=4 maps=all` (96 runs per tier, Roland/Lyra/Kaelen), 0 exceptions:
+
+| Ascension | 0 | 1 | 3 | 5 | 7 | 10 |
+|---|---|---|---|---|---|---|
+| Bot win rate | 63% | 52% | 43% | 47% | 29% | 14% |
+
+Endless (`endless`, Moonstone/Frosthaven/Dawnspire, 18 runs): the bot falls between night 6 (Dawnspire) and 29;
+Moonstone 21–29, Frosthaven 14–24. Before the per-night escalation (+15% HP, +8% damage, +6% troops) bots reached
+night 44–56, so the escalation was added.
+Challenges (`seeds=2`, Moonstone/Stormcliff/Sunken, 18 runs each): No Walls 89%, Arcane Only 89% (after the bot
+learned to build magic towers when archers are banned; 22% before), Lone General 100%, Horde 100%, Pauper 78%,
+Glass Castle 72%, Cursed Crown 94%, Blitz 72%. Lone General and Horde stayed at 100% even after a nerf — they are
+easy for the bot; human difficulty unmeasured.

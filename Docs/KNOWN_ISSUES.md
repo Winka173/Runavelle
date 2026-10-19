@@ -14,3 +14,6 @@
   compile-checked; the snapshot renderer shows base terrain, not these overlays.
 - Bot win rates rose sharply in Phase IV mainly because of the General-trap fix; difficulty for skilled players is
   expected to come from Ascension (Phase V).
+- Phase V: the daily run is offline-only (date-seeded; no leaderboard). Share codes encode map/General order indexes,
+  so they stay valid only while content order is append-only. Cosmetics are simple (badge ring, flag) and were only
+  compile-checked, never seen in Unity. The share-code text field uses Unity's default IMGUI skin.

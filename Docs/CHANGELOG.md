@@ -1,5 +1,20 @@
 # Changelog
 
+## Phase V — Endless, Ascension, Mastery, Retention
+- Ascension 1–10 (cumulative): enemy HP, lower start gold, elite/boss affixes (Swift/Bulwark/Frenzied/Warded), bigger
+  waves, 2-option decree drafts without reroll, 22-building cap, −25% night reward, tougher bosses, 60% dawn repairs,
+  and the map's night-10 boss joins the final night.
+- Endless: continue after night 15; every night adds +15% enemy HP / +8% damage / +6% troops plus one seeded mutator;
+  a seeded boss every 5 nights; "Retire" after any won night (counts as victory). Past-campaign endless runs count as wins.
+- 8 Challenge runs (No Walls, Arcane Only, Lone General, Pauper, Glass Castle, Horde, Cursed Crown, Blitz 10 nights).
+- Offline daily run (same map/General/challenge/seed for everyone on a UTC date), daily best score kept locally.
+- Share codes `RV1-…` (map, General, seed, ascension, endless, challenge; checksummed) – enter on the title screen,
+  copy from the end screen.
+- 22 achievements, General mastery levels (Tân binh → Huyền thoại) with progress bars, cosmetics (General badge
+  rings, 3 castle banners) selectable in the profile; mastery bonus for challenges/dailies/ascension/endless nights.
+- One-time hints for hazards, side objectives, endless and affixes; "Slow nights (×0.75)" accessibility option.
+- Harness: `challenge=<id>` and `endless` options; AutoPlayer respects challenge bans.
+
 ## Phase IV — Siegefronts (maps, factions, enemies, bosses)
 - 6 factions with real rosters: Marauders, Shadow Court, Undead Legion, Siege Constructs, Ashborn, Frostbound, Wild Tempest
   (+28 enemies → 43 regular enemies). New mechanics: self-exploding Bomber (no bounty), Zombie "undying" (rises once
