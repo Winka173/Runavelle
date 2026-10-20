@@ -12,3 +12,13 @@ jobs:
       - run: dotnet test Tools/Tests -v q
       - run: ./Tools/fetch_unity_refs.sh && dotnet build Tools/UnityCheck -v q
       - run: dotnet run --project Tools/Sim -c Release -- seeds=2
+  art:
+    # Art Quality Validator: self-tests + the shipped sprites (exit 1 on any unwaived BLOCK)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install numpy pillow
+      - run: python -m unittest discover -s Tools/ArtPipeline/tests -v
+      - run: python Tools/ArtPipeline/validator.py --out Build/art_validation
