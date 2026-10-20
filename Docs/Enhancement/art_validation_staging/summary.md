@@ -1,6 +1,6 @@
-# Art validation — 2026-10-20T02:24:12
+# Art validation — 2026-10-20T09:03:04
 
-Assets: **16** · BLOCK: **0** · WARN: **0** · waived: 0 · texture memory (RGBA32, uncompressed): 6.0 MB
+Assets: **555** · BLOCK: **0** · WARN: **0** · waived: 16 · texture memory (RGBA32, uncompressed): 35.3 MB
 
 | Check | Count |
 |---|---|

@@ -8,3 +8,8 @@
 - `artpipe.py render` downsamples `_raw` 2× renders; validator ignores `_`-prefixed intermediate folders.
 - Castle tiers remade (canvas 256×384, pivot = footprint centre) + 12 kingdom-dressed forms; overlay props only used when a dressed sprite is missing.
 - `ArtKeys.CastleVariant`; `ArtReferenceTests` covers tier × kingdom.
+
+## FQ7 — procedural asset refine
+- `artlib.Canvas`: invisible 64 px safety margin; `save` grows the sprite only where content spills (touching counts) and compensates the pivot; `write_manifest` unifies frame groups (`unit/ enemy/ general/` `*_N`).
+- 451 sprites regenerated (mostly un-cropped shadows/weapons), drone ×1.6, shadow icon rim; 2 reasoned waivers (brannoc_1 gallop hoof, storm serpent lunge).
+- `artpipe generate` keeps Blender renders as precedence over procedural fallbacks.

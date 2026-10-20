@@ -69,6 +69,9 @@ def cmd_generate(a):
         print("generate FAILED (see Build/art_pipeline.log)")
         return 1
     m = load_manifest(STAGING)
+    # precedence: a Blender render of a key supersedes its procedural fallback (e.g. castle tiers)
+    if os.path.exists(os.path.join(STAGING, "_raw", "render_manifest.json")):
+        m.update(downsample_raw(STAGING))
     for k in m:
         p = os.path.join(STAGING, k + ".png")
         if os.path.exists(p):

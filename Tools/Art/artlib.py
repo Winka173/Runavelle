@@ -40,9 +40,13 @@ def darken(c, t):
 class Canvas:
     def __init__(self, w, h):
         self.w, self.h = w, h
-        self.surface = skia.Surface(w, h)
+        # invisible safety margin: strokes/weapons drawn past the nominal canvas are kept and the saved
+        # sprite grows to fit (see save / write_manifest), instead of being silently cropped
+        self.pad = SAFE_PAD
+        self.surface = skia.Surface(w + 2 * self.pad, h + 2 * self.pad)
         self.c = self.surface.getCanvas()
         self.c.clear(skia.ColorTRANSPARENT)
+        self.c.translate(self.pad, self.pad)
 
     # ---------------------------------------------------------------- primitives
     def paint(self, col, a=255, stroke=0, aa=True, shader=None, blur=0):
@@ -154,10 +158,11 @@ class Canvas:
     def save(self, key, pivot=None, ppu=TILE):
         path = os.path.join(OUT_ROOT, key + ".png")
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        img = self.surface.makeImageSnapshot()
-        img.save(path, skia.kPNG)
+        pad = getattr(self, "pad", 0)
         px, py = pivot if pivot else (self.w / 2, self.h / 2)
-        MANIFEST[key] = {"w": self.w, "h": self.h, "px": round(px / self.w, 4), "py": round(1 - py / self.h, 4), "ppu": ppu, "src": _caller_module()}
+        arr = self.surface.makeImageSnapshot().toarray()
+        _PENDING[key] = (arr, pad, self.w, self.h, px, py, ppu)
+        _write_crop(key, _spill(key, arr, pad, self.w, self.h), _caller_module())
         return path
 
 
@@ -171,7 +176,56 @@ def _caller_module():
     return "unknown"
 
 
+SAFE_PAD = 64
+EXPAND_PREFIXES = ("unit/", "enemy/", "general/", "building/", "decor/")  # sprites allowed to grow past their nominal canvas
+_PENDING = {}
+
+
+def _spill(key, arr, pad, w, h):
+    """Extra pixels (l, t, r, b) needed so nothing opaque is cut, +2 px breathing room."""
+    if not pad or not key.startswith(EXPAND_PREFIXES):
+        return (0, 0, 0, 0)
+    import numpy as np
+    ys, xs = np.nonzero(arr[:, :, 3] > 0)
+    if len(xs) == 0:
+        return (0, 0, 0, 0)
+    x0, x1, y0, y1 = xs.min() - pad, xs.max() - pad, ys.min() - pad, ys.max() - pad
+    g = lambda v: 0 if v < 0 else min(pad, int(v) + 2)  # v == 0: touching the edge also counts
+    return (g(-x0), g(-y0), g(x1 - (w - 1)), g(y1 - (h - 1)))
+
+
+def _write_crop(key, spill, src):
+    import numpy as np
+    arr, pad, w, h, px, py, ppu = _PENDING[key]
+    l, t, r, b = spill
+    crop = np.ascontiguousarray(arr[pad - t:pad + h + b, pad - l:pad + w + r])
+    W, H = w + l + r, h + t + b
+    skia.Image.fromarray(crop, colorType=skia.kBGRA_8888_ColorType, alphaType=skia.kUnpremul_AlphaType).save(os.path.join(OUT_ROOT, key + ".png"), skia.kPNG)
+    MANIFEST[key] = {"w": W, "h": H, "px": round((px + l) / W, 4), "py": round(1 - (py + t) / H, 4), "ppu": ppu, "src": src}
+
+
+def _frame_base(key):
+    head, _, tail = key.rpartition("_")
+    return head if tail.isdigit() and key.startswith(("unit/", "enemy/", "general/")) else key
+
+
+def _unify_frames():
+    """Frames of one animation must share size + pivot: grow every frame by the group's max spill."""
+    groups = {}
+    for k in _PENDING:
+        groups.setdefault(_frame_base(k), []).append(k)
+    for base, keys in groups.items():
+        if len(keys) < 2:
+            continue
+        sp = [_spill(k, *_PENDING[k][:4]) for k in keys]
+        m = tuple(max(s[i] for s in sp) for i in range(4))
+        for k, s in zip(keys, sp):
+            if s != m:
+                _write_crop(k, m, MANIFEST[k]["src"])
+
+
 def write_manifest():
+    _unify_frames()
     path = os.path.join(OUT_ROOT, "manifest.json")
     with open(path, "w") as f:
         json.dump(MANIFEST, f, indent=0, sort_keys=True)

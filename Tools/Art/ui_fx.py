@@ -62,6 +62,8 @@ EL_GLYPH = {'fire': 'flame', 'water': 'drop', 'lightning': 'bolt', 'ice': 'flake
 def icons():
     for el, g in EL_GLYPH.items():
         cv = Canvas(64, 64)
+        if el == 'shadow':
+            cv.circle(32, 32, 30.5, rgb('#d9ccff'))  # pale rim: a dark-violet disc vanished on night ground (validator: readability)
         cv.circle(32, 32, 28, INK)
         cv.circle(32, 32, 25, darken(ELEMENT_COL[el], 0.55))
         glyph(cv, g, 32, 33, 17, ELEMENT_COL[el])

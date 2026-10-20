@@ -1,1 +1,17 @@
 asset,category,severity,check,waived,message
+decor/bird_0,decor/,WARN,readability,True,low contrast vs day/night ground (min ratio 1.18 < 1.6)
+decor/bird_1,decor/,WARN,readability,True,low contrast vs day/night ground (min ratio 1.18 < 1.6)
+decor/reeds_0,decor/,WARN,readability,True,low contrast vs day/night ground (min ratio 1.52 < 1.6)
+enemy/boss_storm_serpent_0,enemy/boss_,WARN,foot_pivot,True,pivot 19px vs lowest opaque pixel 47px from bottom (> 14px): units will float or sink
+enemy/boss_storm_serpent_1,enemy/boss_,WARN,foot_pivot,True,pivot 19px vs lowest opaque pixel 41px from bottom (> 14px): units will float or sink
+enemy/boss_tempest_roc_0,enemy/boss_,WARN,foot_pivot,True,pivot 19px vs lowest opaque pixel 64px from bottom (> 14px): units will float or sink
+enemy/boss_tempest_roc_1,enemy/boss_,WARN,foot_pivot,True,pivot 19px vs lowest opaque pixel 45px from bottom (> 14px): units will float or sink
+enemy/clockwork_drone_0,enemy/,WARN,foot_pivot,True,pivot 14px vs lowest opaque pixel 36px from bottom (> 10px): units will float or sink
+enemy/clockwork_drone_1,enemy/,WARN,foot_pivot,True,pivot 14px vs lowest opaque pixel 36px from bottom (> 10px): units will float or sink
+enemy/thunder_bird_0,enemy/,WARN,foot_pivot,True,pivot 14px vs lowest opaque pixel 37px from bottom (> 10px): units will float or sink
+enemy/thunder_bird_1,enemy/,WARN,foot_pivot,True,pivot 14px vs lowest opaque pixel 28px from bottom (> 10px): units will float or sink
+general/brannoc_1,general/,WARN,foot_pivot,True,pivot 16px vs lowest opaque pixel 7px from bottom (> 8px): units will float or sink
+ui/joystick_base,ui/,WARN,halo,True,bright fringe on 54% of edge pixels (white halo / un-premultiplied edge)
+ui/title_bg,ui/,BLOCK,ppu,True,ppu 100 != project ppu 64
+ui/title_bg,ui/,WARN,no_alpha,True,sprite has no transparency (box silhouette)
+enemy/boss_storm_serpent,frames,WARN,frame_jump,True,boss_storm_serpent_0→boss_storm_serpent_1 silhouette IoU 0.44 < 0.55 (identity drift / popping)

@@ -1,105 +1,17 @@
 asset,category,severity,check,waived,message
-building/magic_spire_earth,building/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped"
-building/magic_spire_fire,building/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped"
-building/magic_spire_ice,building/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped"
-building/magic_spire_light,building/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped"
-building/magic_spire_lightning,building/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped"
-building/magic_spire_shadow,building/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped"
-building/magic_spire_water,building/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped"
-building/magic_spire_wind,building/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped"
 decor/bird_0,decor/,WARN,readability,True,low contrast vs day/night ground (min ratio 1.18 < 1.6)
 decor/bird_1,decor/,WARN,readability,True,low contrast vs day/night ground (min ratio 1.18 < 1.6)
-decor/mountain_3,decor/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [0, 34, 110, 109]) — silhouette may be cropped"
 decor/reeds_0,decor/,WARN,readability,True,low contrast vs day/night ground (min ratio 1.52 < 1.6)
-enemy/boss_bone_colossus_0,enemy/boss_,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [20, 0, 146, 176]) — silhouette may be cropped"
-enemy/boss_bone_colossus_1,enemy/boss_,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [20, 0, 183, 176]) — silhouette may be cropped"
-enemy/boss_hollow_emperor_0,enemy/boss_,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [31, 0, 142, 184]) — silhouette may be cropped"
-enemy/boss_hollow_emperor_1,enemy/boss_,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [31, 0, 191, 184]) — silhouette may be cropped"
-enemy/boss_siege_lord_0,enemy/boss_,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [28, 0, 146, 184]) — silhouette may be cropped"
-enemy/boss_siege_lord_1,enemy/boss_,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [28, 0, 191, 184]) — silhouette may be cropped"
-enemy/boss_siege_titan_1,enemy/boss_,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [15, 2, 175, 168]) — silhouette may be cropped"
-enemy/boss_storm_serpent_0,enemy/boss_,WARN,foot_pivot,True,pivot 12px vs lowest opaque pixel 40px from bottom (> 14px): units will float or sink
-enemy/boss_storm_serpent_1,enemy/boss_,WARN,foot_pivot,True,pivot 12px vs lowest opaque pixel 34px from bottom (> 14px): units will float or sink
-enemy/boss_tempest_roc_0,enemy/boss_,WARN,foot_pivot,True,pivot 8px vs lowest opaque pixel 53px from bottom (> 14px): units will float or sink
-enemy/boss_tempest_roc_1,enemy/boss_,WARN,foot_pivot,True,pivot 8px vs lowest opaque pixel 34px from bottom (> 14px): units will float or sink
-enemy/catapult_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [14, 0, 97, 87]) — silhouette may be cropped"
-enemy/clockwork_drone_0,enemy/,WARN,foot_pivot,True,pivot 8px vs lowest opaque pixel 24px from bottom (> 10px): units will float or sink
-enemy/clockwork_drone_0,enemy/,WARN,scale,False,"visible height 0.34 world units outside [0.5, 3.4]"
-enemy/clockwork_drone_1,enemy/,WARN,foot_pivot,True,pivot 8px vs lowest opaque pixel 24px from bottom (> 10px): units will float or sink
-enemy/clockwork_drone_1,enemy/,WARN,scale,False,"visible height 0.41 world units outside [0.5, 3.4]"
-enemy/crypt_knight_0,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [9, 0, 72, 96]) — silhouette may be cropped"
-enemy/crypt_knight_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [9, 0, 100, 96]) — silhouette may be cropped"
-enemy/cyclone_shaman_0,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [17, 0, 58, 72]) — silhouette may be cropped"
-enemy/cyclone_shaman_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [17, 0, 58, 72]) — silhouette may be cropped"
-enemy/fallen_templar_0,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [6, 0, 68, 88]) — silhouette may be cropped"
-enemy/fallen_templar_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [6, 0, 91, 88]) — silhouette may be cropped"
-enemy/flame_priest_0,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [17, 0, 58, 72]) — silhouette may be cropped"
-enemy/flame_priest_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [17, 0, 58, 72]) — silhouette may be cropped"
-enemy/glacier_golem_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [13, 4, 119, 112]) — silhouette may be cropped"
-enemy/hex_shaman_0,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [15, 0, 57, 72]) — silhouette may be cropped"
-enemy/hex_shaman_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [15, 0, 57, 72]) — silhouette may be cropped"
-enemy/magma_brute_0,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [12, 0, 81, 96]) — silhouette may be cropped"
-enemy/magma_brute_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [12, 0, 103, 96]) — silhouette may be cropped"
-enemy/orc_brute_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [16, 7, 95, 88]) — silhouette may be cropped"
-enemy/ram_crew_0,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [9, 17, 111, 88]) — silhouette may be cropped"
-enemy/ram_crew_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [9, 17, 111, 88]) — silhouette may be cropped"
-enemy/rune_sentinel_0,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [0, 0, 69, 72]) — silhouette may be cropped"
-enemy/rune_sentinel_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [0, 0, 79, 72]) — silhouette may be cropped"
-enemy/siege_golem_0,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [10, 0, 90, 104]) — silhouette may be cropped"
-enemy/siege_golem_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [10, 0, 111, 104]) — silhouette may be cropped"
-enemy/sky_lancer_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [19, 10, 111, 100]) — silhouette may be cropped"
-enemy/thunder_bird_0,enemy/,WARN,foot_pivot,True,pivot 8px vs lowest opaque pixel 31px from bottom (> 10px): units will float or sink
-enemy/thunder_bird_1,enemy/,WARN,foot_pivot,True,pivot 8px vs lowest opaque pixel 22px from bottom (> 10px): units will float or sink
-enemy/yeti_0,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [14, 0, 79, 96]) — silhouette may be cropped"
-enemy/yeti_1,enemy/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [14, 0, 79, 96]) — silhouette may be cropped"
-general/aurelia_1,general/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [14, 1, 111, 104]) — silhouette may be cropped"
-general/brannoc_1,general/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [33, 2, 127, 124]) — silhouette may be cropped"
-general/brannoc_1,general/,WARN,foot_pivot,False,pivot 12px vs lowest opaque pixel 3px from bottom (> 8px): units will float or sink
-general/corvin_1,general/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [12, 16, 111, 104]) — silhouette may be cropped"
-general/maelis_1,general/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [14, 13, 111, 104]) — silhouette may be cropped"
-general/maren_1,general/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [27, 19, 111, 104]) — silhouette may be cropped"
-general/pyra_0,general/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [26, 0, 79, 104]) — silhouette may be cropped"
-general/pyra_1,general/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [26, 0, 79, 104]) — silhouette may be cropped"
-general/roland_0,general/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [11, 0, 78, 104]) — silhouette may be cropped"
-general/roland_1,general/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [11, 0, 103, 104]) — silhouette may be cropped"
-icon/el_shadow,icon/,WARN,readability,False,low contrast vs day/night ground (min ratio 1.55 < 1.6)
+enemy/boss_storm_serpent_0,enemy/boss_,WARN,foot_pivot,True,pivot 19px vs lowest opaque pixel 47px from bottom (> 14px): units will float or sink
+enemy/boss_storm_serpent_1,enemy/boss_,WARN,foot_pivot,True,pivot 19px vs lowest opaque pixel 41px from bottom (> 14px): units will float or sink
+enemy/boss_tempest_roc_0,enemy/boss_,WARN,foot_pivot,True,pivot 19px vs lowest opaque pixel 64px from bottom (> 14px): units will float or sink
+enemy/boss_tempest_roc_1,enemy/boss_,WARN,foot_pivot,True,pivot 19px vs lowest opaque pixel 45px from bottom (> 14px): units will float or sink
+enemy/clockwork_drone_0,enemy/,WARN,foot_pivot,True,pivot 14px vs lowest opaque pixel 36px from bottom (> 10px): units will float or sink
+enemy/clockwork_drone_1,enemy/,WARN,foot_pivot,True,pivot 14px vs lowest opaque pixel 36px from bottom (> 10px): units will float or sink
+enemy/thunder_bird_0,enemy/,WARN,foot_pivot,True,pivot 14px vs lowest opaque pixel 37px from bottom (> 10px): units will float or sink
+enemy/thunder_bird_1,enemy/,WARN,foot_pivot,True,pivot 14px vs lowest opaque pixel 28px from bottom (> 10px): units will float or sink
+general/brannoc_1,general/,WARN,foot_pivot,True,pivot 16px vs lowest opaque pixel 7px from bottom (> 8px): units will float or sink
 ui/joystick_base,ui/,WARN,halo,True,bright fringe on 54% of edge pixels (white halo / un-premultiplied edge)
 ui/title_bg,ui/,BLOCK,ppu,True,ppu 100 != project ppu 64
 ui/title_bg,ui/,WARN,no_alpha,True,sprite has no transparency (box silhouette)
-unit/cavalry_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [24, 0, 86, 88]) — silhouette may be cropped"
-unit/cavalry_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [24, 0, 95, 91]) — silhouette may be cropped"
-unit/cavalry_a_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [24, 0, 86, 88]) — silhouette may be cropped"
-unit/cavalry_a_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [24, 0, 95, 91]) — silhouette may be cropped"
-unit/cavalry_b_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [24, 0, 86, 88]) — silhouette may be cropped"
-unit/cavalry_b_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [24, 0, 95, 91]) — silhouette may be cropped"
-unit/elementalknight_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [15, 0, 56, 72]) — silhouette may be cropped"
-unit/elementalknight_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [15, 0, 78, 72]) — silhouette may be cropped"
-unit/elementalknight_a_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [15, 0, 56, 72]) — silhouette may be cropped"
-unit/elementalknight_a_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [15, 0, 78, 72]) — silhouette may be cropped"
-unit/elementalknight_b_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [15, 0, 56, 72]) — silhouette may be cropped"
-unit/elementalknight_b_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [15, 0, 78, 72]) — silhouette may be cropped"
-unit/griffinrider_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [13, 13, 95, 84]) — silhouette may be cropped"
-unit/griffinrider_a_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [13, 13, 95, 84]) — silhouette may be cropped"
-unit/griffinrider_b_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [13, 13, 95, 84]) — silhouette may be cropped"
-unit/knight_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [6, 0, 57, 72]) — silhouette may be cropped"
-unit/knight_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [6, 0, 69, 72]) — silhouette may be cropped"
-unit/knight_a_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [6, 0, 57, 72]) — silhouette may be cropped"
-unit/knight_a_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [6, 0, 69, 72]) — silhouette may be cropped"
-unit/knight_b_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [6, 0, 57, 72]) — silhouette may be cropped"
-unit/knight_b_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [6, 0, 69, 72]) — silhouette may be cropped"
-unit/mage_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [17, 0, 58, 72]) — silhouette may be cropped"
-unit/mage_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [17, 0, 58, 72]) — silhouette may be cropped"
-unit/mage_a_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [17, 0, 58, 72]) — silhouette may be cropped"
-unit/mage_a_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [17, 0, 58, 72]) — silhouette may be cropped"
-unit/mage_b_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [17, 0, 58, 72]) — silhouette may be cropped"
-unit/mage_b_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [17, 0, 58, 72]) — silhouette may be cropped"
-unit/runegolem_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [9, 0, 76, 88]) — silhouette may be cropped"
-unit/runegolem_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [9, 0, 95, 88]) — silhouette may be cropped"
-unit/runegolem_a_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [9, 0, 76, 88]) — silhouette may be cropped"
-unit/runegolem_a_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [9, 0, 95, 88]) — silhouette may be cropped"
-unit/runegolem_b_0,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [9, 0, 76, 88]) — silhouette may be cropped"
-unit/runegolem_b_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [9, 0, 95, 88]) — silhouette may be cropped"
-unit/spearman_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [18, 9, 79, 72]) — silhouette may be cropped"
-unit/spearman_a_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [18, 9, 79, 72]) — silhouette may be cropped"
-unit/spearman_b_1,unit/,WARN,clipped,False,"opaque pixels touch the canvas edge (bbox [18, 9, 79, 72]) — silhouette may be cropped"
-enemy/boss_storm_serpent,frames,WARN,frame_jump,False,boss_storm_serpent_0→boss_storm_serpent_1 silhouette IoU 0.44 < 0.55 (identity drift / popping)
+enemy/boss_storm_serpent,frames,WARN,frame_jump,True,boss_storm_serpent_0→boss_storm_serpent_1 silhouette IoU 0.44 < 0.55 (identity drift / popping)

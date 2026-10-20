@@ -1,58 +1,74 @@
 {
 "building/archer_1": {
-"h": 240,
+"h": 253,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2833,
+"py": 0.3202,
+"sha256": "dbfdc6c30c05d2a3",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/archer_2": {
-"h": 240,
+"h": 253,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2833,
+"py": 0.3202,
+"sha256": "bfc85261f0533c5f",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/archer_3a": {
-"h": 240,
+"h": 253,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2833,
+"py": 0.3202,
+"sha256": "46303fb1527d86bb",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/archer_3b": {
-"h": 240,
+"h": 253,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2833,
+"py": 0.3202,
+"sha256": "f79a5cffb7f37245",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/barracks_1": {
-"h": 204,
+"h": 218,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3333,
+"py": 0.3761,
+"sha256": "4ea8b1b44b85fb71",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/barracks_2": {
-"h": 204,
+"h": 218,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3333,
+"py": 0.3761,
+"sha256": "a2f9ba60cdd04fea",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/barracks_elite": {
-"h": 204,
+"h": 218,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3333,
+"py": 0.3761,
+"sha256": "8f305231ba8bfc7b",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/barracks_legion": {
-"h": 204,
+"h": 218,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3333,
+"py": 0.3761,
+"sha256": "39a9806f4d7c3e8b",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/castle_1": {
@@ -200,24 +216,30 @@
 "w": 256
 },
 "building/emblem_arcanum": {
-"h": 128,
+"h": 130,
 "ppu": 64,
 "px": 0.5,
-"py": 0.0312,
+"py": 0.0462,
+"sha256": "374071027ae75f5b",
+"src": "Tools/Art/ui_fx.py",
 "w": 96
 },
 "building/emblem_fortress": {
-"h": 128,
+"h": 130,
 "ppu": 64,
 "px": 0.5,
-"py": 0.0312,
+"py": 0.0462,
+"sha256": "40ea8506ea736a2a",
+"src": "Tools/Art/ui_fx.py",
 "w": 96
 },
 "building/emblem_legion": {
-"h": 128,
+"h": 130,
 "ppu": 64,
 "px": 0.5,
-"py": 0.0312,
+"py": 0.0462,
+"sha256": "783e84cc32f78700",
+"src": "Tools/Art/ui_fx.py",
 "w": 96
 },
 "building/gate_bastion_h": {
@@ -225,307 +247,395 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "a952b45c2213a6f7",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 76
 },
 "building/gate_bastion_v": {
-"h": 112,
+"h": 114,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2857,
-"w": 64
+"py": 0.2982,
+"sha256": "88dc0a1a3d5e6c88",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 70
 },
 "building/gate_rune_h": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "5f658e2ad552b4df",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 76
 },
 "building/gate_rune_v": {
-"h": 112,
+"h": 114,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2857,
-"w": 64
+"py": 0.2982,
+"sha256": "31e6ac4c77365e26",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 70
 },
 "building/gate_stone_h": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "06679e369b9a4ac2",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 76
 },
 "building/gate_stone_v": {
-"h": 112,
+"h": 114,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2857,
-"w": 64
+"py": 0.2982,
+"sha256": "73e4f3991d8fe80c",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 70
 },
 "building/gate_wood_h": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "b0d30ae95f68d6df",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 76
 },
 "building/gate_wood_v": {
-"h": 112,
+"h": 114,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2857,
-"w": 64
+"py": 0.2982,
+"sha256": "2db79e360f4610bc",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 70
 },
 "building/house_1": {
-"h": 192,
+"h": 206,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3542,
+"py": 0.3981,
+"sha256": "567fc8e4974d48d0",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/house_2": {
-"h": 192,
+"h": 206,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3542,
+"py": 0.3981,
+"sha256": "6b39303497e1df48",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/house_3a": {
-"h": 192,
+"h": 206,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3542,
+"py": 0.3981,
+"sha256": "af9cf631e37796c8",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/house_3b": {
-"h": 192,
+"h": 206,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3542,
+"py": 0.3981,
+"sha256": "9b83a5bc3a8f1368",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_1_earth": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "c7f6d45b724ae7d0",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_1_fire": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "5a52545a54fb0524",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_1_ice": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "82d8861424b46292",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_1_light": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "43dfdb73e31a9655",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_1_lightning": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "14f60f2ef89a1bcd",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_1_shadow": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "32947432b16727f1",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_1_water": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "b2928d4b3091dd53",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_1_wind": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "11768e25cf355ec5",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_2_earth": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "16f6a94b622e2389",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_2_fire": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "e7baa8bfcd8d56af",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_2_ice": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "42400625817dd682",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_2_light": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "0febb6eb3e7019e6",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_2_lightning": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "7052f2dfdba70fd4",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_2_shadow": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "643a2f8b9a09e6c9",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_2_water": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "8392118cfe9fe6e4",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_2_wind": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "635027c86db29398",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_catalyst_earth": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "5cbd18cedfa10858",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_catalyst_fire": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "4268654241c0efee",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_catalyst_ice": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "4b5dde0bb8aac826",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_catalyst_light": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "a32ffe2b0e430cdc",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_catalyst_lightning": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "b9ffd96a447c05af",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_catalyst_shadow": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "d2febd6b291fb2ff",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_catalyst_water": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "7d6e312a4486dbcc",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_catalyst_wind": {
-"h": 248,
+"h": 261,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.3103,
+"sha256": "a51cb0ba0b07f380",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_spire_earth": {
-"h": 248,
+"h": 278,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.2914,
+"sha256": "77f022c5aa2995ff",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_spire_fire": {
-"h": 248,
+"h": 278,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.2914,
+"sha256": "1b98554262ab4820",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_spire_ice": {
-"h": 248,
+"h": 278,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.2914,
+"sha256": "eb0d86f82001b9d5",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_spire_light": {
-"h": 248,
+"h": 278,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.2914,
+"sha256": "4d6dcc225794f4bd",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_spire_lightning": {
-"h": 248,
+"h": 278,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.2914,
+"sha256": "6f021341fda24442",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_spire_shadow": {
-"h": 248,
+"h": 278,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.2914,
+"sha256": "09fc8b7babb591ca",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_spire_water": {
-"h": 248,
+"h": 278,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.2914,
+"sha256": "13daf9dad817cd50",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/magic_spire_wind": {
-"h": 248,
+"h": 278,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2742,
+"py": 0.2914,
+"sha256": "c7ca4d805f9de6ab",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/prop_arcanum": {
@@ -545,22 +655,28 @@
 "building/prop_legion": {
 "h": 96,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.0417,
-"w": 48
+"sha256": "73fd9fbbc5cb24fd",
+"src": "Tools/Art/fx_feel.py",
+"w": 50
 },
 "building/ruin_1": {
 "h": 88,
 "ppu": 64,
 "px": 0.5,
 "py": 0.4091,
+"sha256": "cc94fa4f95a46593",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 88
 },
 "building/ruin_2": {
-"h": 152,
+"h": 155,
 "ppu": 64,
 "px": 0.5,
-"py": 0.4474,
+"py": 0.4581,
+"sha256": "d03f08bb1b60d269",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/ruin_3": {
@@ -568,34 +684,44 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.463,
+"sha256": "e807a55bc6bc5458",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 216
 },
 "building/shrine_1": {
-"h": 220,
+"h": 233,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3091,
+"py": 0.3476,
+"sha256": "c8a75d51896a794e",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/shrine_2": {
-"h": 220,
+"h": 233,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3091,
+"py": 0.3476,
+"sha256": "3975a4eea147315c",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/shrine_3a": {
-"h": 220,
+"h": 233,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3091,
+"py": 0.3476,
+"sha256": "b051a3a5b0c02ea3",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/shrine_3b": {
-"h": 220,
+"h": 233,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3091,
+"py": 0.3476,
+"sha256": "21e0ae0a75d6f062",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/wall_bastion_0": {
@@ -617,56 +743,72 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "b93beaced116640c",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_bastion_11": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "f6dc934d8ba037f1",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_bastion_12": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "8a9b18944e789bcb",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_bastion_13": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "415896e1cd3e1eda",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_bastion_14": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "24219e0d0f97540a",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_bastion_15": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "ad1717fac6ea5ff8",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_bastion_2": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "6f64d7e5d3f2f6d5",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_bastion_3": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "b61db87c360a83de",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_bastion_4": {
 "h": 112,
@@ -685,36 +827,46 @@
 "building/wall_bastion_6": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "21bebcf68e94e478",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_bastion_7": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "5288449ac7578632",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_bastion_8": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "a25e532d614c64c4",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_bastion_9": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "eea69c182a5a3b1f",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_rune_0": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
+"sha256": "2134bd56aa6ff03e",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "building/wall_rune_1": {
@@ -722,6 +874,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
+"sha256": "be51bc2f6a5894dd",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "building/wall_rune_10": {
@@ -729,62 +883,80 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "257eedcc2f547993",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_rune_11": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "32ecf8304d199e57",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_rune_12": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "6553f4129861e1ab",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_rune_13": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "d88705e28470c3a0",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_rune_14": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "5c8982cd87ac0004",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_rune_15": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "0764969b41ba5adf",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_rune_2": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "c556810b6f489e89",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_rune_3": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "6eda8c0a43b64103",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_rune_4": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
+"sha256": "849191e85dd2cd78",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "building/wall_rune_5": {
@@ -792,35 +964,45 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
+"sha256": "5d7bcf6b59b3de08",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "building/wall_rune_6": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "c9c24ab61128e926",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_rune_7": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "ba038210ffb0838e",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_rune_8": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "8497c4b25c5ab02b",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_rune_9": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "44661c4480ffba75",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_stone_0": {
 "h": 112,
@@ -841,56 +1023,72 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "5d6574faf1186f3b",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_stone_11": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "7008cd9ea6f20be9",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_stone_12": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "f33686335fa850a2",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_stone_13": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "f32f1f4c655a704b",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_stone_14": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "8a32876ba63925e8",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_stone_15": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "05a782baafeacac1",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_stone_2": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "8ea053011219f218",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_stone_3": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "a4984fc3b2e74b53",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_stone_4": {
 "h": 112,
@@ -909,30 +1107,38 @@
 "building/wall_stone_6": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "b235e903f989c673",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_stone_7": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "fef8dd5aa9907072",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_stone_8": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "c58983bfdd790c60",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_stone_9": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "85e3e4da5853f61f",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_wood_0": {
 "h": 112,
@@ -953,62 +1159,80 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "f8398c89d2879e62",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_wood_11": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "7815aca867d2093b",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_wood_12": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "55e15176cc4184c6",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_wood_13": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "67f0fe23da24a603",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_wood_14": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "b9508fd52ee0d3d9",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_wood_15": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
-"w": 64
+"sha256": "5e87bb5ad3729085",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 78
 },
 "building/wall_wood_2": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "b83abc0921cba514",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_wood_3": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "0950f9699e75ddb5",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_wood_4": {
 "h": 112,
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
+"sha256": "fde1973c8167882b",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "building/wall_wood_5": {
@@ -1016,62 +1240,80 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.2857,
+"sha256": "c9cceac9c2a05223",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "building/wall_wood_6": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "c06c43dca996d40e",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_wood_7": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.48,
 "py": 0.2857,
-"w": 64
+"sha256": "8b4e5ccc3a45f6a4",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_wood_8": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "5d56d28a1c88d4f5",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/wall_wood_9": {
 "h": 112,
 "ppu": 64,
-"px": 0.5,
+"px": 0.52,
 "py": 0.2857,
-"w": 64
+"sha256": "ce8f3f6120563fb6",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 75
 },
 "building/well_1": {
-"h": 198,
+"h": 211,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3434,
+"py": 0.3839,
+"sha256": "259a5a29ed88f23d",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/well_2": {
-"h": 198,
+"h": 211,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3434,
+"py": 0.3839,
+"sha256": "486e345cc71166ad",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/well_3a": {
-"h": 198,
+"h": 211,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3434,
+"py": 0.3839,
+"sha256": "9a23b42811524641",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "building/well_3b": {
-"h": 198,
+"h": 211,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3434,
+"py": 0.3839,
+"sha256": "4fed61c0eaf79181",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 152
 },
 "decor/bird_0": {
@@ -1079,20 +1321,26 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
-"w": 32
+"sha256": "08df78ab5743d6cc",
+"src": "Tools/Art/fx_feel.py",
+"w": 36
 },
 "decor/bird_1": {
 "h": 24,
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
-"w": 32
+"sha256": "b9b751ed5db167e9",
+"src": "Tools/Art/fx_feel.py",
+"w": 36
 },
 "decor/crystal_0": {
-"h": 56,
+"h": 63,
 "ppu": 64,
 "px": 0.5,
-"py": 0.1071,
+"py": 0.2063,
+"sha256": "48588ef8b48e7b64",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 48
 },
 "decor/mountain_0": {
@@ -1119,9 +1367,11 @@
 "decor/mountain_3": {
 "h": 120,
 "ppu": 64,
-"px": 0.5,
+"px": 0.5254,
 "py": 0.1333,
-"w": 112
+"sha256": "f89e19de626200a8",
+"src": "Tools/Art/terrain_buildings.py",
+"w": 118
 },
 "decor/reeds_0": {
 "h": 48,
@@ -1131,360 +1381,462 @@
 "w": 48
 },
 "decor/rock_0": {
-"h": 40,
+"h": 46,
 "ppu": 64,
 "px": 0.5,
-"py": 0.2,
+"py": 0.3043,
+"sha256": "bba42531ee0e54ec",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 48
 },
 "decor/tree_0": {
-"h": 96,
+"h": 100,
 "ppu": 64,
 "px": 0.5,
-"py": 0.125,
+"py": 0.16,
+"sha256": "5dcc02c3954cb34c",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 72
 },
 "decor/tree_1": {
-"h": 96,
+"h": 100,
 "ppu": 64,
 "px": 0.5,
-"py": 0.125,
+"py": 0.16,
+"sha256": "37865c6de9ce90a9",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 72
 },
 "decor/tree_2": {
-"h": 96,
+"h": 100,
 "ppu": 64,
 "px": 0.5,
-"py": 0.125,
+"py": 0.16,
+"sha256": "f08cee8e5cd91d1b",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 72
 },
 "decor/tree_3": {
-"h": 96,
+"h": 100,
 "ppu": 64,
 "px": 0.5,
-"py": 0.125,
+"py": 0.16,
+"sha256": "2b5fada2e9004df1",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 72
 },
 "enemy/ash_burrower_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "eef79c7fa5f4dcfb",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/ash_burrower_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "3f0f2c3b058e1ecd",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/banshee_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "8ec7a2b32171a3ee",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/banshee_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "61bc613d3fb8716f",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/bone_archer_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "0fab820cdada7db3",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/bone_archer_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "c26cd107f9d188bc",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/bone_summoner_0": {
-"h": 80,
+"h": 84,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1667,
+"sha256": "04fabc64909eefa9",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/bone_summoner_1": {
-"h": 80,
+"h": 84,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1667,
+"sha256": "cec4f4bb846c06d7",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/boss_bone_colossus_0": {
-"h": 184,
+"h": 215,
 "ppu": 64,
-"px": 0.4522,
-"py": 0.0652,
-"w": 184
+"px": 0.4426,
+"py": 0.093,
+"sha256": "1e4e69860b5610fb",
+"src": "Tools/Art/units.py",
+"w": 188
 },
 "enemy/boss_bone_colossus_1": {
-"h": 184,
+"h": 215,
 "ppu": 64,
-"px": 0.4522,
-"py": 0.0652,
-"w": 184
+"px": 0.4426,
+"py": 0.093,
+"sha256": "165f85575a36f102",
+"src": "Tools/Art/units.py",
+"w": 188
 },
 "enemy/boss_corrupted_king_0": {
-"h": 184,
+"h": 192,
 "ppu": 64,
 "px": 0.4543,
-"py": 0.0652,
+"py": 0.1042,
+"sha256": "e478b80f20d36755",
+"src": "Tools/Art/units.py",
 "w": 184
 },
 "enemy/boss_corrupted_king_1": {
-"h": 184,
+"h": 192,
 "ppu": 64,
 "px": 0.4543,
-"py": 0.0652,
+"py": 0.1042,
+"sha256": "a999d6e38ae0628b",
+"src": "Tools/Art/units.py",
 "w": 184
 },
 "enemy/boss_frost_queen_0": {
-"h": 176,
+"h": 183,
 "ppu": 64,
 "px": 0.4545,
-"py": 0.0682,
+"py": 0.1038,
+"sha256": "b708f066c7e002b9",
+"src": "Tools/Art/units.py",
 "w": 176
 },
 "enemy/boss_frost_queen_1": {
-"h": 176,
+"h": 183,
 "ppu": 64,
 "px": 0.4545,
-"py": 0.0682,
+"py": 0.1038,
+"sha256": "21ef6e849d90e4eb",
+"src": "Tools/Art/units.py",
 "w": 176
 },
 "enemy/boss_gatebreaker_0": {
-"h": 176,
+"h": 183,
 "ppu": 64,
-"px": 0.4545,
-"py": 0.0682,
-"w": 176
+"px": 0.4494,
+"py": 0.1038,
+"sha256": "9f4ffe5797b74418",
+"src": "Tools/Art/units.py",
+"w": 178
 },
 "enemy/boss_gatebreaker_1": {
-"h": 176,
+"h": 183,
 "ppu": 64,
-"px": 0.4545,
-"py": 0.0682,
-"w": 176
+"px": 0.4494,
+"py": 0.1038,
+"sha256": "5fbe65fb26b4957a",
+"src": "Tools/Art/units.py",
+"w": 178
 },
 "enemy/boss_hollow_emperor_0": {
-"h": 192,
+"h": 228,
 "ppu": 64,
-"px": 0.4521,
-"py": 0.0625,
-"w": 192
+"px": 0.4406,
+"py": 0.0921,
+"sha256": "ae0b47bcf9d45077",
+"src": "Tools/Art/units.py",
+"w": 197
 },
 "enemy/boss_hollow_emperor_1": {
-"h": 192,
+"h": 228,
 "ppu": 64,
-"px": 0.4521,
-"py": 0.0625,
-"w": 192
+"px": 0.4406,
+"py": 0.0921,
+"sha256": "c57d95b42b97ce36",
+"src": "Tools/Art/units.py",
+"w": 197
 },
 "enemy/boss_rift_warlock_0": {
-"h": 160,
+"h": 166,
 "ppu": 64,
 "px": 0.455,
-"py": 0.075,
+"py": 0.1084,
+"sha256": "0cc7e34b83e9cfe0",
+"src": "Tools/Art/units.py",
 "w": 160
 },
 "enemy/boss_rift_warlock_1": {
-"h": 160,
+"h": 166,
 "ppu": 64,
 "px": 0.455,
-"py": 0.075,
+"py": 0.1084,
+"sha256": "837717f204ae79a5",
+"src": "Tools/Art/units.py",
 "w": 160
 },
 "enemy/boss_siege_lord_0": {
-"h": 192,
+"h": 210,
 "ppu": 64,
-"px": 0.4542,
-"py": 0.0625,
-"w": 192
+"px": 0.4426,
+"py": 0.0952,
+"sha256": "f436316616c18868",
+"src": "Tools/Art/units.py",
+"w": 197
 },
 "enemy/boss_siege_lord_1": {
-"h": 192,
+"h": 210,
 "ppu": 64,
-"px": 0.4542,
-"py": 0.0625,
-"w": 192
+"px": 0.4426,
+"py": 0.0952,
+"sha256": "6e5385e45c72ecf8",
+"src": "Tools/Art/units.py",
+"w": 197
 },
 "enemy/boss_siege_titan_0": {
-"h": 176,
+"h": 183,
 "ppu": 64,
-"px": 0.4545,
-"py": 0.0682,
-"w": 176
+"px": 0.4372,
+"py": 0.1038,
+"sha256": "e69d70dc59d79308",
+"src": "Tools/Art/units.py",
+"w": 183
 },
 "enemy/boss_siege_titan_1": {
-"h": 176,
+"h": 183,
 "ppu": 64,
-"px": 0.4545,
-"py": 0.0682,
-"w": 176
+"px": 0.4372,
+"py": 0.1038,
+"sha256": "90ec3b7f1cff9ae3",
+"src": "Tools/Art/units.py",
+"w": 183
 },
 "enemy/boss_storm_serpent_0": {
-"h": 176,
+"h": 183,
 "ppu": 64,
-"px": 0.5,
-"py": 0.0682,
-"w": 176
+"px": 0.4835,
+"py": 0.1038,
+"sha256": "051105e855ff672b",
+"src": "Tools/Art/units_phase4.py",
+"w": 182
 },
 "enemy/boss_storm_serpent_1": {
-"h": 176,
+"h": 183,
 "ppu": 64,
-"px": 0.5,
-"py": 0.0682,
-"w": 176
+"px": 0.4835,
+"py": 0.1038,
+"sha256": "f55d7e3bb7656810",
+"src": "Tools/Art/units_phase4.py",
+"w": 182
 },
 "enemy/boss_tempest_roc_0": {
-"h": 176,
+"h": 187,
 "ppu": 64,
 "px": 0.5,
-"py": 0.0455,
+"py": 0.1016,
+"sha256": "747512f5111b72c8",
+"src": "Tools/Art/units_phase4.py",
 "w": 176
 },
 "enemy/boss_tempest_roc_1": {
-"h": 176,
+"h": 187,
 "ppu": 64,
 "px": 0.5,
-"py": 0.0455,
+"py": 0.1016,
+"sha256": "88bb1d43c8df96f4",
+"src": "Tools/Art/units_phase4.py",
 "w": 176
 },
 "enemy/boss_void_commander_0": {
-"h": 168,
+"h": 175,
 "ppu": 64,
 "px": 0.4548,
-"py": 0.0714,
+"py": 0.1086,
+"sha256": "27efc6c0b170f5f3",
+"src": "Tools/Art/units.py",
 "w": 168
 },
 "enemy/boss_void_commander_1": {
-"h": 168,
+"h": 175,
 "ppu": 64,
 "px": 0.4548,
-"py": 0.0714,
+"py": 0.1086,
+"sha256": "e19859740cf9e75d",
+"src": "Tools/Art/units.py",
 "w": 168
 },
 "enemy/boulder_roller_0": {
-"h": 80,
+"h": 83,
 "ppu": 64,
 "px": 0.5,
-"py": 0.15,
+"py": 0.1807,
+"sha256": "65f6a2bb16ed70bb",
+"src": "Tools/Art/units_phase4.py",
 "w": 80
 },
 "enemy/boulder_roller_1": {
-"h": 80,
+"h": 83,
 "ppu": 64,
 "px": 0.5,
-"py": 0.15,
+"py": 0.1807,
+"sha256": "6d8e2bc1ed13370e",
+"src": "Tools/Art/units_phase4.py",
 "w": 80
 },
 "enemy/catapult_0": {
-"h": 96,
+"h": 112,
 "ppu": 64,
 "px": 0.5,
-"py": 0.125,
+"py": 0.1607,
+"sha256": "0270d918753524a8",
+"src": "Tools/Art/units_phase4.py",
 "w": 112
 },
 "enemy/catapult_1": {
-"h": 96,
+"h": 112,
 "ppu": 64,
 "px": 0.5,
-"py": 0.125,
+"py": 0.1607,
+"sha256": "3af003790e079abe",
+"src": "Tools/Art/units_phase4.py",
 "w": 112
 },
 "enemy/cinder_caster_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.455,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "87630702d61cc823",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/cinder_caster_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.455,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "324da91ec80040be",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/clockwork_drone_0": {
-"h": 64,
+"h": 86,
 "ppu": 64,
 "px": 0.5,
-"py": 0.125,
-"w": 64
+"py": 0.1628,
+"sha256": "cfe8e571946b4b0b",
+"src": "Tools/Art/units_phase4.py",
+"w": 80
 },
 "enemy/clockwork_drone_1": {
-"h": 64,
+"h": 86,
 "ppu": 64,
 "px": 0.5,
-"py": 0.125,
-"w": 64
+"py": 0.1628,
+"sha256": "8a13cf7127d89226",
+"src": "Tools/Art/units_phase4.py",
+"w": 80
 },
 "enemy/crypt_knight_0": {
-"h": 104,
+"h": 116,
 "ppu": 64,
 "px": 0.4538,
-"py": 0.1154,
+"py": 0.1293,
+"sha256": "f62df4d29118342c",
+"src": "Tools/Art/units.py",
 "w": 104
 },
 "enemy/crypt_knight_1": {
-"h": 104,
+"h": 116,
 "ppu": 64,
 "px": 0.4538,
-"py": 0.1154,
+"py": 0.1293,
+"sha256": "547759a702c7adcf",
+"src": "Tools/Art/units.py",
 "w": 104
 },
 "enemy/cyclone_shaman_0": {
-"h": 80,
+"h": 95,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1474,
+"sha256": "faaeb9204c48b91e",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/cyclone_shaman_1": {
-"h": 80,
+"h": 95,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1474,
+"sha256": "73afabfe1917782a",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/dark_champion_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "757d449b2ccdd5dc",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "enemy/dark_champion_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "7e73378067309cca",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "enemy/eclipse_cultist_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.455,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "7d16b3f521bcf203",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/eclipse_cultist_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.455,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "400a7c6080508ef6",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/ember_runner_0": {
@@ -1502,17 +1854,21 @@
 "w": 80
 },
 "enemy/fallen_templar_0": {
-"h": 96,
+"h": 113,
 "ppu": 64,
 "px": 0.4521,
-"py": 0.125,
+"py": 0.1327,
+"sha256": "334198057a17bbc7",
+"src": "Tools/Art/units.py",
 "w": 96
 },
 "enemy/fallen_templar_1": {
-"h": 96,
+"h": 113,
 "ppu": 64,
 "px": 0.4521,
-"py": 0.125,
+"py": 0.1327,
+"sha256": "9a7fc601947a5895",
+"src": "Tools/Art/units.py",
 "w": 96
 },
 "enemy/fire_imp_0": {
@@ -1527,97 +1883,125 @@
 "ppu": 64,
 "px": 0.4625,
 "py": 0.15,
+"sha256": "342a28ea612828d0",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/flame_priest_0": {
-"h": 80,
+"h": 95,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1474,
+"sha256": "d5d31b914a40f10b",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/flame_priest_1": {
-"h": 80,
+"h": 95,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1474,
+"sha256": "ad3f71296c1c0f52",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/frost_wolf_0": {
-"h": 96,
+"h": 99,
 "ppu": 64,
 "px": 0.4583,
-"py": 0.125,
+"py": 0.1515,
+"sha256": "4aa641e005a6ea05",
+"src": "Tools/Art/units_phase4.py",
 "w": 96
 },
 "enemy/frost_wolf_1": {
-"h": 96,
+"h": 99,
 "ppu": 64,
 "px": 0.4583,
-"py": 0.125,
+"py": 0.1515,
+"sha256": "50a47e9f17b8010e",
+"src": "Tools/Art/units_phase4.py",
 "w": 96
 },
 "enemy/frost_wraith_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.455,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "8f1fd045a940b909",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/frost_wraith_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.455,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "40b2643512d8e4ac",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/gale_raider_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.455,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "754168a38432769a",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/gale_raider_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.455,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "a7fd7dce3ef31a5e",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/ghoul_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "e466ebc8d2af80bb",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/ghoul_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "404fd99674f2aac4",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/glacier_golem_0": {
-"h": 120,
+"h": 124,
 "ppu": 64,
-"px": 0.455,
-"py": 0.1,
-"w": 120
+"px": 0.4439,
+"py": 0.129,
+"sha256": "aac6ed2d5766ad33",
+"src": "Tools/Art/units.py",
+"w": 123
 },
 "enemy/glacier_golem_1": {
-"h": 120,
+"h": 124,
 "ppu": 64,
-"px": 0.455,
-"py": 0.1,
-"w": 120
+"px": 0.4439,
+"py": 0.129,
+"sha256": "ef076ef14097d984",
+"src": "Tools/Art/units.py",
+"w": 123
 },
 "enemy/goblin_0": {
 "h": 80,
 "ppu": 64,
 "px": 0.46,
 "py": 0.15,
+"sha256": "0a4550bc1586eef0",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/goblin_1": {
@@ -1625,34 +2009,44 @@
 "ppu": 64,
 "px": 0.46,
 "py": 0.15,
+"sha256": "42b865a0425e0811",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/harpy_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "8d5e4062ba18e7cc",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/harpy_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "6dd3be524e9d726a",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/hex_shaman_0": {
-"h": 80,
+"h": 90,
 "ppu": 64,
 "px": 0.455,
-"py": 0.15,
+"py": 0.1556,
+"sha256": "2dc476616198f2e3",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/hex_shaman_1": {
-"h": 80,
+"h": 90,
 "ppu": 64,
 "px": 0.455,
-"py": 0.15,
+"py": 0.1556,
+"sha256": "5c197e36fbee4ac6",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/kobold_slinger_0": {
@@ -1670,227 +2064,291 @@
 "w": 80
 },
 "enemy/magma_brute_0": {
-"h": 104,
+"h": 124,
 "ppu": 64,
-"px": 0.4519,
-"py": 0.1154,
-"w": 104
+"px": 0.4393,
+"py": 0.129,
+"sha256": "9d40da68f235c304",
+"src": "Tools/Art/units.py",
+"w": 107
 },
 "enemy/magma_brute_1": {
-"h": 104,
+"h": 124,
 "ppu": 64,
-"px": 0.4519,
-"py": 0.1154,
-"w": 104
+"px": 0.4393,
+"py": 0.129,
+"sha256": "3aad478e571808fd",
+"src": "Tools/Art/units.py",
+"w": 107
 },
 "enemy/mana_leech_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "873b07c96510f9f5",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/mana_leech_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "31c1a23b9836956c",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/necromancer_0": {
-"h": 80,
+"h": 84,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1667,
+"sha256": "fa28879670cd4286",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/necromancer_1": {
-"h": 80,
+"h": 84,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1667,
+"sha256": "dd27d349c96abe0a",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/ogre_gatesmasher_0": {
-"h": 128,
+"h": 133,
 "ppu": 64,
 "px": 0.4547,
-"py": 0.0938,
+"py": 0.1278,
+"sha256": "588ef009db03a6f6",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "enemy/ogre_gatesmasher_1": {
-"h": 128,
+"h": 133,
 "ppu": 64,
 "px": 0.4547,
-"py": 0.0938,
+"py": 0.1278,
+"sha256": "fe26fe2957ad71da",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "enemy/orc_brute_0": {
-"h": 96,
+"h": 99,
 "ppu": 64,
-"px": 0.4521,
-"py": 0.125,
-"w": 96
+"px": 0.4384,
+"py": 0.1515,
+"sha256": "7e64104ab5944649",
+"src": "Tools/Art/units.py",
+"w": 99
 },
 "enemy/orc_brute_1": {
-"h": 96,
+"h": 99,
 "ppu": 64,
-"px": 0.4521,
-"py": 0.125,
-"w": 96
+"px": 0.4384,
+"py": 0.1515,
+"sha256": "c42adab026a173ec",
+"src": "Tools/Art/units.py",
+"w": 99
 },
 "enemy/ram_crew_0": {
-"h": 96,
+"h": 102,
 "ppu": 64,
-"px": 0.5,
-"py": 0.125,
-"w": 112
+"px": 0.4516,
+"py": 0.1765,
+"sha256": "fb1179a72e330b7e",
+"src": "Tools/Art/units.py",
+"w": 124
 },
 "enemy/ram_crew_1": {
-"h": 96,
+"h": 102,
 "ppu": 64,
-"px": 0.5,
-"py": 0.125,
-"w": 112
+"px": 0.4516,
+"py": 0.1765,
+"sha256": "034e03c47bf9cfbe",
+"src": "Tools/Art/units.py",
+"w": 124
 },
 "enemy/rime_caster_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.455,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "6f0d555c5b6e4407",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/rime_caster_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.455,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "8620919159a6db2f",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/rune_sentinel_0": {
-"h": 80,
+"h": 92,
 "ppu": 64,
-"px": 0.4475,
-"py": 0.15,
-"w": 80
+"px": 0.3468,
+"py": 0.163,
+"sha256": "554faca76cd65787",
+"src": "Tools/Art/units.py",
+"w": 109
 },
 "enemy/rune_sentinel_1": {
-"h": 80,
+"h": 92,
 "ppu": 64,
-"px": 0.4475,
-"py": 0.15,
-"w": 80
+"px": 0.3468,
+"py": 0.163,
+"sha256": "e603bbf6e567b67c",
+"src": "Tools/Art/units.py",
+"w": 109
 },
 "enemy/shade_stalker_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "787fbfca79a84990",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/shade_stalker_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "b006d542eb8b3f4e",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/shieldbearer_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.45,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "6a256539a48d24fc",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/shieldbearer_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.45,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "08bf20bbf120968e",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/siege_golem_0": {
-"h": 112,
+"h": 118,
 "ppu": 64,
-"px": 0.4536,
-"py": 0.1071,
-"w": 112
+"px": 0.4379,
+"py": 0.1356,
+"sha256": "7aef5e4c205dab18",
+"src": "Tools/Art/units.py",
+"w": 116
 },
 "enemy/siege_golem_1": {
-"h": 112,
+"h": 118,
 "ppu": 64,
-"px": 0.4536,
-"py": 0.1071,
-"w": 112
+"px": 0.4379,
+"py": 0.1356,
+"sha256": "52b9cff5618d5f53",
+"src": "Tools/Art/units.py",
+"w": 116
 },
 "enemy/skeleton_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "529bae6e3ab8068d",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/skeleton_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "30b22cce7ae5ba6f",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/sky_lancer_0": {
-"h": 112,
+"h": 114,
 "ppu": 64,
-"px": 0.4643,
-"py": 0.1071,
-"w": 112
+"px": 0.4228,
+"py": 0.1228,
+"sha256": "7c191cab0a2ac64a",
+"src": "Tools/Art/units.py",
+"w": 123
 },
 "enemy/sky_lancer_1": {
-"h": 112,
+"h": 114,
 "ppu": 64,
-"px": 0.4643,
-"py": 0.1071,
-"w": 112
+"px": 0.4228,
+"py": 0.1228,
+"sha256": "11d683a90c8e0a61",
+"src": "Tools/Art/units.py",
+"w": 123
 },
 "enemy/storm_harpy_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "b69b296293c2c817",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/storm_harpy_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4575,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "a45d787804c883f6",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/thunder_bird_0": {
-"h": 96,
+"h": 102,
 "ppu": 64,
 "px": 0.5,
-"py": 0.0833,
+"py": 0.1373,
+"sha256": "78ea7aa0ddf3a34f",
+"src": "Tools/Art/units_phase4.py",
 "w": 96
 },
 "enemy/thunder_bird_1": {
-"h": 96,
+"h": 102,
 "ppu": 64,
 "px": 0.5,
-"py": 0.0833,
+"py": 0.1373,
+"sha256": "cedbdacb16bf3629",
+"src": "Tools/Art/units_phase4.py",
 "w": 96
 },
 "enemy/void_shifter_0": {
-"h": 80,
+"h": 84,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1667,
+"sha256": "cb167747f0ef2741",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/void_shifter_1": {
-"h": 80,
+"h": 84,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1667,
+"sha256": "f16188457891a609",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/wolf_rider_0": {
@@ -1908,31 +2366,39 @@
 "w": 96
 },
 "enemy/yeti_0": {
-"h": 104,
+"h": 118,
 "ppu": 64,
 "px": 0.4538,
-"py": 0.1154,
+"py": 0.1271,
+"sha256": "f37309542d0a069e",
+"src": "Tools/Art/units.py",
 "w": 104
 },
 "enemy/yeti_1": {
-"h": 104,
+"h": 118,
 "ppu": 64,
 "px": 0.4538,
-"py": 0.1154,
+"py": 0.1271,
+"sha256": "9941a76bc5754d6d",
+"src": "Tools/Art/units.py",
 "w": 104
 },
 "enemy/zombie_shambler_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "d2b29f7f4fcf7dd5",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "enemy/zombie_shambler_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "1ba9412c8c63af4f",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "fx/arcseg": {
@@ -1940,6 +2406,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "a5e2d7b8eb411094",
+"src": "Tools/Art/fx_feel.py",
 "w": 64
 },
 "fx/arrow": {
@@ -1947,6 +2415,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "ca07a88ef5d3ebfa",
+"src": "Tools/Art/ui_fx.py",
 "w": 48
 },
 "fx/arrowhead": {
@@ -1961,6 +2431,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "bdfbf5d4df7b69df",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "fx/chip": {
@@ -1996,6 +2468,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "d281b5815c5f86eb",
+"src": "Tools/Art/fx_feel.py",
 "w": 32
 },
 "fx/ember": {
@@ -2003,6 +2477,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "de041a62f1e2a517",
+"src": "Tools/Art/fx_feel.py",
 "w": 32
 },
 "fx/frost": {
@@ -2010,6 +2486,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "61e5c0e6b009b9dd",
+"src": "Tools/Art/fx_feel.py",
 "w": 96
 },
 "fx/glow": {
@@ -2059,6 +2537,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "673435faf381335b",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "fx/ring_thick": {
@@ -2122,6 +2602,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "7c3fd7cb3d70585e",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "fx/smoke": {
@@ -2160,227 +2642,291 @@
 "w": 64
 },
 "general/aurelia_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
-"px": 0.4554,
-"py": 0.1071,
-"w": 112
+"px": 0.3953,
+"py": 0.1379,
+"sha256": "ff33bd189c4b1f99",
+"src": "Tools/Art/units.py",
+"w": 129
 },
 "general/aurelia_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
-"px": 0.4554,
-"py": 0.1071,
-"w": 112
+"px": 0.3953,
+"py": 0.1379,
+"sha256": "4abb26a6a516e5d4",
+"src": "Tools/Art/units.py",
+"w": 129
 },
 "general/brannoc_0": {
-"h": 128,
+"h": 132,
 "ppu": 64,
-"px": 0.4609,
-"py": 0.0938,
-"w": 128
+"px": 0.4014,
+"py": 0.1212,
+"sha256": "8839d55d01cf7b92",
+"src": "Tools/Art/units.py",
+"w": 147
 },
 "general/brannoc_1": {
-"h": 128,
+"h": 132,
 "ppu": 64,
-"px": 0.4609,
-"py": 0.0938,
-"w": 128
+"px": 0.4014,
+"py": 0.1212,
+"sha256": "a8e819db58caba0f",
+"src": "Tools/Art/units.py",
+"w": 147
 },
 "general/corvin_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
-"px": 0.4554,
-"py": 0.1071,
-"w": 112
+"px": 0.3953,
+"py": 0.1379,
+"sha256": "4877e78add34242b",
+"src": "Tools/Art/units.py",
+"w": 129
 },
 "general/corvin_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
-"px": 0.4554,
-"py": 0.1071,
-"w": 112
+"px": 0.3953,
+"py": 0.1379,
+"sha256": "843d16b449223679",
+"src": "Tools/Art/units.py",
+"w": 129
 },
 "general/elowen_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "ebe2a8595d989858",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/elowen_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "807d7c91481f5449",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/hilda_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "3861abb6c26d7843",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/hilda_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "424dfdcd3881858b",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/isolde_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "7f4b78d6d8292dc2",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/isolde_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "0cad90f2f1ba012a",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/kaelen_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "6669d289ec85ab9d",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/kaelen_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "aa06108e505b0557",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/lyra_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "0093c6e309336973",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/lyra_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "efda0f44ff7e6fe3",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/maelis_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
-"px": 0.4554,
-"py": 0.1071,
-"w": 112
+"px": 0.3953,
+"py": 0.1379,
+"sha256": "e2e5256ad0354e40",
+"src": "Tools/Art/units.py",
+"w": 129
 },
 "general/maelis_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
-"px": 0.4554,
-"py": 0.1071,
-"w": 112
+"px": 0.3953,
+"py": 0.1379,
+"sha256": "7eb39196c8dffc02",
+"src": "Tools/Art/units.py",
+"w": 129
 },
 "general/maren_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
-"px": 0.4554,
-"py": 0.1071,
-"w": 112
+"px": 0.3953,
+"py": 0.1379,
+"sha256": "3b9e8569fc594139",
+"src": "Tools/Art/units.py",
+"w": 129
 },
 "general/maren_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
-"px": 0.4554,
-"py": 0.1071,
-"w": 112
+"px": 0.3953,
+"py": 0.1379,
+"sha256": "eb98651d700e2815",
+"src": "Tools/Art/units.py",
+"w": 129
 },
 "general/nyxara_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "cef202d350370463",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/nyxara_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "e09293e446eab250",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/pyra_0": {
-"h": 112,
+"h": 122,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1311,
+"sha256": "80064b6625a37365",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/pyra_1": {
-"h": 112,
+"h": 122,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1311,
+"sha256": "00c0ea998ea17c49",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/roland_0": {
-"h": 112,
+"h": 123,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1301,
+"sha256": "9b884d7f7d6f05e9",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/roland_1": {
-"h": 112,
+"h": 123,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1301,
+"sha256": "af4f7f56acab5f2e",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/seraphine_0": {
-"h": 112,
+"h": 118,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1356,
+"sha256": "334d3773a6d7e1d2",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/seraphine_1": {
-"h": 112,
+"h": 118,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1356,
+"sha256": "b948c8849804080a",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/tharion_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "5e6ce93b5410a07a",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/tharion_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "55cb29bfab8bf01d",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/varric_0": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "f25fd9bf17d52904",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "general/varric_1": {
-"h": 112,
+"h": 116,
 "ppu": 64,
 "px": 0.4554,
-"py": 0.1071,
+"py": 0.1379,
+"sha256": "788ff3a4d3c81e10",
+"src": "Tools/Art/units.py",
 "w": 112
 },
 "icon/armor": {
@@ -2451,6 +2997,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "12474298097ffdfe",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/el_earth": {
@@ -2493,6 +3041,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "288657b95da2f62a",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/el_shadow": {
@@ -2500,6 +3050,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "daa8f1042c56fb59",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/el_water": {
@@ -2528,6 +3080,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "1e15247347f4541a",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_dawnblade": {
@@ -2535,6 +3089,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "9d49e408509ff774",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_duskfang": {
@@ -2542,6 +3098,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "3ae6613d18a908f5",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_emberheart": {
@@ -2549,6 +3107,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "90f4e46338ec7434",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_frostbite": {
@@ -2556,6 +3116,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "b6e4ddb04d023177",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_giants_maul": {
@@ -2570,6 +3132,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "01d8090b0016b5cf",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_marshal_seal": {
@@ -2577,6 +3141,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "98875b23d065c70d",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_phoenix_charm": {
@@ -2584,6 +3150,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "e3ae5e1f8308faf5",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_resonance_gem": {
@@ -2591,6 +3159,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "578c06b2b8a0c84c",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_seer_lantern": {
@@ -2598,6 +3168,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "7310e7fbc099c973",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_stormbrand": {
@@ -2605,6 +3177,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "e019b1c8b602b818",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_swift_rapier": {
@@ -2612,6 +3186,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "ead058cd18e20fa5",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_tideglaive": {
@@ -2619,6 +3195,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "f2024566f4a215de",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_treasure_crown": {
@@ -2626,6 +3204,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "a85bced73d30267b",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/eq_windstep_boots": {
@@ -2633,6 +3213,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "c6fefb1cddc4f78a",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/fam_archer_tower": {
@@ -2640,6 +3222,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "1c4177272fbb3dbf",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/fam_barracks": {
@@ -2647,6 +3231,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "07a16fb81d0731ee",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/fam_castle": {
@@ -2654,6 +3240,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "805fb12ed72784de",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/fam_house": {
@@ -2661,6 +3249,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "7c0d2e53e44f4ef5",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/fam_magic_tower": {
@@ -2668,6 +3258,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "15d684040082f1d4",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/fam_mana_well": {
@@ -2675,6 +3267,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "a35924e03a112ea4",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/fam_shrine": {
@@ -2682,6 +3276,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "901abf4f35b31f5c",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/fam_wall": {
@@ -2689,6 +3285,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "6b3b9cfd1e91d1fc",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/flyer": {
@@ -2703,6 +3301,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "feb9363f573b5a73",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/heart": {
@@ -2724,6 +3324,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "995d0161a7f2a446",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/night": {
@@ -2745,6 +3347,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "16fe2520adab8af6",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/shield": {
@@ -2759,6 +3363,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "8d47ed30841a3c72",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/skull": {
@@ -2766,6 +3372,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "900c2ee504e24ea8",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/speed": {
@@ -2787,6 +3395,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "9c38613a12d74bda",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/summon": {
@@ -2801,6 +3411,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "9c337b01011507da",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/sword": {
@@ -2808,6 +3420,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "d7f9f8eae5c7f94b",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/ult": {
@@ -2822,6 +3436,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "83cf7e92376163dd",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "icon/upgrade": {
@@ -2836,6 +3452,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "e70a8ed837e34ac5",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/brannoc": {
@@ -2843,6 +3461,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "78fc50f48ec9c6c7",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/corvin": {
@@ -2850,6 +3470,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "9d25cd0cc3f964f3",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/elowen": {
@@ -2857,6 +3479,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "ef3a8c8246096489",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/hilda": {
@@ -2864,6 +3488,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "423dea097bcbfc54",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/isolde": {
@@ -2871,6 +3497,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "24da07c952ba8ec8",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/kaelen": {
@@ -2878,6 +3506,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "e39ac96d85fe164b",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/lyra": {
@@ -2885,6 +3515,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "1ae76fb0ea930e08",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/maelis": {
@@ -2892,6 +3524,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "3f01bad9053618d3",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/maren": {
@@ -2899,6 +3533,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "aed5d097b88a3bd1",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/nyxara": {
@@ -2906,6 +3542,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "98fb9bd6b2f199e2",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/pyra": {
@@ -2913,6 +3551,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "4558cdf6b4c2d1af",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/roland": {
@@ -2920,6 +3560,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "d6b58389438a6304",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/seraphine": {
@@ -2927,6 +3569,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "49086dc8035cd401",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/tharion": {
@@ -2934,6 +3578,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "91f3ad1a0f6c7516",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "portrait/varric": {
@@ -2941,6 +3587,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "94eb1db2e555dc87",
+"src": "Tools/Art/units.py",
 "w": 128
 },
 "terrain/bridge_0": {
@@ -2948,6 +3596,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "9704d0748350ee39",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/chasm_0": {
@@ -2955,6 +3605,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "6abdbee9794c28e7",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/chasm_1": {
@@ -2962,6 +3614,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "82fef2a96c841486",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/chasm_blob_0": {
@@ -2969,6 +3623,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "5bf1e61a7209a022",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/chasm_blob_1": {
@@ -2976,6 +3632,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "1628d9d52d22afeb",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/chasm_blob_2": {
@@ -2983,6 +3641,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "549d807da1ac5034",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/dirt_0": {
@@ -2990,6 +3650,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "d345d0e7d7927723",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/dirt_1": {
@@ -2997,6 +3659,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "a3f9c89334e09510",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/dirt_blob_0": {
@@ -3004,6 +3668,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "f1d50998db929b46",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/dirt_blob_1": {
@@ -3011,6 +3677,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "12ae342a34c2c404",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/dirt_blob_2": {
@@ -3018,6 +3686,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "363e74658014f9ed",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/forest_0": {
@@ -3025,6 +3695,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "8079927d2bdd11b5",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/forest_1": {
@@ -3032,6 +3704,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "7a8ff42583659b39",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/grass_0": {
@@ -3039,6 +3713,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "88e577b1ef337c55",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/grass_1": {
@@ -3046,6 +3722,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "78f0ecc4a6c16d9f",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/grass_2": {
@@ -3053,6 +3731,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "179958885de77f47",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/grass_3": {
@@ -3060,6 +3740,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "eae274b99b24299f",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/ice_0": {
@@ -3067,6 +3749,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "6e32fe23a84ec315",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/ice_1": {
@@ -3074,6 +3758,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "a0f0c712fa243ec5",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/ice_blob_0": {
@@ -3081,6 +3767,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "0f77fd1a17c80ea7",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/ice_blob_1": {
@@ -3088,6 +3776,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "c9a1744b85a1a433",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/ice_blob_2": {
@@ -3095,6 +3785,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "049e5fadb9d2d45b",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/lava_0": {
@@ -3102,6 +3794,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "881005b164d13085",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/lava_1": {
@@ -3109,6 +3803,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "0a79472121078921",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/lava_blob_0": {
@@ -3116,6 +3812,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "fcde2fe1134ecc5d",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/lava_blob_1": {
@@ -3123,6 +3821,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "db6272d5fd282cb8",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/lava_blob_2": {
@@ -3130,6 +3830,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "dcdf3834ab29398b",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/mountain_0": {
@@ -3137,6 +3839,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "52a47a8dbb1e5046",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/mountain_1": {
@@ -3144,6 +3848,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "d468c61eb193223d",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/plateau_0": {
@@ -3151,6 +3857,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "9c30aea634baf105",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/plateau_1": {
@@ -3158,6 +3866,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "1af3c86cfc4d48a0",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/plateau_blob_0": {
@@ -3165,6 +3875,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "f1fbcd9ab84e884c",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/plateau_blob_1": {
@@ -3172,6 +3884,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "5bdae74947c0abac",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/plateau_blob_2": {
@@ -3179,6 +3893,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "f98ccbb86076e63f",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/sand_0": {
@@ -3186,6 +3902,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "1bb0755c60006eb3",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/sand_1": {
@@ -3193,6 +3911,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "9dc36605d1054fa2",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/sand_blob_0": {
@@ -3200,6 +3920,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "ebbce4b8e018d6e8",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/sand_blob_1": {
@@ -3207,6 +3929,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "a8a6a15e32e4863a",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/sand_blob_2": {
@@ -3214,6 +3938,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "409854db312be510",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/shallows_0": {
@@ -3221,6 +3947,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "9f1d80f22a88f7d8",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/shallows_1": {
@@ -3228,6 +3956,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "051969b5dc1d1bab",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/shallows_blob_0": {
@@ -3235,6 +3965,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "c1d4699c2180a12f",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/shallows_blob_1": {
@@ -3242,6 +3974,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "fa3a95e81cbd564c",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/shallows_blob_2": {
@@ -3249,6 +3983,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "e4f94a455153a47f",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/water_0": {
@@ -3256,6 +3992,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "47bdbe14bdb65e03",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/water_1": {
@@ -3263,6 +4001,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "5b77c9b5be435dcb",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 64
 },
 "terrain/water_blob_0": {
@@ -3270,6 +4010,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "ec149bc7d9866696",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/water_blob_1": {
@@ -3277,6 +4019,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "72e2ac60d56ff4e0",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "terrain/water_blob_2": {
@@ -3284,6 +4028,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "e305d04d9f8b8597",
+"src": "Tools/Art/terrain_buildings.py",
 "w": 104
 },
 "ui/bar_bg": {
@@ -3291,6 +4037,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "a382eb429679e826",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "ui/bar_fill": {
@@ -3361,6 +4109,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "ecc3dcf8d7fdbb54",
+"src": "Tools/Art/ui_fx.py",
 "w": 256
 },
 "ui/joystick_knob": {
@@ -3368,6 +4118,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "0292a7d430d46399",
+"src": "Tools/Art/ui_fx.py",
 "w": 112
 },
 "ui/logo": {
@@ -3375,6 +4127,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "22ff7c12a0dc22e3",
+"src": "Tools/Art/ui_fx.py",
 "w": 1024
 },
 "ui/panel": {
@@ -3396,6 +4150,8 @@
 "ppu": 100,
 "px": 0.5,
 "py": 0.5,
+"sha256": "8e93a4fbecd41954",
+"src": "Tools/Art/ui_fx.py",
 "w": 1280
 },
 "ui/tooltip": {
@@ -3403,6 +4159,8 @@
 "ppu": 64,
 "px": 0.5,
 "py": 0.5,
+"sha256": "80545fc15611fa61",
+"src": "Tools/Art/ui_fx.py",
 "w": 64
 },
 "ui/ult_button": {
@@ -3413,507 +4171,651 @@
 "w": 160
 },
 "unit/archer_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "849957954832be21",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/archer_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "91497f63583d1381",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/archer_a_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "ace6318eac69a0c3",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/archer_a_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "28990c6208a45483",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/archer_b_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "91f39dfbe1a6f1fe",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/archer_b_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "c4535585f7af3eb1",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/battlemage_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "1ecf1c365d2aaa6e",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/battlemage_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "e6093e17290678a9",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/battlemage_a_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "b506007666469b10",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/battlemage_a_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "80fc5d9bb33d0b6d",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/battlemage_b_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "ef93d9d37a818673",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/battlemage_b_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "0f5c95a743a36c1b",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/cavalry_0": {
-"h": 96,
+"h": 103,
 "ppu": 64,
-"px": 0.4604,
-"py": 0.125,
-"w": 96
+"px": 0.3946,
+"py": 0.1359,
+"sha256": "dd3a99a52b290224",
+"src": "Tools/Art/units.py",
+"w": 112
 },
 "unit/cavalry_1": {
-"h": 96,
+"h": 103,
 "ppu": 64,
-"px": 0.4604,
-"py": 0.125,
-"w": 96
+"px": 0.3946,
+"py": 0.1359,
+"sha256": "b88af229cf0ffe85",
+"src": "Tools/Art/units.py",
+"w": 112
 },
 "unit/cavalry_a_0": {
-"h": 96,
+"h": 103,
 "ppu": 64,
-"px": 0.4604,
-"py": 0.125,
-"w": 96
+"px": 0.3946,
+"py": 0.1359,
+"sha256": "7887393fd8350bb4",
+"src": "Tools/Art/units.py",
+"w": 112
 },
 "unit/cavalry_a_1": {
-"h": 96,
+"h": 103,
 "ppu": 64,
-"px": 0.4604,
-"py": 0.125,
-"w": 96
+"px": 0.3946,
+"py": 0.1359,
+"sha256": "07a39fed54a6e66c",
+"src": "Tools/Art/units.py",
+"w": 112
 },
 "unit/cavalry_b_0": {
-"h": 96,
+"h": 103,
 "ppu": 64,
-"px": 0.4604,
-"py": 0.125,
-"w": 96
+"px": 0.3946,
+"py": 0.1359,
+"sha256": "dc5b1eed5d9595f2",
+"src": "Tools/Art/units.py",
+"w": 112
 },
 "unit/cavalry_b_1": {
-"h": 96,
+"h": 103,
 "ppu": 64,
-"px": 0.4604,
-"py": 0.125,
-"w": 96
+"px": 0.3946,
+"py": 0.1359,
+"sha256": "8385335e354a0dbf",
+"src": "Tools/Art/units.py",
+"w": 112
 },
 "unit/crossbowman_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "fa480953ccc3bbd0",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/crossbowman_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "e1b07a9e5ed030a8",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/crossbowman_a_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "ac46843f712b2b52",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/crossbowman_a_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "406c3f656ffb7cb0",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/crossbowman_b_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "9fd60a43113abfa1",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/crossbowman_b_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "c1a56b85f03a713e",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/elementalknight_0": {
-"h": 80,
+"h": 94,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1489,
+"sha256": "cf75440b4752cd2e",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/elementalknight_1": {
-"h": 80,
+"h": 94,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1489,
+"sha256": "bb2f9e1a7a120010",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/elementalknight_a_0": {
-"h": 80,
+"h": 94,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1489,
+"sha256": "6058fbce9cb78c90",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/elementalknight_a_1": {
-"h": 80,
+"h": 94,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1489,
+"sha256": "19af4aca168b9252",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/elementalknight_b_0": {
-"h": 80,
+"h": 94,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1489,
+"sha256": "6d52e34b9b51835c",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/elementalknight_b_1": {
-"h": 80,
+"h": 94,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1489,
+"sha256": "518a528ee0a3d578",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/griffinrider_0": {
-"h": 96,
+"h": 98,
 "ppu": 64,
-"px": 0.4604,
-"py": 0.125,
-"w": 96
+"px": 0.421,
+"py": 0.1429,
+"sha256": "f66d8c67234692f1",
+"src": "Tools/Art/units.py",
+"w": 105
 },
 "unit/griffinrider_1": {
-"h": 96,
+"h": 98,
 "ppu": 64,
-"px": 0.4604,
-"py": 0.125,
-"w": 96
+"px": 0.421,
+"py": 0.1429,
+"sha256": "e182fbfe84102467",
+"src": "Tools/Art/units.py",
+"w": 105
 },
 "unit/griffinrider_a_0": {
-"h": 96,
+"h": 98,
 "ppu": 64,
-"px": 0.4604,
-"py": 0.125,
-"w": 96
+"px": 0.421,
+"py": 0.1429,
+"sha256": "267d9b01dd4b8ac1",
+"src": "Tools/Art/units.py",
+"w": 105
 },
 "unit/griffinrider_a_1": {
-"h": 96,
+"h": 98,
 "ppu": 64,
-"px": 0.4604,
-"py": 0.125,
-"w": 96
+"px": 0.421,
+"py": 0.1429,
+"sha256": "354d6cf85bfe589c",
+"src": "Tools/Art/units.py",
+"w": 105
 },
 "unit/griffinrider_b_0": {
-"h": 96,
+"h": 98,
 "ppu": 64,
-"px": 0.4604,
-"py": 0.125,
-"w": 96
+"px": 0.421,
+"py": 0.1429,
+"sha256": "ff695094dabce6fa",
+"src": "Tools/Art/units.py",
+"w": 105
 },
 "unit/griffinrider_b_1": {
-"h": 96,
+"h": 98,
 "ppu": 64,
-"px": 0.4604,
-"py": 0.125,
-"w": 96
+"px": 0.421,
+"py": 0.1429,
+"sha256": "0b62a65f007d7536",
+"src": "Tools/Art/units.py",
+"w": 105
 },
 "unit/knight_0": {
-"h": 80,
+"h": 94,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1489,
+"sha256": "1e67cb6853a209f5",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/knight_1": {
-"h": 80,
+"h": 94,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1489,
+"sha256": "140f4de1b1326193",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/knight_a_0": {
-"h": 80,
+"h": 94,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1489,
+"sha256": "efa7720a4a24dbb0",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/knight_a_1": {
-"h": 80,
+"h": 94,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1489,
+"sha256": "ea5f1edbca733b14",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/knight_b_0": {
-"h": 80,
+"h": 94,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1489,
+"sha256": "a0f562490497582c",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/knight_b_1": {
-"h": 80,
+"h": 94,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1489,
+"sha256": "2a05297224b3745a",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/mage_0": {
-"h": 80,
+"h": 95,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1474,
+"sha256": "804cb0ad5f66bf9b",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/mage_1": {
-"h": 80,
+"h": 95,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1474,
+"sha256": "45fb6eb1b430a13a",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/mage_a_0": {
-"h": 80,
+"h": 95,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1474,
+"sha256": "155ebcad216ad464",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/mage_a_1": {
-"h": 80,
+"h": 95,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1474,
+"sha256": "36bd9365ebb1a152",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/mage_b_0": {
-"h": 80,
+"h": 95,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1474,
+"sha256": "d59cfe1e058ea37d",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/mage_b_1": {
-"h": 80,
+"h": 95,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1474,
+"sha256": "f1b4338fa922b108",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/runegolem_0": {
-"h": 96,
+"h": 103,
 "ppu": 64,
-"px": 0.4521,
-"py": 0.125,
-"w": 96
+"px": 0.434,
+"py": 0.1456,
+"sha256": "59fa0a89cdf028c2",
+"src": "Tools/Art/units.py",
+"w": 100
 },
 "unit/runegolem_1": {
-"h": 96,
+"h": 103,
 "ppu": 64,
-"px": 0.4521,
-"py": 0.125,
-"w": 96
+"px": 0.434,
+"py": 0.1456,
+"sha256": "317c1830c963eb0d",
+"src": "Tools/Art/units.py",
+"w": 100
 },
 "unit/runegolem_a_0": {
-"h": 96,
+"h": 103,
 "ppu": 64,
-"px": 0.4521,
-"py": 0.125,
-"w": 96
+"px": 0.434,
+"py": 0.1456,
+"sha256": "1d676f3b7c76fad2",
+"src": "Tools/Art/units.py",
+"w": 100
 },
 "unit/runegolem_a_1": {
-"h": 96,
+"h": 103,
 "ppu": 64,
-"px": 0.4521,
-"py": 0.125,
-"w": 96
+"px": 0.434,
+"py": 0.1456,
+"sha256": "99e4ac37f8fd8017",
+"src": "Tools/Art/units.py",
+"w": 100
 },
 "unit/runegolem_b_0": {
-"h": 96,
+"h": 103,
 "ppu": 64,
-"px": 0.4521,
-"py": 0.125,
-"w": 96
+"px": 0.434,
+"py": 0.1456,
+"sha256": "da2af092c86c257b",
+"src": "Tools/Art/units.py",
+"w": 100
 },
 "unit/runegolem_b_1": {
-"h": 96,
+"h": 103,
 "ppu": 64,
-"px": 0.4521,
-"py": 0.125,
-"w": 96
+"px": 0.434,
+"py": 0.1456,
+"sha256": "a8ea868c07f12a67",
+"src": "Tools/Art/units.py",
+"w": 100
 },
 "unit/shieldguardian_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "f74948feff5554f3",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/shieldguardian_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "3cbe671e856e8f2e",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/shieldguardian_a_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "feddc52c2326912f",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/shieldguardian_a_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "be1f8966591e3136",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/shieldguardian_b_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "16f42c7ff03846f8",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/shieldguardian_b_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "2193dfaeb40649a2",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/spearman_0": {
-"h": 80,
+"h": 84,
 "ppu": 64,
-"px": 0.4525,
-"py": 0.15,
-"w": 80
+"px": 0.3732,
+"py": 0.1667,
+"sha256": "f31e3c01109e10ab",
+"src": "Tools/Art/units.py",
+"w": 97
 },
 "unit/spearman_1": {
-"h": 80,
+"h": 84,
 "ppu": 64,
-"px": 0.4525,
-"py": 0.15,
-"w": 80
+"px": 0.3732,
+"py": 0.1667,
+"sha256": "645b1a1821077e25",
+"src": "Tools/Art/units.py",
+"w": 97
 },
 "unit/spearman_a_0": {
-"h": 80,
+"h": 84,
 "ppu": 64,
-"px": 0.4525,
-"py": 0.15,
-"w": 80
+"px": 0.3732,
+"py": 0.1667,
+"sha256": "0bc62ebd89f32b8f",
+"src": "Tools/Art/units.py",
+"w": 97
 },
 "unit/spearman_a_1": {
-"h": 80,
+"h": 84,
 "ppu": 64,
-"px": 0.4525,
-"py": 0.15,
-"w": 80
+"px": 0.3732,
+"py": 0.1667,
+"sha256": "eb8a5e475934bd26",
+"src": "Tools/Art/units.py",
+"w": 97
 },
 "unit/spearman_b_0": {
-"h": 80,
+"h": 84,
 "ppu": 64,
-"px": 0.4525,
-"py": 0.15,
-"w": 80
+"px": 0.3732,
+"py": 0.1667,
+"sha256": "61b3e7426d56c32d",
+"src": "Tools/Art/units.py",
+"w": 97
 },
 "unit/spearman_b_1": {
-"h": 80,
+"h": 84,
 "ppu": 64,
-"px": 0.4525,
-"py": 0.15,
-"w": 80
+"px": 0.3732,
+"py": 0.1667,
+"sha256": "13946c71125b36c2",
+"src": "Tools/Art/units.py",
+"w": 97
 },
 "unit/swordsman_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "b5f1a4bb6ac1e635",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/swordsman_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "5ca54c2d119fe62b",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/swordsman_a_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "1e8b904c6628c1e4",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/swordsman_a_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "28b5f7eed4be38bb",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/swordsman_b_0": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "4f2df379d09d1c7c",
+"src": "Tools/Art/units.py",
 "w": 80
 },
 "unit/swordsman_b_1": {
-"h": 80,
+"h": 82,
 "ppu": 64,
 "px": 0.4525,
-"py": 0.15,
+"py": 0.1707,
+"sha256": "d564cda8d4347040",
+"src": "Tools/Art/units.py",
 "w": 80
 }
 }

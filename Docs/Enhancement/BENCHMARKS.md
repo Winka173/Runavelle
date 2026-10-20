@@ -9,3 +9,4 @@ New measurements of this pass are appended below per phase.
 | 16 castle sprites (512×768 raw → 256×384) | 6 m 13 s (user 23 m 47 s) | ≈23 s |
 Texture memory after import: validator reports total RGBA32 for the art folder (see `art_validation/summary.md`).
 Art folder RGBA32 total: 28.65 MB → 33.67 MB (+5.0 MB: 12 new castle forms + bigger castle canvas). Only one castle sprite is loaded at runtime (ArtLibrary loads lazily from Resources), so live cost is ≈0.4 MB.
+After un-cropping refine: 35.3 MB (+1.6 MB for restored shadows/weapons and the larger drone).

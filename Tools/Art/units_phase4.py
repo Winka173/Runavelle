@@ -144,15 +144,18 @@ def boulder():
 
 
 def drone():
+    # scale 1.6: at 1.0 the drone read as 0.34 world units — smaller than a soldier's head (validator: scale)
+    k = 1.6
     for frame in (0, 1):
-        cv = Canvas(64, 64)
-        cv.shadow(32, 58, 10, 3, 60)
-        cv.ellipse(32, 30, 12, 9, rgb('#b8954a'), ink=2.5)
+        cv = Canvas(80, 80)
+        cx, cy = 40, 34
+        cv.shadow(cx, 74, 10 * k, 3 * k, 60)
+        cv.ellipse(cx, cy, 12 * k, 9 * k, rgb('#b8954a'), ink=2.5)
         for side in (-1, 1):
-            cv.ellipse(32 + side * 14, 22 - (4 if frame else 0), 9, 3, rgb('#d8e8f0'), ink=1.5)
-        cv.circle(38, 29, 3, rgb('#ff5a3a'))
-        cv.glow(38, 29, 6, rgb('#ff5a3a'), 120)
-        cv.save(f"enemy/clockwork_drone_{frame}", pivot=(32, 56))
+            cv.ellipse(cx + side * 14 * k, cy - (8 + (4 if frame else 0)) * k, 9 * k, 3 * k, rgb('#d8e8f0'), ink=1.5)
+        cv.circle(cx + 6 * k, cy - k, 3 * k, rgb('#ff5a3a'))
+        cv.glow(cx + 6 * k, cy - k, 6 * k, rgb('#ff5a3a'), 120)
+        cv.save(f"enemy/clockwork_drone_{frame}", pivot=(40, 72))
 
 
 def serpent():
