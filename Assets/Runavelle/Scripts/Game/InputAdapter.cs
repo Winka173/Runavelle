@@ -1,3 +1,4 @@
+using Runavelle.Core;
 using UnityEngine;
 
 namespace Runavelle.Game
@@ -140,13 +141,18 @@ namespace Runavelle.Game
         public Vector2 Focus;
         public float Size = 9f;
         public float MinSize = 5f, MaxSize = 16f;
-        private float _shake;
-        public bool ShakeEnabled = true;
+        /// <summary>Priority-aggregated, damped, capped shake (Core.ShakeAggregator); strength = player setting (0 = off).</summary>
+        public readonly ShakeAggregator ShakeAgg = new ShakeAggregator();
         public Vector2 MapSize;
+        private float _punch;
+        public bool ReducedMotion;
 
-        public void Shake(float amount)
+        public void Shake(float amount) => ShakeAgg.Request(amount);
+
+        /// <summary>Brief zoom-in for epic moments (boss defeat / ultimate); skipped with reduced motion.</summary>
+        public void Punch(float amount)
         {
-            if (ShakeEnabled) _shake = Mathf.Max(_shake, amount);
+            if (!ReducedMotion) _punch = Mathf.Max(_punch, amount);
         }
 
         public void Update(float dt, bool follow, Vector2 target, Vector2 lookAhead, InputAdapter input)
@@ -168,9 +174,11 @@ namespace Runavelle.Game
             float halfW = Size * aspect, halfH = Size;
             Focus.x = Mathf.Clamp(Focus.x, Mathf.Min(halfW * 0.5f, MapSize.x / 2), Mathf.Max(MapSize.x - halfW * 0.5f, MapSize.x / 2));
             Focus.y = Mathf.Clamp(Focus.y, Mathf.Min(halfH * 0.5f, MapSize.y / 2), Mathf.Max(MapSize.y - halfH * 0.5f, MapSize.y / 2));
-            _shake = Mathf.MoveTowards(_shake, 0f, dt * 2.5f);
-            Vector2 off = _shake > 0f ? Random.insideUnitCircle * _shake * 0.25f : Vector2.zero;
-            Cam.orthographicSize = Mathf.Lerp(Cam.orthographicSize, Size, 1f - Mathf.Exp(-dt * 10f));
+            ShakeAgg.Update(dt);
+            float shake = ShakeAgg.Value;
+            Vector2 off = shake > 0f ? new Vector2(Mathf.PerlinNoise(Time.unscaledTime * 25f, 0f) - 0.5f, Mathf.PerlinNoise(0f, Time.unscaledTime * 25f) - 0.5f) * shake * 0.5f : Vector2.zero;
+            _punch = Mathf.MoveTowards(_punch, 0f, dt * 1.5f);
+            Cam.orthographicSize = Mathf.Lerp(Cam.orthographicSize, Size * (1f - _punch * 0.12f), 1f - Mathf.Exp(-dt * 10f));
             Cam.transform.position = new Vector3(Focus.x + off.x, Focus.y + off.y, -10f);
         }
 

@@ -221,8 +221,55 @@ def music():
     music_loop("music_boss", 132, [[50, 53, 57], [50, 53, 58], [48, 52, 55], [49, 52, 56]] * 2, [62, 63, 65, 67, 69, 70], "boss")
 
 
+# ------------------------------------------------------------------------------------------------ game-feel SFX (quality pass)
+def sfx_feel():
+    n = lambda d: int(d * SR)
+    # element impact timbres (distinct envelope + spectrum per element)
+    x = lp_fast(noise(0.35), 2500) * env(n(0.35), 0.005, 0.3) + osc(np.linspace(300, 120, n(0.35)), 0.35, "tri") * env(n(0.35), 0.002, 0.25) * 0.4
+    crack = np.zeros(n(0.35)); idx = rng.integers(0, n(0.3), 14); crack[idx] = rng.uniform(-1, 1, 14)
+    save("fx_fire", norm(x + lp_fast(crack, 5000) * 3, 0.5))                       # roar + crackle
+    drops = np.zeros(n(0.4))
+    for k in range(5):
+        st = n(0.05 + k * 0.06); d = osc(np.linspace(1400 - k * 120, 500, n(0.08)), 0.08) * env(n(0.08), 0.001, 0.07)
+        drops[st:st + len(d)] += d[: len(drops) - st]
+    save("fx_water", norm(drops + lp_fast(noise(0.4), 1500) * env(n(0.4), 0.01, 0.35) * 0.4, 0.45))   # splash
+    x = sum(osc(f, 0.5) * env(n(0.5), 0.001, 0.48) for f in (2637, 3520, 4186)) + noise(0.5) * env(n(0.5), 0.001, 0.03) * 0.6
+    save("fx_ice", norm(x, 0.4))                                                     # glassy crack + shimmer
+    x = lp_fast(noise(0.5), 1800) * np.sin(np.linspace(0, np.pi, n(0.5))) ** 2 * (0.6 + 0.4 * np.sin(2 * np.pi * 7 * t(0.5)))
+    save("fx_wind", norm(x, 0.4))                                                    # swirling whoosh
+    x = osc(np.linspace(90, 40, n(0.4)), 0.4) * env(n(0.4), 0.001, 0.35) + lp_fast(noise(0.4), 600) * env(n(0.4), 0.001, 0.25) * 0.8
+    save("fx_earth", norm(x, 0.65))                                                  # heavy thud
+    x = sum(osc(mtof(m), 0.6, "tri") * env(n(0.6), 0.005, 0.55) for m in (84, 88, 91, 96))
+    save("fx_light", norm(x, 0.4))                                                   # bright chime
+    f = np.linspace(180, 90, n(0.6))
+    x = lp_fast(osc(f, 0.6, "saw") + osc(f * 1.02, 0.6, "saw"), 700) * env(n(0.6), 0.08, 0.5) + lp_fast(noise(0.6), 900) * env(n(0.6), 0.1, 0.5) * 0.4
+    save("fx_shadow", norm(x, 0.45))                                                 # low whisper drone
+    # moments
+    seg = [osc(mtof(m), 0.9, "tri") * env(n(0.9), 0.003, 0.85) for m in (60, 67)]
+    bell = sum(osc(mtof(64) * k, 1.6) / k * env(n(1.6), 0.002, 1.55) for k in (1, 2.76, 5.4))
+    save("dusk_bell", norm(bell + np.pad(seg[0], (0, n(1.6) - n(0.9))) * 0.3, 0.6))
+    save("dawn_chime", norm(np.concatenate([osc(mtof(m), 0.16, "tri") * env(n(0.16), 0.003, 0.15) for m in (72, 76, 79, 83, 84)]), 0.5))
+    boom = osc(np.linspace(110, 35, n(1.2)), 1.2) * env(n(1.2), 0.001, 1.1) + lp_fast(noise(1.2), 800) * env(n(1.2), 0.001, 0.6) * 0.8
+    fan = np.concatenate([np.zeros(n(0.5)), sum(osc(mtof(m + k), 0.9, "tri") for m in (67, 72, 76) for k in (0, 12)) * env(n(0.9), 0.01, 0.85) * 0.5])
+    save("boss_down", norm(np.pad(boom, (0, len(fan) - len(boom))) + fan, 0.8))
+    save("milestone", norm(np.concatenate([osc(mtof(m), 0.11, "tri") * env(n(0.11), 0.002, 0.1) for m in (67, 74, 79)]) , 0.45))
+    x = sum(osc(mtof(m), 0.8, "tri") * env(n(0.8), 0.01, 0.75) for m in (55, 62, 67)) + osc(np.linspace(80, 50, n(0.8)), 0.8) * env(n(0.8), 0.001, 0.5) * 0.6
+    save("bastion", norm(x, 0.6))                                                    # Last Bastion shield
+    x = osc(1500, 0.05, "tri") * env(n(0.05), 0.001, 0.045) + osc(2250, 0.05) * env(n(0.05), 0.001, 0.04) * 0.5
+    save("coin", norm(x, 0.35))
+
+
+def music_feel():
+    # dusk: sparse, tense pads + slow pulse (warning before the night)
+    music_loop("music_dusk", 84, [[57, 60, 64], [56, 60, 63], [53, 57, 60], [52, 56, 59]] * 2, [69, 71, 72, 75], "title")
+    # danger: breach / castle low — the night theme pushed harder (faster, boss-like percussion, minor colour)
+    music_loop("music_danger", 124, [[57, 60, 64], [58, 62, 65], [55, 58, 62], [56, 59, 63]] * 2, [69, 70, 72, 74, 75, 77], "boss")
+
+
 if __name__ == "__main__":
     sfx()
     music()
+    sfx_feel()
+    music_feel()
     files = sorted(os.listdir(OUT))
     print(len(files), "audio files ->", os.path.abspath(OUT))

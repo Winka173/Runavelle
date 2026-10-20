@@ -45,6 +45,15 @@ namespace Runavelle.Core
         public void Step(Unit u, Vec2 vel)
         {
             Vec2 p = u.Position;
+            // a unit standing inside a blocked tile (spawned in / built over) may always walk out
+            if (!u.IsFlying && !_combat.PositionWalkable(u, p))
+            {
+                p += vel;
+                p.X = MathUtil.Clamp(p.X, 0.05f, _w.Map.Width - 0.05f);
+                p.Y = MathUtil.Clamp(p.Y, 0.05f, _w.Map.Height - 0.05f);
+                u.Position = p;
+                return;
+            }
             Vec2 nx = new Vec2(p.X + vel.X, p.Y);
             if (_combat.PositionWalkable(u, nx) && ClearOfCorners(u, nx)) p = nx;
             Vec2 ny = new Vec2(p.X, p.Y + vel.Y);

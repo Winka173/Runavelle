@@ -112,6 +112,59 @@ namespace Runavelle.Core
             return false;
         }
 
+        /// <summary>
+        /// Placement preview: true when this (non-wall) building would close the last open ground route from some lane
+        /// to the Castle, i.e. enemies will have to smash it to pass. Walls/gates are intentional blockers and exempt.
+        /// </summary>
+        public bool WouldBlockOpenRoute(string levelId, Int2 origin)
+        {
+            var def = Content.BuildingOfLevel(levelId);
+            if (def.Family == BuildingFamily.Wall) return false;
+            int before = OpenLanes(origin, 0), after = OpenLanes(origin, def.Size);
+            return after < before;
+        }
+
+        private int OpenLanes(Int2 o, int size)
+        {
+            var m = W.Map;
+            var seen = new bool[m.Width * m.Height];
+            var q = new Queue<Int2>();
+            var c = W.Castle.Origin;
+            for (int dx = -1; dx <= W.Castle.Size; dx++)
+                for (int dy = -1; dy <= W.Castle.Size; dy++)
+                {
+                    var t = new Int2(c.X + dx, c.Y + dy);
+                    if (!m.InBounds(t.X, t.Y)) continue;
+                    seen[t.Y * m.Width + t.X] = true;
+                    q.Enqueue(t);
+                }
+            bool Blocked(int x, int y)
+            {
+                if (x >= o.X && y >= o.Y && x < o.X + size && y < o.Y + size) return true;
+                if (!W.TerrainPassable(x, y)) return true;
+                var b = W.BuildingAt(x, y);
+                return b != null && !b.Ruined && b != W.Castle;
+            }
+            while (q.Count > 0)
+            {
+                var t = q.Dequeue();
+                for (int k = 0; k < 4; k++)
+                {
+                    int nx = t.X + (k == 0 ? 1 : k == 1 ? -1 : 0), ny = t.Y + (k == 2 ? 1 : k == 3 ? -1 : 0);
+                    if (!m.InBounds(nx, ny) || seen[ny * m.Width + nx] || Blocked(nx, ny)) continue;
+                    seen[ny * m.Width + nx] = true;
+                    q.Enqueue(new Int2(nx, ny));
+                }
+            }
+            int open = 0;
+            foreach (var l in m.Lanes)
+            {
+                if (l.FlyerOnly) continue;
+                foreach (var t in l.Tiles) if (seen[t.Y * m.Width + t.X]) { open++; break; }
+            }
+            return open;
+        }
+
         private int _royalArchitectNight;
         public bool RoyalArchitectAvailable => W.Mods.Has(Hook.RoyalArchitect) && _royalArchitectNight != Night;
 

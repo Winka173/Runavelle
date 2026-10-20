@@ -68,23 +68,51 @@ namespace Runavelle.Core
             }
 
             u.AiDecisionTimer -= dt;
+            if (u.IgnoreTimer > 0f && (u.IgnoreTimer -= dt) <= 0f) u.IgnoreTargetId = -1;
             var target = _w.Get(u.TargetId) as Unit;
             if (u.AiDecisionTimer <= 0f || target == null || !target.Targetable)
             {
                 u.AiDecisionTimer = 0.25f + (u.Id % 4) * 0.03f;
+                var prev = u.TargetId;
                 target = ChooseThreat(u, home);
                 u.TargetId = target?.Id ?? -1;
+                if (u.TargetId != prev) u.ChaseTimer = 0f;
             }
             if (target == null)
             {
                 u.State = UnitState.Returning;
+                u.AiReason = "Về đội hình";
                 FollowPathTo(u, FormationSlot(u), dt, 0.15f);
                 return;
             }
             float range = u.Attack.Range + u.Buffs.RangeBonus;
             float dist = Vec2.Distance(u.Position, target.Position) - target.Radius;
+            // ranged spacing: archers/mages step back toward home when a melee enemy is on top of them
+            if (range > AiTuning.RangedMinRange && !u.IsFlying && u.AttackCooldown > 0.2f)
+            {
+                var close = NearestEnemy(u, AiTuning.KiteTrigger);
+                if (close != null && Vec2.Distance(u.Position, home) < u.Leash)
+                {
+                    Vec2 away = (u.Position - close.Position).Normalized;
+                    Vec2 toHome = (home - u.Position).Normalized;
+                    Vec2 pref = (away + toHome * 0.6f).Normalized;
+                    // preferred retreat, then rotations around "away" (walls/buildings behind the archer)
+                    for (int k = 0; k < Kite.Length; k++)
+                    {
+                        Vec2 dir = k == 0 ? pref : Rotate(away, Kite[k]);
+                        Vec2 step = dir * AiTuning.KiteStep;
+                        if (!_move.LineWalkable(u, u.Position, u.Position + step)) continue;
+                        u.State = UnitState.Moving;
+                        u.AiReason = "Giữ khoảng cách";
+                        _move.MoveTo(u, u.Position + step, dt, 0.1f);
+                        return;
+                    }
+                }
+            }
             if (dist <= range)
             {
+                u.ChaseTimer = 0f;
+                u.AiReason = target.Def.Behavior == EnemyBehavior.Siege || target.Def.Behavior == EnemyBehavior.GateBreaker ? "Chặn công thành" : "Giao chiến";
                 u.State = UnitState.Fighting;
                 u.FacingX = Math.Sign(target.Position.X - u.Position.X + 0.001f);
                 if (u.AttackCooldown <= 0f)
@@ -103,8 +131,41 @@ namespace Runavelle.Core
                 float dmg = _w.Mods.Apply(u.SecondaryAttack.Damage, Stat.Damage, Scope.Soldiers, u.Def.Class, u.SecondaryAttack.Element) * u.Buffs.DamageMult;
                 _fx.Attack(u, target, u.SecondaryAttack, dmg, 1);
             }
+            // pursuit cap: fast units give up a target they cannot reach and return to their post
+            if (u.Speed >= AiTuning.FastSpeed && (u.ChaseTimer += dt) > AiTuning.MaxChaseSeconds)
+            {
+                u.IgnoreTargetId = target.Id;
+                u.IgnoreTimer = AiTuning.ChaseCooldown;
+                u.TargetId = -1;
+                u.ChaseTimer = 0f;
+                u.State = UnitState.Returning;
+                u.AiReason = "Bỏ truy đuổi, quay về";
+                FollowPathTo(u, FormationSlot(u), dt, 0.15f);
+                return;
+            }
             u.State = UnitState.Moving;
+            u.AiReason = "Đánh chặn";
             FollowPathTo(u, target.Position, dt, range * 0.85f);
+        }
+
+        private static readonly float[] Kite = { 0f, 0f, 0.785f, -0.785f, 1.571f, -1.571f };
+        private static Vec2 Rotate(Vec2 v, float a)
+        {
+            float c = (float)Math.Cos(a), s = (float)Math.Sin(a);
+            return new Vec2(v.X * c - v.Y * s, v.X * s + v.Y * c);
+        }
+
+        private Unit NearestEnemy(Unit u, float r)
+        {
+            Unit best = null;
+            float bd = r;
+            foreach (var e in _w.UnitsInRadius(Team.Enemy, u.Position, r, _tmp))
+            {
+                if (e.IsFlying || e.Attack == null || e.Attack.Range > 2f) continue; // only melee threats push archers back
+                float d = Vec2.Distance(e.Position, u.Position);
+                if (d < bd) { bd = d; best = e; }
+            }
+            return best;
         }
 
         /// <summary>Utility scoring: nearby threats, threat to the Castle, enemies hitting our structures, siege priority.</summary>
@@ -119,20 +180,35 @@ namespace Runavelle.Core
             foreach (var e in _w.UnitsInRadius(Team.Enemy, home, search, _tmp))
             {
                 if (e.IsFlying && !canHitAir) continue;
+                if (e.Id == u.IgnoreTargetId) continue;
                 float dHome = Vec2.Distance(e.Position, home);
-                if (dHome > leash + 1.5f) continue; // bounded pursuit: never chase across the map
+                if (dHome > leash + AiTuning.LeashSlack) continue; // bounded pursuit: never chase across the map
                 float dSelf = Vec2.Distance(e.Position, u.Position);
                 float flow = Math.Min(maxFlow, _nav.DistanceToCastle(e.Position));
-                float score = 3f / (1f + dSelf) + (1f - flow / maxFlow) * 2f;
+                float score = AiTuning.WeightProximity / (1f + dSelf) + (1f - flow / maxFlow) * AiTuning.WeightCastleThreat;
                 var tgt = _w.Get(e.TargetId);
-                if (tgt != null && tgt.Team == Team.Player) score += tgt.IsStructure ? 1.2f : 0.6f;
-                if (e.Def.Behavior == EnemyBehavior.Siege || e.Def.Behavior == EnemyBehavior.GateBreaker) score += 1.0f;
-                if (e.IsFlying && u.IsFlying) score += 1.5f;
-                if (u.Def.Class == SoldierClass.Spearman && e.IsLarge) score += 0.8f;
-                if (e.Id == u.TargetId) score += 0.5f; // stickiness avoids target flapping
+                if (tgt != null && tgt.Team == Team.Player) score += tgt.IsStructure ? AiTuning.BonusHittingStructure : AiTuning.BonusHittingUnit;
+                if (e.Def.Behavior == EnemyBehavior.Siege || e.Def.Behavior == EnemyBehavior.GateBreaker) score += AiTuning.BonusSiege;
+                if (e.IsFlying && u.IsFlying) score += AiTuning.BonusAntiAirMatch;
+                if (u.Def.Class == SoldierClass.Spearman && e.IsLarge) score += AiTuning.BonusSpearVsLarge;
+                if (InBreach(e)) score += AiTuning.BonusInsideBreach;
+                if (e.Id == u.TargetId) score += AiTuning.Stickiness; // stickiness avoids target flapping
                 if (score > bestScore || (score == bestScore && best != null && e.Id < best.Id)) { bestScore = score; best = e; }
             }
             return best;
+        }
+
+        /// <summary>Enemy standing within 1.5 tiles of a wall that broke this night (the gap the army must plug).</summary>
+        private bool InBreach(Unit e)
+        {
+            var br = _w.Analytics.Breaches;
+            for (int i = br.Count - 1; i >= 0; i--)
+            {
+                if (br[i].Night != _w.Night) break;
+                float dx = br[i].X - e.Position.X, dy = br[i].Y - e.Position.Y;
+                if (dx * dx + dy * dy <= 2.25f) return true;
+            }
+            return false;
         }
 
         private void FollowPathTo(Unit u, Vec2 goal, float dt, float arrive)

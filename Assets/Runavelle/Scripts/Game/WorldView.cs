@@ -8,6 +8,7 @@ namespace Runavelle.Game
     public sealed class WorldView
     {
         private const int OrderTerrain = -32000, OrderGround = -31000, OrderNight = -30500, OrderLight = -30400;
+        public const int OrderDecal = -31500;
         public static int SortY(float y) => 10000 - Mathf.RoundToInt(y * 40f);
 
         private readonly GameSession _s;
@@ -26,6 +27,8 @@ namespace Runavelle.Game
         public readonly Vfx Vfx;
         public float Alpha;
         public float Time;
+        /// <summary>0..1 during the dusk transition before a night (set by GameRoot).</summary>
+        public float Dusk;
 
         public WorldView(GameSession s, Transform parent)
         {
@@ -175,9 +178,12 @@ namespace Runavelle.Game
         {
             Time += dt;
             var w = _s.W;
-            float target = w.IsNight ? 0.42f : 0f;
-            _nightBlend = Mathf.MoveTowards(_nightBlend, target, dt * 0.5f);
-            _night.color = new Color(0.08f, 0.07f, 0.24f, _nightBlend);
+            float target = w.IsNight ? 0.42f : Dusk * 0.32f;
+            _nightBlend = Mathf.MoveTowards(_nightBlend, target, dt * (Dusk > 0f ? 0.9f : 0.5f));
+            // dusk: warm orange sky sliding into the blue night tint
+            var duskCol = new Color(0.55f, 0.22f, 0.12f, _nightBlend);
+            var nightCol = new Color(0.08f, 0.07f, 0.24f, _nightBlend);
+            _night.color = w.IsNight ? nightCol : Color.Lerp(nightCol, duskCol, Dusk);
 
             // buildings
             _seen.Clear();
@@ -264,6 +270,8 @@ namespace Runavelle.Game
             foreach (var id in _remove) { _telegraphs[id].Destroy(this); _telegraphs.Remove(id); }
 
             SyncKingdom();
+            SyncKingdomProps();
+            SyncAmbient(dt, settings);
             SyncBanner();
             SyncHazards();
             SyncLaneMarkers(showLaneForecast);
@@ -339,6 +347,113 @@ namespace Runavelle.Game
             _bannerPole.sortingOrder = _bannerCloth.sortingOrder = SortY(c.Origin.Y) + 6;
         }
 
+        /// <summary>Siege aftermath: clear transient decals, keep rubble under structures that are still ruined
+        /// (cosmetic only — topology is owned by the simulation and changes only when a wall really breaks/rebuilds).</summary>
+        public void RebuildAftermath()
+        {
+            Vfx.ClearDecals();
+            foreach (var b in _s.W.Buildings)
+                if (!b.Dead && b.Ruined) Vfx.Decal("fx/rubble_" + (b.Id % 3), V(b.Center), 0.9f + b.Size * 0.2f, 0f, Color.white);
+        }
+
+        // ------------------------------------------------------------------ castle transformation props
+        private readonly List<SpriteRenderer> _props = new List<SpriteRenderer>();
+        private string _propsFor;
+
+        /// <summary>Fortress: thicker battlement crown; Legion: drill banners flanking the castle; Arcanum: orbiting crystals.</summary>
+        private void SyncKingdomProps()
+        {
+            var k = _s.KingdomEvolution;
+            var c = _s.W.Castle;
+            if (k != _propsFor)
+            {
+                foreach (var p in _props) Object.Destroy(p.gameObject);
+                _props.Clear();
+                _propsFor = k;
+                if (k == null || c == null) return;
+                int n = k == "fortress" ? 1 : k == "legion" ? 2 : 3;
+                for (int i = 0; i < n; i++) _props.Add(NewSR("prop_" + k, ArtLibrary.Get("building/prop_" + k), 0));
+            }
+            if (k == null || c == null) return;
+            int baseOrder = SortY(c.Origin.Y) + 4;
+            for (int i = 0; i < _props.Count; i++)
+            {
+                var sr = _props[i];
+                if (k == "fortress")
+                {
+                    sr.transform.position = new Vector3(c.Center.X, c.Origin.Y + 0.15f, 0);
+                    sr.transform.localScale = new Vector3(1.6f, 1.2f, 1);
+                    sr.sortingOrder = SortY(c.Origin.Y - 0.2f);
+                }
+                else if (k == "legion")
+                {
+                    float side = i == 0 ? -1f : 1f;
+                    sr.transform.position = new Vector3(c.Center.X + side * 1.9f, c.Origin.Y + 0.1f, 0);
+                    sr.transform.rotation = Quaternion.Euler(0, 0, Mathf.Sin(Time * 2.2f + i) * 4f);
+                    sr.flipX = side < 0;
+                    sr.sortingOrder = baseOrder;
+                }
+                else
+                {
+                    float a = Time * 0.8f + i * Mathf.PI * 2f / 3f;
+                    sr.transform.position = new Vector3(c.Center.X + Mathf.Cos(a) * 2.2f, c.Center.Y + 1.2f + Mathf.Sin(a) * 0.6f + Mathf.Sin(Time * 2f + i) * 0.12f, 0);
+                    sr.transform.localScale = new Vector3(0.7f, 0.7f, 1);
+                    sr.sortingOrder = Mathf.Sin(a) > 0 ? baseOrder - 10 : baseOrder + 10;
+                }
+            }
+        }
+
+        // ------------------------------------------------------------------ ambient life (purely decorative)
+        private readonly List<SpriteRenderer> _birds = new List<SpriteRenderer>();
+        private readonly List<Vector2> _birdVel = new List<Vector2>();
+        private float _birdTimer = 4f, _leafTimer = 1f;
+        private List<Vector2> _forest;
+
+        private void SyncAmbient(float dt, GameSettings s)
+        {
+            var w = _s.W;
+            for (int i = _birds.Count - 1; i >= 0; i--)
+            {
+                var b = _birds[i];
+                var p = (Vector2)b.transform.position + _birdVel[i] * dt;
+                b.transform.position = p;
+                b.sprite = ArtLibrary.Get("decor/bird_" + ((int)(Time * 6f + i) % 2));
+                if (p.x < -4 || p.x > w.Map.Width + 4 || s.AmbientLevel == 0) { Object.Destroy(b.gameObject); _birds.RemoveAt(i); _birdVel.RemoveAt(i); }
+            }
+            if (s.AmbientLevel == 0 || w.IsNight || dt <= 0f) return;
+            _birdTimer -= dt;
+            if (_birdTimer <= 0f && _birds.Count < 3)
+            {
+                _birdTimer = (s.AmbientLevel >= 2 ? 10f : 22f) + Random.Range(0f, 6f);
+                bool ltr = Random.value < 0.5f;
+                float y = Random.Range(w.Map.Height * 0.3f, w.Map.Height * 0.95f);
+                int flock = s.AmbientLevel >= 2 ? Random.Range(1, 4) : 1;
+                for (int k = 0; k < flock; k++)
+                {
+                    var sr = NewSR("bird", ArtLibrary.Get("decor/bird_0"), 31800);
+                    sr.transform.position = new Vector3(ltr ? -3f - k * 0.7f : w.Map.Width + 3f + k * 0.7f, y + k * 0.4f, 0);
+                    sr.transform.localScale = new Vector3(0.8f, 0.8f, 1);
+                    sr.color = new Color(1, 1, 1, 0.8f);
+                    _birds.Add(sr);
+                    _birdVel.Add(new Vector2(ltr ? 2.4f : -2.4f, Random.Range(-0.2f, 0.2f)));
+                }
+            }
+            if (s.AmbientLevel < 2) return;
+            if (_forest == null)
+            {
+                _forest = new List<Vector2>();
+                for (int y = 0; y < w.Map.Height; y++)
+                    for (int x = 0; x < w.Map.Width; x++)
+                        if (w.Map.Get(x, y) == TileType.Forest) _forest.Add(new Vector2(x + 0.5f, y + 0.8f));
+            }
+            _leafTimer -= dt;
+            if (_leafTimer <= 0f && _forest.Count > 0)
+            {
+                _leafTimer = 1.2f;
+                Vfx.Leaf(_forest[Random.Range(0, _forest.Count)]);
+            }
+        }
+
         private SpriteRenderer _emblem, _kingdomRing;
 
         /// <summary>Kingdom Evolution is visible on the castle (banner) and as a coloured ground aura.</summary>
@@ -412,6 +527,10 @@ namespace Runavelle.Game
             private readonly SpriteRenderer _body, _shadow, _ring, _hpBg, _hpFill, _status, _light;
             private readonly GameObject _go;
             public float Flash;
+            /// <summary>Local, visual-only hit-stop: the sprite holds its pose; the simulation keeps running.</summary>
+            public float Hold;
+            /// <summary>Short hop of nearby troops when the player's General casts an Ultimate.</summary>
+            public float Cheer;
             private readonly float _baseScale;
             private Vector2 _smoothPos;
             private bool _first = true;
@@ -448,9 +567,12 @@ namespace Runavelle.Game
             {
                 var pos = Vector2.Lerp(V(u.PrevPosition), V(u.Position), alpha);
                 if (_first) { _smoothPos = pos; _first = false; }
-                _smoothPos = Vector2.Lerp(_smoothPos, pos, 1f - Mathf.Exp(-dt * 30f));
+                bool held = Hold > 0f;
+                if (held) Hold -= dt;
+                else _smoothPos = Vector2.Lerp(_smoothPos, pos, 1f - Mathf.Exp(-dt * 30f));
                 bool moving = Vector2.Distance(V(u.PrevPosition), V(u.Position)) > 0.001f;
                 float bob = moving ? Mathf.Abs(Mathf.Sin(time * 11f + u.Id)) * 0.07f : Mathf.Sin(time * 2.5f + u.Id) * 0.012f;
+                if (Cheer > 0f) { Cheer -= dt; bob += Mathf.Abs(Mathf.Sin(Cheer * 12f)) * 0.18f; }
                 float fly = u.IsFlying ? 0.55f + Mathf.Sin(time * 4f + u.Id) * 0.08f : 0f;
                 _go.transform.position = new Vector3(_smoothPos.x, _smoothPos.y, 0);
                 _body.transform.localPosition = new Vector3(0, bob + fly, 0);
@@ -458,6 +580,14 @@ namespace Runavelle.Game
                 _body.sprite = ArtLibrary.Get(ArtLibrary.UnitKey(u, atk));
                 _body.flipX = u.FacingX < 0;
                 float squash = atk ? 1f + u.AttackAnim * 0.25f : 1f;
+                // anticipation: melee fighters lean back just before their next swing lands (visual only)
+                bool windup = !atk && u.State == UnitState.Fighting && u.Attack != null && u.Attack.ProjectileSpeed <= 0f && u.AttackCooldown > 0f && u.AttackCooldown < 0.16f;
+                if (windup)
+                {
+                    squash = 0.93f;
+                    _body.transform.localPosition += new Vector3(-u.FacingX * 0.07f, 0, 0);
+                }
+                if (held) squash *= 1.06f;
                 _body.transform.localScale = new Vector3(_baseScale * squash, _baseScale / squash, 1);
                 _body.sortingOrder = SortY(_smoothPos.y) + (u.IsFlying ? 2000 : 0);
                 // downed / frozen / flashes
@@ -504,8 +634,15 @@ namespace Runavelle.Game
                     _status.transform.localPosition = new Vector3(0.45f, h + 0.25f + fly, 0);
                     _status.transform.localScale = new Vector3(0.38f, 0.38f, 1);
                 }
-                if (u.Role == UnitRole.General) _light.color = new Color(1f, 0.92f, 0.65f, night * 0.55f);
+                if (u.Role == UnitRole.General)
+                {
+                    // ultimate-ready shimmer on the player's General (clear status without reading the HUD)
+                    float ready = u.IsPlayerControlled && u.UltCooldown <= 0f && u.State != UnitState.Downed ? 0.25f + 0.15f * Mathf.Sin(time * 5f) : 0f;
+                    _light.color = new Color(1f, 0.88f, 0.5f, Mathf.Max(night * 0.55f, ready));
+                }
             }
+
+            public void SetCheer(float t) => Cheer = Mathf.Max(Cheer, t);
 
             public void Destroy() => Object.Destroy(_go);
         }
@@ -513,9 +650,14 @@ namespace Runavelle.Game
         public sealed class BuildingView
         {
             private readonly GameObject _go;
-            private readonly SpriteRenderer _sr, _hpBg, _hpFill, _el, _el2, _light, _disabled;
+            private readonly SpriteRenderer _sr, _hpBg, _hpFill, _el, _el2, _light, _disabled, _crack;
             public float Flash;
             private string _key;
+            private float _rise = -1f, _riseDur = 0.55f, _pulse;
+
+            /// <summary>Construction: foundation → structure rises → finishing pulse (shortened with reduced motion).</summary>
+            public void StartRise(bool reducedMotion) { _riseDur = reducedMotion ? 0.15f : 0.55f; _rise = 0f; }
+            public void StartUpgradePulse(bool reducedMotion) { _pulse = reducedMotion ? 0.12f : 0.35f; }
 
             public BuildingView(WorldView v, Building b)
             {
@@ -528,6 +670,7 @@ namespace Runavelle.Game
                 _el2 = v.NewSR("el2", ArtLibrary.Get("icon/el_none"), 29002, _go.transform);
                 _light = v.NewSR("light", ArtLibrary.Get("fx/glow"), OrderLight, _go.transform);
                 _disabled = v.NewSR("off", ArtLibrary.Get("icon/el_ice"), 29003, _go.transform);
+                _crack = v.NewSR("crack", ArtLibrary.Get("fx/crack_1"), 0, _go.transform);
             }
 
             public void Sync(Building b, int mask, float night, GameSettings s)
@@ -536,6 +679,35 @@ namespace Runavelle.Game
                 if (key != _key) { _sr.sprite = ArtLibrary.Get(key); _key = key; }
                 _go.transform.position = new Vector3(b.Center.X, b.Center.Y, 0);
                 _sr.sortingOrder = SortY(b.Origin.Y + 0.05f);
+                // construction rise + upgrade pulse (sprite only; the building is already fully functional)
+                float sy = 1f, sx = 1f, oy = 0f;
+                if (_rise >= 0f)
+                {
+                    _rise += UnityEngine.Time.deltaTime;
+                    float t = Mathf.Clamp01(_rise / _riseDur);
+                    float ease = 1f - (1f - t) * (1f - t);
+                    sy = Mathf.Lerp(0.15f, 1f, ease) * (t >= 1f ? 1f : 1f + Mathf.Sin(t * Mathf.PI) * 0.06f);
+                    oy = -(1f - sy) * b.Size * 0.5f;
+                    if (t >= 1f) { _rise = -1f; _pulse = Mathf.Max(_pulse, 0.2f); }
+                }
+                if (_pulse > 0f)
+                {
+                    _pulse -= UnityEngine.Time.deltaTime;
+                    float k = 1f + Mathf.Sin(_pulse * 18f) * 0.05f;
+                    sx *= k; sy *= 2f - k;
+                }
+                _sr.transform.localScale = new Vector3(sx, sy, 1);
+                _sr.transform.localPosition = new Vector3(0, oy, 0);
+                // persistent damage states for walls/gates/towers: cracks appear at 66% and 33% HP
+                bool cracked = !b.Ruined && b.Def.Family != BuildingFamily.Castle && b.HpFraction < 0.66f && (b.IsWallLike || b.Def.Family == BuildingFamily.ArcherTower || b.Def.Family == BuildingFamily.MagicTower);
+                _crack.gameObject.SetActive(cracked);
+                if (cracked)
+                {
+                    _crack.sprite = ArtLibrary.Get(b.HpFraction < 0.33f ? "fx/crack_2" : "fx/crack_1");
+                    _crack.sortingOrder = _sr.sortingOrder + 1;
+                    _crack.transform.localPosition = new Vector3(0, b.IsWallLike ? 0.2f : 0.5f, 0);
+                    _crack.transform.localScale = new Vector3(b.Size * 0.9f, b.Size * (b.IsWallLike ? 0.8f : 1.2f), 1);
+                }
                 Color c = Color.white;
                 if (b.Lifetime >= 0f) c = new Color(0.85f, 0.85f, 1f, 0.85f);
                 if (Flash > 0f) { Flash -= UnityEngine.Time.deltaTime; c = Color.Lerp(c, new Color(1f, 0.55f, 0.5f), s.ReducedFlashes ? 0.2f : 0.5f); }
@@ -580,6 +752,9 @@ namespace Runavelle.Game
                     var lc = b.Def.Family == BuildingFamily.MagicTower ? ArtLibrary.ElementColor(b.Primary == ElementId.None ? ElementId.Light : b.Primary) :
                              b.Def.Family == BuildingFamily.ManaWell ? new Color(0.5f, 0.8f, 1f) : new Color(1f, 0.82f, 0.5f);
                     lc.a = night * (b.Def.Family == BuildingFamily.House ? 0.35f : 0.6f);
+                    // wells and shrines breathe softly even by day (ambient life; off at ambient level 0)
+                    if ((b.Def.Family == BuildingFamily.ManaWell || b.Def.Family == BuildingFamily.Shrine) && s.AmbientLevel > 0)
+                        lc.a = Mathf.Max(lc.a, 0.18f + 0.1f * Mathf.Sin(UnityEngine.Time.time * 2f + b.Id));
                     _light.color = lc;
                     float sc = b.Size * 2.6f;
                     _light.transform.localScale = new Vector3(sc, sc, 1);

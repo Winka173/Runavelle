@@ -17,6 +17,12 @@ public static class Program
             Snapshot.Write(args[1], args[2], int.Parse(args[3]), float.Parse(args[4], System.Globalization.CultureInfo.InvariantCulture), args[5], args.Length > 6 ? args[6] : "Balanced");
             Console.WriteLine("snapshot written " + args[5]); return 0;
         }
+        if (args.Length > 0 && args[0] == "perf")
+        {
+            // perf <map> <general> <seed> <nights>
+            Perf.Run(args[1], args[2], ulong.Parse(args[3]), int.Parse(args[4]));
+            return 0;
+        }
         if (args.Length > 0 && args[0] == "plan")
         {
             // plan <map> [seed]: wave composition per night (balance debugging)

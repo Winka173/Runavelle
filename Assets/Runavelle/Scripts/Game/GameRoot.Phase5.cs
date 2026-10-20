@@ -28,8 +28,8 @@ namespace Runavelle.Game
             int i = Mathf.Max(0, ids.IndexOf(PickChallenge));
             var ch = RunRules.Challenge(PickChallenge);
             Gui.Text(new Rect(r.x, r.y, r.width - 150, r.height), "<b>Thử thách:</b> " + (ch != null ? ch.Name + " – " + ch.Description : "(không)") , Gui.LabelSmall);
-            if (Gui.Btn(new Rect(r.xMax - 140, r.y, 60, 52), "◄")) i = (i + ids.Count - 1) % ids.Count;
-            if (Gui.Btn(new Rect(r.xMax - 70, r.y, 60, 52), "►")) i = (i + 1) % ids.Count;
+            if (Gui.Btn(new Rect(r.xMax - 140, r.y, 60, 52), "<")) i = (i + ids.Count - 1) % ids.Count;
+            if (Gui.Btn(new Rect(r.xMax - 70, r.y, 60, 52), ">")) i = (i + 1) % ids.Count;
             PickChallenge = ids[i];
         }
 
@@ -141,7 +141,7 @@ namespace Runavelle.Game
             foreach (var a in Mastery.AchievementList)
             {
                 bool got = Profile.Achievements.Contains(a.Id);
-                Gui.Text(new Rect(r.x + col * (r.width / 2), y, r.width / 2 - 10, 32), (got ? "<color=#2e7d32>✔</color> " : "<color=#9a9a9a>○</color> ") + a.Name, new GUIStyle(Gui.LabelSmall) { fontSize = 17 });
+                Gui.Text(new Rect(r.x + col * (r.width / 2), y, r.width / 2 - 10, 32), (got ? "<color=#2e7d32>[Đạt]</color> " : "<color=#9a9a9a>[  ]</color> ") + a.Name, new GUIStyle(Gui.LabelSmall) { fontSize = 17 });
                 if (++col == 2) { col = 0; y += 32; }
             }
             if (col == 1) y += 32;
@@ -155,7 +155,7 @@ namespace Runavelle.Game
                 string key = c.Id.StartsWith("badge") ? "badge" : "banner";
                 Profile.Settings.TryGetValue(key, out var cur);
                 bool on = cur == c.Id;
-                string label = (on ? "● " : "") + c.Name + (owned ? "" : " – " + c.Unlock);
+                string label = (on ? "[Đang dùng] " : "") + c.Name + (owned ? "" : " – " + c.Unlock);
                 if (Gui.Btn(new Rect(r.x, y, r.width - 10, 44), label, owned, Gui.ButtonSmall, on ? "green" : null))
                 {
                     Profile.Settings[key] = on ? null : c.Id;

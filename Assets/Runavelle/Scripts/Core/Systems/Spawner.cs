@@ -128,8 +128,36 @@ namespace Runavelle.Core
             return u;
         }
 
+        /// <summary>
+        /// Soldiers appear on a free tile just outside their Barracks (preferring the side facing away from the
+        /// Castle). Spawning at the building centre left squads stuck inside the footprint.
+        /// </summary>
+        public Vec2 SoldierSpawnPoint(Building b)
+        {
+            Vec2 outward = _w.Castle != null ? (b.Center - _w.Castle.Center).Normalized : new Vec2(1, 0);
+            Vec2 best = b.Center;
+            float bestScore = float.MaxValue;
+            for (int ring = 1; ring <= 3; ring++)
+            {
+                for (int dx = -ring; dx < b.Size + ring; dx++)
+                    for (int dy = -ring; dy < b.Size + ring; dy++)
+                    {
+                        if (dx > -ring && dx < b.Size + ring - 1 && dy > -ring && dy < b.Size + ring - 1) continue; // perimeter only
+                        int x = b.Origin.X + dx, y = b.Origin.Y + dy;
+                        if (!_w.FriendlyPassable(x, y)) continue;
+                        var c = new Int2(x, y).Center;
+                        float score = Vec2.Distance(c, b.Center + outward * (b.Size * 0.5f + 1f));
+                        if (score < bestScore) { bestScore = score; best = c; }
+                    }
+                if (bestScore < float.MaxValue) break;
+            }
+            return best;
+        }
+
         public Unit SpawnSoldier(Building barracks, Vec2 pos)
         {
+            var pt = Int2.FromPosition(pos);
+            if (!_w.FriendlyPassable(pt.X, pt.Y)) pos = SoldierSpawnPoint(barracks);
             var def = _w.Content.Unit(_w.Content.SoldierUnitId(barracks.Level.Soldier));
             var u = NewUnit(def, Team.Player, pos, ActorKind.Soldier);
             u.OwnerBuildingId = barracks.Id;

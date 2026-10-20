@@ -19,6 +19,8 @@ namespace Runavelle.Game
             if (Session == null) return;
             var s = Session;
             DrawWorldLabels();
+            DrawCaptionsAndBarks();
+            DrawAiDebug();
             DrawTopBar();
             switch (s.Phase)
             {
@@ -46,6 +48,19 @@ namespace Runavelle.Game
         // ------------------------------------------------------------------ floating texts / offscreen arrows
         private void DrawWorldLabels()
         {
+            // aggregated damage numbers (Core.DamageTextAggregator decides what exists; we only draw)
+            foreach (var d in View.Vfx.Damage.Active)
+            {
+                if (d.Value < 0.5f) continue;
+                var p = Rig.WorldToGui(WorldView.V(d.Position) + new Vector2(0, 0.9f + d.Age * 0.6f));
+                float a = 1f - Mathf.Clamp01((d.Age - d.Life * 0.6f) / (d.Life * 0.4f));
+                Color col = d.Kind == DamageTextKind.Incoming ? new Color(1f, 0.45f, 0.4f) : d.Kind == DamageTextKind.Heal ? new Color(0.5f, 1f, 0.5f)
+                    : d.Element != ElementId.None ? ArtLibrary.ElementColor(d.Element) : d.Kind == DamageTextKind.Boss || d.Kind == DamageTextKind.Elite ? new Color(1f, 0.82f, 0.35f) : new Color(1f, 0.97f, 0.9f);
+                col.a = a;
+                int size = Mathf.RoundToInt((d.Kind == DamageTextKind.Incoming ? 21f : 23f) * d.Emphasis);
+                var st = new GUIStyle(Gui.Number) { fontSize = size, alignment = TextAnchor.MiddleCenter, font = Gui.Numbers };
+                Gui.Text(new Rect(p.x - 200, p.y - 20, 400, 40), (d.Kind == DamageTextKind.Heal ? "+" : "") + Mathf.RoundToInt(d.Value), st, col, true);
+            }
             foreach (var t in View.Vfx.Texts)
             {
                 var p = Rig.WorldToGui(t.World);
@@ -101,7 +116,7 @@ namespace Runavelle.Game
             Gui.DrawPanel(c, true);
             Gui.Icon(new Rect(c.x + 18, c.y + 18, 54, 54), s.Phase == RunPhase.Night ? "icon/night" : "icon/day");
             string phase = s.Phase == RunPhase.Night ? "Đêm" : "Ngày";
-            string total = s.Setup.Endless && s.Night > s.TotalNights ? "∞" : s.TotalNights.ToString();
+            string total = s.Setup.Endless && s.Night > s.TotalNights ? "VT" : s.TotalNights.ToString();
             Gui.Text(new Rect(c.x + 80, c.y + 8, 300, 50), $"{phase} {s.Night}/{total}", new GUIStyle(Gui.H2) { normal = { textColor = Gui.Light } });
             if (s.Phase == RunPhase.Night)
             {
@@ -172,10 +187,10 @@ namespace Runavelle.Game
                 x += 52;
             }
             if (s.Objective != null)
-                Gui.Text(new Rect(fr.x + 20, fr.yMax - 150, 420, 34), "<b>Nhiệm vụ phụ:</b> " + s.Objective.Text + " → " + Gui.Money(s.Objective.Reward.Gold, s.Objective.Reward.Mana), Gui.LabelSmall, Gui.Gold);
+                Gui.Text(new Rect(fr.x + 20, fr.yMax - 150, 420, 34), "<b>Nhiệm vụ phụ:</b> " + s.Objective.Text + " – thưởng " + Gui.Money(s.Objective.Reward.Gold, s.Objective.Reward.Mana), Gui.LabelSmall, Gui.Gold);
             string hz = HazardNote(s);
             if (hz != null) Gui.Text(new Rect(fr.x + 20, fr.yMax - 116, 420, 34), hz, Gui.LabelSmall, new Color(0.3f, 0.55f, 0.85f));
-            if (Gui.Btn(new Rect(fr.x + 20, fr.yMax - 76, 420, 64), "BẮT ĐẦU ĐÊM", true, Gui.ButtonBig, "red")) StartNightAction();
+            if (Gui.Btn(new Rect(fr.x + 20, fr.yMax - 76, 420, 64), InDusk ? "HOÀNG HÔN…" : "BẮT ĐẦU ĐÊM", !InDusk, Gui.ButtonBig, "red")) StartNightAction();
 
             DrawAiGeneralPanel(new Rect(Gui.Safe.xMax - 476, fr.yMax + 10, 460, 170));
             DrawDayLoadout(new Rect(Gui.Safe.xMax - 476, fr.yMax + (s.AiSlotsAvailable > 0 ? 190 : 10), 460, 132));
@@ -213,7 +228,7 @@ namespace Runavelle.Game
                     var cost = GameSession.CommissionCost(slot);
                     if (avail.Count == 0) { Gui.Text(new Rect(r.x + 20, y, 400, 40), "Không còn tướng khả dụng", Gui.LabelSmall); continue; }
                     string gid = avail[(_aiPick + slot) % avail.Count];
-                    if (Gui.Btn(new Rect(r.x + 20, y, 60, 48), "◄")) _aiPick = (_aiPick + avail.Count - 1) % avail.Count;
+                    if (Gui.Btn(new Rect(r.x + 20, y, 60, 48), "<")) _aiPick = (_aiPick + avail.Count - 1) % avail.Count;
                     Gui.Text(new Rect(r.x + 86, y + 6, 160, 40), Db.Generals[gid].Name, Gui.Label);
                     if (Gui.Btn(new Rect(r.x + 240, y, 190, 48), "Thuê " + cost.Gold + "g " + cost.Mana + "m", s.Economy.CanAfford(cost), Gui.ButtonSmall)) s.CommissionAiGeneral(slot, gid);
                 }
@@ -247,7 +262,7 @@ namespace Runavelle.Game
                 var eq = cur != null ? Db.Equipment[cur] : null;
                 if (eq != null) Gui.Icon(new Rect(r.x + 16, y, 46, 46), "icon/eq_" + eq.Id);
                 Gui.Text(new Rect(r.x + 68, y + 8, 300, 40), eq != null ? eq.Name : (slot == EquipmentSlot.Weapon ? "Vũ khí: trống" : "Di vật: trống"), Gui.LabelSmall);
-                if (Gui.Btn(new Rect(r.xMax - 76, y, 60, 48), "►"))
+                if (Gui.Btn(new Rect(r.xMax - 76, y, 60, 48), ">"))
                 {
                     int i = (Mathf.Max(0, items.IndexOf(cur)) + 1) % items.Count;
                     s.SetEquipment(slot, items[i]);
@@ -330,6 +345,18 @@ namespace Runavelle.Game
             string help = Input.TouchMode ? (linear ? (WallDragging ? "Chạm điểm cuối rồi bấm XÂY" : "Chạm điểm đầu của tường") : "Chạm để chọn vị trí rồi bấm XÂY")
                                             : (linear ? "Giữ và kéo chuột để vẽ tường" : "Bấm để xây · Shift: xây liên tục · Chuột phải: huỷ");
             Gui.Text(new Rect(r.x + 20, r.y + 150, 520, 36), help, Gui.LabelSmall, Gui.Muted);
+            // live placement verdict at the ghost: why it is invalid, or a warning that enemies will have to smash it
+            if (HasGhost && !(linear && WallDragging))
+            {
+                if (_verdictLevel != BuildLevel || _verdictOrigin != GhostOrigin || _verdictNight != Session.Night)
+                {
+                    _verdictLevel = BuildLevel; _verdictOrigin = GhostOrigin; _verdictNight = Session.Night;
+                    var res = Session.CanPlace(BuildLevel, GhostOrigin);
+                    _verdict = !res.Ok ? "Không đặt được: " + res.Reason : Session.WouldBlockOpenRoute(BuildLevel, GhostOrigin) ? "Cảnh báo – chặn lối đi cuối: kẻ địch sẽ đập công trình này" : null;
+                    _verdictBad = !res.Ok;
+                }
+                if (_verdict != null) Gui.Text(new Rect(r.x + 20, r.y + 184, 520, 36), _verdict, Gui.LabelSmall, _verdictBad ? new Color(0.75f, 0.2f, 0.15f) : new Color(0.85f, 0.5f, 0.1f));
+            }
             if (Gui.Btn(new Rect(r.x + 20, r.yMax - 66, 200, 54), "HUỶ", true, Gui.Button)) ClearBuildMode();
             if (Input.TouchMode && Gui.Btn(new Rect(r.x + 240, r.yMax - 66, 300, 54), "XÂY", HasGhost, Gui.Button, "green"))
             {
@@ -337,11 +364,53 @@ namespace Runavelle.Game
             }
         }
 
+        private string _verdictLevel, _verdict;
+        private Int2 _verdictOrigin;
+        private int _verdictNight;
+        private bool _verdictBad;
+
         private float BreakEven(BuildingLevel l)
         {
             var c = Session.CostOf(l);
             float value = l.IncomePerDawn.Gold + l.IncomePerDawn.Mana * 1.3f;
             return value <= 0 ? 0 : (c.Gold + c.Mana * 1.3f) / value;
+        }
+
+        /// <summary>Debug overlay: why each soldier / AI General is doing what it does (Settings → Bảng gỡ lỗi AI).</summary>
+        private void DrawAiDebug()
+        {
+            if (!AiDebug || Session == null) return;
+            var st = new GUIStyle(Gui.Hint) { fontSize = 14 };
+            int n = 0;
+            foreach (var u in Session.W.Units)
+            {
+                if (u.Dead || u.Team != Team.Player || (u.Role != UnitRole.Soldier && u.Role != UnitRole.General) || string.IsNullOrEmpty(u.AiReason) || n++ > 40) continue;
+                var p = Rig.WorldToGui(WorldView.V(u.Position) + new Vector2(0, -0.35f));
+                Gui.Text(new Rect(p.x - 90, p.y, 180, 22), u.AiReason, st, new Color(0.7f, 1f, 0.8f), true);
+            }
+        }
+
+        /// <summary>Accessibility captions for audio-only cues + AI General speech bubbles (subtitled barks).</summary>
+        private void DrawCaptionsAndBarks()
+        {
+            float now = Time.unscaledTime;
+            float y = Gui.Safe.yMax - 210;
+            for (int i = Captions.Count - 1; i >= 0; i--)
+            {
+                if (Captions[i].Until < now) { Captions.RemoveAt(i); continue; }
+                var r = new Rect(Gui.VW / 2 - 300, y, 600, 36);
+                GUI.Box(r, GUIContent.none, Gui.Tooltip);
+                Gui.Text(r, Captions[i].Text, new GUIStyle(Gui.Hint) { fontSize = 20 });
+                y -= 40;
+            }
+            var bark = Barks.Current;
+            if (bark.HasValue && Session.W.Get(bark.Value.SpeakerId) is Unit sp && !sp.Dead)
+            {
+                var p = Rig.WorldToGui(WorldView.V(sp.Position) + new Vector2(0, 2.2f));
+                var r = new Rect(p.x - 210, p.y - 64, 420, 58);
+                GUI.Box(r, GUIContent.none, Gui.Tooltip);
+                Gui.Text(new Rect(r.x + 10, r.y + 4, r.width - 20, r.height - 8), "<b>" + bark.Value.Speaker + ":</b> " + bark.Value.Text, new GUIStyle(Gui.Hint) { fontSize = 19, wordWrap = true });
+            }
         }
 
         // ------------------------------------------------------------------ selection panel
@@ -382,7 +451,7 @@ namespace Runavelle.Game
                     var l = Db.Level(next);
                     var res = s.CanUpgrade(b, next);
                     var br = new Rect(r.x + 20, y, 560, 84);
-                    if (Gui.Btn(br, "", res.Ok || res.Reason?.StartsWith("Không đủ") == true ? res.Ok : false, Gui.Button)) { if (s.Upgrade(b, next)) AudioService.Play("upgrade", 0.9f); }
+                    if (Gui.Btn(br, "", res.Ok || res.Reason?.StartsWith("Không đủ") == true ? res.Ok : false, Gui.Button)) s.Upgrade(b, next);
                     Gui.Icon(new Rect(br.x + 10, br.y + 10, 64, 64), ArtLibrary.LevelPreviewKey(l, Db));
                     Gui.Text(new Rect(br.x + 84, br.y + 6, 470, 34), $"<b>{l.Name}</b>  {CostShort(s.CostOf(l), false)}", Gui.LabelSmall);
                     Gui.Text(new Rect(br.x + 84, br.y + 38, 470, 46), Short(l.Description, 80), new GUIStyle(Gui.LabelSmall) { fontSize = 17 });
@@ -419,7 +488,7 @@ namespace Runavelle.Game
                 {
                     Gui.Icon(new Rect(r.x + 20, y, 28, 28), ArtLibrary.ElementIcon(l.Mine));
                     Gui.Icon(new Rect(r.x + 50, y, 28, 28), ArtLibrary.ElementIcon(l.Partner));
-                    Gui.Text(new Rect(r.x + 84, y, 500, 30), $"{l.Reaction.Name} ← {l.PartnerSource}", new GUIStyle(Gui.LabelSmall) { fontSize = 18 });
+                    Gui.Text(new Rect(r.x + 84, y, 500, 30), $"{l.Reaction.Name} với {l.PartnerSource}", new GUIStyle(Gui.LabelSmall) { fontSize = 18 });
                     y += 30;
                 }
             }
@@ -558,11 +627,12 @@ namespace Runavelle.Game
             if (rep.Reinforced > 0) L($"Bổ sung {rep.Reinforced} lính: -{rep.ReinforceCost} Vàng");
             if (rep.ManaDrained > 0) L($"<color=#c0392b>Bị hút {rep.ManaDrained} Mana</color>");
             if (rep.Objective != null)
-                L(rep.ObjectiveDone ? "<color=#2e8b57>✔ Nhiệm vụ phụ: " + rep.Objective + " (+" + Gui.Money(rep.ObjectiveReward.Gold, rep.ObjectiveReward.Mana) + ")</color>"
-                                    : "<color=#8a7a6a>✘ Nhiệm vụ phụ: " + rep.Objective + "</color>");
+                L(rep.ObjectiveDone ? "<color=#2e8b57>Đạt nhiệm vụ phụ: " + rep.Objective + " (+" + Gui.Money(rep.ObjectiveReward.Gold, rep.ObjectiveReward.Mana) + ")</color>"
+                                    : "<color=#8a7a6a>Chưa đạt nhiệm vụ phụ: " + rep.Objective + "</color>");
             foreach (var n in rep.Notes) L("<color=#c0392b>" + n + "</color>");
             var top = RunAnalytics.Top(s.W.Analytics.Reactions.ToDictionary(k => k.Key, k => k.Value), 3);
             if (top.Count > 0) L("Phản ứng nổi bật: " + string.Join(", ", top.Select(t => ReactionTable.Get(t.Key).Name + " ×" + t.Value)));
+            DrawHighlights(new Rect(r.xMax + 16, r.y, 420, r.height), rep.Night);
             if (s.Setup.Endless && s.Night >= s.TotalNights)
                 L("<color=#6a3fa8><b>Vô tận – đêm " + (s.Night + 1) + " thêm:</b> " + RunRules.MutatorFor(s.Setup.Seed, s.Night + 1).Name + " (hoặc RÚT LUI để kết thúc thắng lợi)</color>");
             if (s.Night < s.TotalNights || s.Setup.Endless)
@@ -572,6 +642,25 @@ namespace Runavelle.Game
             }
             if (Gui.Btn(new Rect(r.center.x - 200, r.yMax - 96, 400, 72), "TIẾP TỤC", true, Gui.ButtonBig)) s.ContinueFromReport();
             DrawRetireButton(r);
+        }
+
+        /// <summary>Battle Highlights: event-timeline summary of the night (not a video replay); "Xem" jumps the camera there.</summary>
+        private void DrawHighlights(Rect r, int night)
+        {
+            if (Highlights == null) return;
+            var top = Highlights.Top(night, 5);
+            if (top.Count == 0) return;
+            if (r.xMax > Gui.Safe.xMax) r.x = Gui.Safe.xMax - r.width;
+            Gui.DrawPanel(r);
+            Gui.Text(new Rect(r.x + 16, r.y + 12, r.width - 32, 40), "Điểm nhấn đêm " + night, Gui.H2);
+            Gui.Text(new Rect(r.x + 16, r.y + 50, r.width - 32, 30), "Tóm tắt sự kiện – không phải video phát lại", Gui.Hint);
+            float y = r.y + 90;
+            foreach (var h in top)
+            {
+                Gui.Text(new Rect(r.x + 16, y, r.width - 120, 56), $"<b>{(int)h.Time / 60}:{(int)h.Time % 60:00}</b> {h.Text}", Gui.LabelSmall);
+                if (Gui.Btn(new Rect(r.xMax - 96, y + 4, 80, 44), "Xem", true, Gui.ButtonSmall)) Rig.Focus = WorldView.V(h.Position);
+                y += 62;
+            }
         }
 
         private void DrawDraft()

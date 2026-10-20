@@ -120,6 +120,10 @@ namespace Runavelle.Core
         public float IFrames;
         public float AiDecisionTimer;
         public string AiReason = "";
+        /// <summary>Seconds spent chasing the current target without reaching it (pursuit cap for fast soldiers).</summary>
+        public float ChaseTimer;
+        public int IgnoreTargetId = -1;
+        public float IgnoreTimer;
         public int ReviveCount;
         public bool Summoned;
         public float LifeTimer = -1f;

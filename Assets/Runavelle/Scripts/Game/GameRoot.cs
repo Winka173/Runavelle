@@ -63,6 +63,10 @@ namespace Runavelle.Game
         public string Banner;
         public float BannerTime;
         public readonly List<string> NewAchievements = new List<string>();
+        public readonly MusicDirector Music = new MusicDirector();
+        public readonly BarkDirector Barks = new BarkDirector();
+        public HighlightRecorder Highlights;
+        public MilestoneTracker Milestones;
 
         private void Awake()
         {
@@ -161,14 +165,20 @@ namespace Runavelle.Game
             View = new WorldView(s, transform);
             Rig.MapSize = new Vector2(s.W.Map.Width, s.W.Map.Height);
             Rig.Focus = WorldView.V(s.W.Castle.Center);
-            Rig.Size = 9f;
+            Rig.Size = Settings.CameraZoom;
             Screen = AppScreen.Run;
             Paused = false;
             Speed = 1;
             _acc = 0f;
             ClearBuildMode();
             SelectedBuilding = -1;
-            AudioService.Music("music_day");
+            Highlights = new HighlightRecorder();
+            Milestones = new MilestoneTracker();
+            Milestones.Prime(s);
+            Barks.ResetClock();
+            _dusk = 0f;
+            View.Dusk = 0f;
+            View.RebuildAftermath();
         }
 
         public void QuitToTitle()
@@ -210,11 +220,14 @@ namespace Runavelle.Game
             View.Alpha = Mathf.Clamp01(_acc / World.Dt);
             ProcessEvents();
             HandlePhaseTransitions();
+            TickDusk(Paused ? 0f : dt);
+            TickPresentationDirectors(dt);
 
             var g = Session.W.PlayerGeneral;
             bool follow = Session.Phase == RunPhase.Night && g != null;
             Vector2 look = g != null ? WorldView.V(g.Velocity) * 0.25f : Vector2.zero;
-            Rig.ShakeEnabled = Settings.ScreenShake;
+            Rig.ShakeAgg.Strength = Settings.ScreenShake ? Settings.ShakeAmount : 0f;
+            Rig.ReducedMotion = Settings.ReducedMotion;
             Rig.Update(dt, follow, g != null ? WorldView.V(g.Position) : Rig.Focus, look, Input);
             View.Sync(Paused ? 0f : dt, Settings, Session.Phase == RunPhase.Day);
             Rig.Cam.backgroundColor = Color.Lerp(new Color(0.24f, 0.36f, 0.22f), new Color(0.07f, 0.07f, 0.14f), Session.W.IsNight ? 1f : 0f);
@@ -230,14 +243,15 @@ namespace Runavelle.Game
             switch (Session.Phase)
             {
                 case RunPhase.Night:
-                    AudioService.Play("horn", 1f, 1, 1f);
-                    AudioService.Music(Session.Plan.BossUnitId != null ? "music_boss" : "music_night");
+                    AudioService.Play("horn", 1f, 1, 1f, category: SoundCategory.Stinger);
+                    Caption("[Tù và chiến tranh – đêm bắt đầu]");
                     ShowBanner($"Đêm {Session.Night}" + (Session.Plan.BossUnitId != null ? " – BOSS!" : ""));
+                    Barks.ResetClock();
+                    if (Session.W.AIGenerals.Count > 0) Barks.Say(BarkTrigger.NightStart, Session.W.AIGenerals[0], 0.5f);
                     if (!Profile.TutorialDone && Session.Night == 1) ShowToast("WASD / cần điều khiển để di chuyển Tướng. Space / nút vàng: Tối thượng.");
                     break;
                 case RunPhase.Report:
-                    AudioService.Play("victory_small", 1f, 1, 1f);
-                    AudioService.Music("music_day");
+                    DawnCelebration();
                     break;
                 case RunPhase.Day:
                     if (Session.AutosaveRequested) { Session.AutosaveRequested = false; SaveRun(); }
@@ -257,8 +271,8 @@ namespace Runavelle.Game
                     if (Session.Night >= 3) Profile.TutorialDone = true;
                     SaveProfile();
                     DeleteRunSave();
-                    AudioService.Play(win ? "victory" : "defeat", 1f, 1, 1f);
-                    AudioService.Music(win ? "music_day" : "music_title");
+                    AudioService.Play(win ? "victory" : "defeat", 1f, 1, 1f, category: SoundCategory.Stinger);
+                    if (win) foreach (var u in Session.W.Units) if (!u.Dead && u.Team == Team.Player) View.UnitViewOf(u.Id)?.SetCheer(2f);
                     break;
             }
         }
@@ -336,7 +350,7 @@ namespace Runavelle.Game
                     {
                         int n = Session.PlaceWallLine(BuildLevel, WallStart, GhostOrigin);
                         WallDragging = false;
-                        if (n > 0) { AudioService.Play("build", 0.9f); ShowToast($"Đã xây {n} đoạn tường."); }
+                        if (n > 0) { ShowToast($"Đã xây {n} đoạn tường."); }
                         else ShowToast(Session.CanPlace(BuildLevel, GhostOrigin).Reason ?? "Không xây được");
                     }
                     return;
@@ -361,8 +375,6 @@ namespace Runavelle.Game
             var b = Session.Place(BuildLevel, GhostOrigin);
             if (b != null)
             {
-                AudioService.Play("build", 0.9f);
-                View.Vfx.Smoke(WorldView.V(b.Center), 6);
                 if (!Input.TouchMode && (UnityEngine.Input.GetKey(KeyCode.LeftShift))) return; // shift: keep placing
                 ClearBuildMode();
                 SelectedBuilding = b.Id;
@@ -374,162 +386,70 @@ namespace Runavelle.Game
             if (!WallDragging || BuildLevel == null) return;
             int n = Session.PlaceWallLine(BuildLevel, WallStart, GhostOrigin);
             WallDragging = false;
-            if (n > 0) { AudioService.Play("build", 0.9f); ShowToast($"Đã xây {n} đoạn tường."); }
+            if (n > 0) { ShowToast($"Đã xây {n} đoạn tường."); }
         }
 
+        // ------------------------------------------------------------------ dusk → night
+        private float _dusk;
+        public bool InDusk => _dusk > 0f;
+        private float DuskDuration => Settings.ReducedMotion ? 0.6f : 2.2f;
+
+        /// <summary>Dusk: short sky/music/bell transition, then the night starts. Day simulation keeps running (state is identical).</summary>
         public void StartNightAction()
         {
+            if (InDusk || Session.Phase != RunPhase.Day) return;
             ClearBuildMode();
             SelectedBuilding = -1;
             Paused = false;
-            Session.StartNight();
+            _dusk = DuskDuration;
+            AudioService.Play("dusk_bell", 0.9f, 1, 1f, category: SoundCategory.Stinger);
+            Caption("[Chuông hoàng hôn]");
         }
 
-        // ------------------------------------------------------------------ events -> presentation
-        private void ProcessEvents()
+        private void TickDusk(float dt)
+        {
+            if (_dusk <= 0f) { View.Dusk = Mathf.MoveTowards(View.Dusk, 0f, dt); return; }
+            _dusk -= dt;
+            View.Dusk = 1f - Mathf.Clamp01(_dusk / DuskDuration);
+            if (_dusk <= 0f && Session.Phase == RunPhase.Day) { Session.StartNight(); View.Dusk = 0f; }
+        }
+
+        /// <summary>Dawn after a won night: relief beat, gold sparkle at the castle, aftermath reset (repairs restore walls).</summary>
+        private void DawnCelebration()
+        {
+            AudioService.Play("dawn_chime", 1f, 1, 1f, category: SoundCategory.Stinger);
+            var c = WorldView.V(Session.W.Castle.Center);
+            View.Vfx.Element(c, ElementId.Light, 2f);
+            View.Vfx.Burst(c, Gui.Gold, 16, 3f, 0.35f);
+            foreach (var u in Session.W.Units) if (!u.Dead && u.Team == Team.Player) View.UnitViewOf(u.Id)?.SetCheer(1.2f);
+            View.RebuildAftermath();
+        }
+
+        private float _milestoneCheck;
+
+        private void TickPresentationDirectors(float dt)
         {
             var w = Session.W;
-            var vfx = View.Vfx;
-            for (int i = 0; i < w.Events.Count; i++)
+            // music intensity
+            bool boss = false; int near = 0;
+            foreach (var u in w.Units)
             {
-                var e = w.Events[i];
-                var at = WorldView.V(e.Position);
-                switch (e.Type)
-                {
-                    case SimEventType.Hit:
-                    {
-                        if (e.Value <= 0f) { if (e.Text == "block") vfx.Burst(at, new Color(0.8f, 0.9f, 1f), 4, 1.5f, 0.25f); break; }
-                        var target = w.Get(e.ActorId);
-                        bool enemy = target != null && target.Team == Team.Enemy;
-                        var uv = View.UnitViewOf(e.ActorId);
-                        if (uv != null) uv.Flash = 0.1f;
-                        var bv = View.BuildingViewOf(e.ActorId);
-                        if (bv != null) bv.Flash = 0.12f;
-                        if (Settings.DamageNumbers && (enemy || e.Value >= 8f))
-                            vfx.Number(at, e.ActorId, e.Value, enemy ? (e.Element == ElementId.None ? new Color(1f, 0.97f, 0.9f) : ArtLibrary.ElementColor(e.Element)) : new Color(1f, 0.45f, 0.4f), enemy ? 24f : 22f);
-                        if (e.Element != ElementId.None && Settings.VfxLevel >= 1 && UnityEngine.Random.value < 0.35f) vfx.Element(at, e.Element, 0.6f);
-                        if (target == w.Castle) { Rig.Shake(0.15f); AudioService.Play("castle_hit", 0.6f, 2, 0.3f); }
-                        else AudioService.Play("hit", 0.35f, 4, 0.05f);
-                        break;
-                    }
-                    case SimEventType.Kill:
-                        vfx.Smoke(at, 4);
-                        vfx.Burst(at, new Color(1f, 0.9f, 0.6f), 5, 2f, 0.25f);
-                        AudioService.Play("death", 0.5f, 3, 0.05f);
-                        break;
-                    case SimEventType.Reaction:
-                        if (e.Text == "arc" || e.Text == "chain")
-                        {
-                            vfx.Element(at, e.Element == ElementId.None ? ElementId.Lightning : e.Element, 0.7f);
-                            AudioService.Play("zap", 0.4f, 3, 0.05f);
-                            break;
-                        }
-                        vfx.Ring(at + new Vector2(0, 0.3f), ArtLibrary.ElementColor(e.Element), 1.2f, 0.5f);
-                        vfx.Element(at, e.Element, 1.2f);
-                        vfx.Label(at, e.Text, ArtLibrary.ElementColor(e.Element), 30f, 1.1f);
-                        AudioService.Play("reaction", 0.7f, 3, 0.08f);
-                        break;
-                    case SimEventType.WallBreached:
-                        vfx.Smoke(at, 10, new Color(0.7f, 0.65f, 0.6f, 0.8f));
-                        Rig.Shake(0.5f);
-                        vfx.Label(at, "Tường bị phá!", new Color(1f, 0.5f, 0.3f), 30f, 1.6f);
-                        AudioService.Play("breach", 1f, 2, 0.2f);
-                        break;
-                    case SimEventType.BuildingDestroyed:
-                        vfx.Smoke(at, 12, new Color(0.6f, 0.55f, 0.55f, 0.85f));
-                        Rig.Shake(0.4f);
-                        AudioService.Play("breach", 0.9f, 2, 0.2f);
-                        break;
-                    case SimEventType.UltimateCast:
-                        vfx.Ring(at, ArtLibrary.ElementColor(e.Element), e.Value, 0.6f, "fx/ring_thick");
-                        vfx.Element(at, e.Element, 2f);
-                        vfx.Label(at, e.Text, Gui.Gold, 34f, 1.4f);
-                        Rig.Shake(0.35f);
-                        AudioService.Play("ultimate", 1f, 2, 0.2f);
-                        break;
-                    case SimEventType.Dash:
-                        vfx.Smoke(at, 3, new Color(0.9f, 0.95f, 1f, 0.6f));
-                        AudioService.Play("dash", 0.6f, 2, 0.1f);
-                        break;
-                    case SimEventType.MeleeSwing:
-                    {
-                        var a = w.Get(e.ActorId) as Unit;
-                        if (a != null && Settings.VfxLevel >= 1) vfx.Slash(at, a.FacingX, e.Element == ElementId.None ? new Color(1, 1, 1, 0.8f) : ArtLibrary.ElementColor(e.Element, 0.9f));
-                        AudioService.Play("swing", 0.25f, 4, 0.04f);
-                        break;
-                    }
-                    case SimEventType.ProjectileFired:
-                        AudioService.Play(e.Element == ElementId.None ? "arrow" : "magic", 0.25f, 3, 0.05f);
-                        break;
-                    case SimEventType.Freeze:
-                        vfx.Element(at, ElementId.Ice, 1.2f);
-                        break;
-                    case SimEventType.Heal:
-                        if (Settings.DamageNumbers && e.Value >= 6f) vfx.Number(at, -1, e.Value, new Color(0.5f, 1f, 0.5f), 22f);
-                        break;
-                    case SimEventType.Summon:
-                        vfx.Ring(at, new Color(0.7f, 0.4f, 1f), 1.4f, 0.6f);
-                        vfx.Burst(at, new Color(0.7f, 0.4f, 1f), 10, 2f, 0.3f, "fx/smoke");
-                        AudioService.Play("summon", 0.7f, 2, 0.2f);
-                        break;
-                    case SimEventType.BossPhase:
-                    case SimEventType.Announcement:
-                        ShowBanner(e.Text);
-                        Rig.Shake(0.4f);
-                        AudioService.Play("horn", 0.8f, 1, 1f);
-                        break;
-                    case SimEventType.GeneralDowned:
-                        ShowBanner(e.Text + " gục ngã! Hồi sinh sau 12 giây.");
-                        break;
-                    case SimEventType.Building:
-                    case SimEventType.Upgrade:
-                        vfx.Smoke(at, 5);
-                        vfx.Burst(at, Gui.Gold, 8, 2f, 0.3f);
-                        break;
-                    case SimEventType.Telegraph:
-                        AudioService.Play("warning", 0.6f, 2, 0.3f);
-                        if (!string.IsNullOrEmpty(e.Text) && e.ActorId >= 0) vfx.Label(at, e.Text, new Color(1f, 0.4f, 0.3f), 26f, 1f);
-                        break;
-                    case SimEventType.Hazard:
-                        if (e.Text == "lightning")
-                        {
-                            vfx.Element(at, ElementId.Lightning, 1.6f);
-                            vfx.Ring(at, ArtLibrary.ElementColor(ElementId.Lightning), e.Value, 0.4f);
-                            Rig.Shake(0.25f);
-                            AudioService.Play("zap", 0.9f, 2, 0.1f);
-                        }
-                        else if (e.Text == "vent")
-                        {
-                            vfx.Element(at, ElementId.Fire, 1.6f);
-                            vfx.Smoke(at, 8, new Color(0.35f, 0.3f, 0.3f, 0.8f));
-                            AudioService.Play("breach", 0.6f, 2, 0.15f);
-                        }
-                        else if (e.Text == "ice_crack")
-                        {
-                            vfx.Burst(at, new Color(0.8f, 0.95f, 1f), 10, 2.2f, 0.3f);
-                            vfx.Label(at, "Băng vỡ!", new Color(0.7f, 0.9f, 1f), 24f, 1f);
-                            AudioService.Play("breach", 0.5f, 2, 0.15f);
-                        }
-                        break;
-                    case SimEventType.Explosion:
-                        vfx.Ring(at, ArtLibrary.ElementColor(e.Element == ElementId.None ? ElementId.Fire : e.Element), Mathf.Max(1f, e.Value), 0.45f, "fx/ring_thick");
-                        vfx.Element(at, ElementId.Fire, 1.4f);
-                        vfx.Smoke(at, 6);
-                        Rig.Shake(0.2f);
-                        AudioService.Play("breach", 0.7f, 3, 0.1f);
-                        break;
-                    case SimEventType.Stealth:
-                        vfx.Burst(at, new Color(0.7f, 0.5f, 1f), 6, 1.5f, 0.3f, "fx/smoke");
-                        break;
-                    case SimEventType.StatusApplied:
-                        if (e.Text == "exhausted") vfx.Label(at, "Kiệt sức! (+50% sát thương)", new Color(1f, 0.9f, 0.4f), 26f, 1.4f);
-                        else if (e.Text == "possessed") vfx.Label(at, "Tháp bị khống chế!", new Color(0.8f, 0.5f, 1f), 26f, 1.4f);
-                        break;
-                }
+                if (u.Dead || u.Team != Team.Enemy) continue;
+                if (u.IsBoss) boss = true;
+                if (w.Castle != null && Core.Vec2.Distance(u.Position, w.Castle.Center) < 7f) near++;
             }
-            w.Events.Clear();
-            if (ToastTime > 0) ToastTime -= Time.unscaledDeltaTime;
-            if (BannerTime > 0) BannerTime -= Time.unscaledDeltaTime;
+            var st = Music.Update(dt, Session.Phase, InDusk, boss, w.Castle != null ? w.Castle.HpFraction : 1f, near);
+            AudioService.Music(MusicDirector.Track(st));
+            // barks + milestones
+            Barks.Enabled = Settings.Captions || Settings.Voice > 0f;
+            Barks.Update(Session.NightTime);
+            _milestoneCheck -= dt;
+            if (_milestoneCheck <= 0f) { _milestoneCheck = 1f; Milestones.Check(Session); }
+            if (Milestones.TryPop(out var m))
+            {
+                ShowBanner("Cột mốc: " + m.Text);
+                AudioService.Play("milestone", 0.9f, 1, 1f, category: SoundCategory.Stinger);
+            }
         }
 
         private void OnApplicationPause(bool pause)

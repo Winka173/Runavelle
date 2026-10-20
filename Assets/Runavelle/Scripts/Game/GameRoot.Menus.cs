@@ -113,7 +113,7 @@ namespace Runavelle.Game
             if (!selUnlocked) Gui.Text(new Rect(tx, info.y + 280, 1240, 40), "<color=#c0392b>Khoá: " + Profile.UnlockText(sel.Unlock, sel.UnlockValue) + "</color>", Gui.Label);
             float by = Gui.Safe.yMax - 100;
             if (Gui.Btn(new Rect(Gui.Safe.x + 40, by, 260, 72), "QUAY LẠI")) Screen = AppScreen.Title;
-            if (Gui.Btn(new Rect(Gui.Safe.xMax - 340, by, 300, 72), "TIẾP →", selUnlocked, Gui.ButtonBig)) Screen = AppScreen.MapSelect;
+            if (Gui.Btn(new Rect(Gui.Safe.xMax - 340, by, 300, 72), "TIẾP TỤC", selUnlocked, Gui.ButtonBig)) Screen = AppScreen.MapSelect;
         }
 
         public static string GroupName(GeneralGroup g)
@@ -145,7 +145,7 @@ namespace Runavelle.Game
                 var r = new Rect(x0 + (i % cols) * (w + gap), y0 + (i / cols) * (h + gap), w, h);
                 Gui.DrawPanel(r, PickMap != m.Id);
                 var st = new GUIStyle(Gui.H2) { normal = { textColor = PickMap == m.Id ? Gui.Ink : Gui.Light } };
-                Gui.Text(new Rect(r.x + 24, r.y + 8, w - 48, 44), (unlocked ? "" : "[Khoá] ") + m.Name + "  " + new string('★', m.Difficulty), st);
+                Gui.Text(new Rect(r.x + 24, r.y + 8, w - 48, 44), (unlocked ? "" : "[Khoá] ") + m.Name + "  · khó " + m.Difficulty + "/5", st);
                 var ls = new GUIStyle(Gui.LabelSmall) { normal = { textColor = PickMap == m.Id ? Gui.Ink : Gui.Light } };
                 Gui.Text(new Rect(r.x + 24, r.y + 50, w - 48, h - 54), unlocked ? "Được che chắn: " + m.ProtectedSides : "Mở khoá: sống tới đêm " + Profile.MapUnlockNight(m) + " hoặc thắng " + m.UnlockOrder + " ván", ls);
                 if (unlocked && GUI.Button(r, GUIContent.none, GUIStyle.none)) { PickMap = m.Id; AudioService.Ui(); }
@@ -163,14 +163,14 @@ namespace Runavelle.Game
             Gui.Text(new Rect(info.x + 20, ay, 300, 44), "Thăng Cấp: " + PickAscension, Gui.H2);
             if (Gui.Btn(new Rect(info.x + 300, ay, 60, 52), "–", PickAscension > 0)) PickAscension--;
             if (Gui.Btn(new Rect(info.x + 370, ay, 60, 52), "+", PickAscension < maxAsc)) PickAscension++;
-            if (Profile.EndlessUnlocked && Gui.Btn(new Rect(info.x + 440, ay, 100, 52), PickEndless ? "∞ BẬT" : "∞ TẮT", true, Gui.ButtonSmall, PickEndless ? "purple" : null)) PickEndless = !PickEndless;
+            if (Profile.EndlessUnlocked && Gui.Btn(new Rect(info.x + 440, ay, 100, 52), PickEndless ? "Vô tận" : "Vô tận", true, Gui.ButtonSmall, PickEndless ? "purple" : null)) PickEndless = !PickEndless;
             DrawAscensionNote(new Rect(info.x + 20, ay + 56, info.width - 40, 74));
             var side = cols == 1 ? new Rect(info.x, info.yMax + 12, info.width, 300) : new Rect(Gui.VW / 2 + 14, info.y, 552, 300);
             DrawLoadoutPicker(new Rect(side.x, side.y, side.width, 150));
             Gui.DrawPanel(new Rect(side.x, side.y + 156, side.width, 144));
             DrawChallengePicker(new Rect(side.x + 20, side.y + 168, side.width - 30, 124));
             float by = Gui.Safe.yMax - 100;
-            if (Gui.Btn(new Rect(Gui.Safe.x + 40, by, 260, 72), "← QUAY LẠI")) Screen = AppScreen.GeneralSelect;
+            if (Gui.Btn(new Rect(Gui.Safe.x + 40, by, 260, 72), "QUAY LẠI")) Screen = AppScreen.GeneralSelect;
             if (Gui.Btn(new Rect(Gui.Safe.xMax - 380, by, 340, 72), "BẮT ĐẦU", true, Gui.ButtonBig, "green")) { DeleteRunSave(); StartNewRun(); }
         }
 
@@ -188,8 +188,8 @@ namespace Runavelle.Game
                 var eq = cur != null ? Db.Equipment[cur] : null;
                 if (eq != null) Gui.Icon(new Rect(r.x + 20, y, 52, 52), "icon/eq_" + eq.Id);
                 Gui.Text(new Rect(r.x + 80, y - 2, r.width - 240, 60), (slot == EquipmentSlot.Weapon ? "<b>Vũ khí:</b> " : "<b>Di vật:</b> ") + (eq != null ? eq.Name + " – " + eq.Description : "(trống)"), Gui.LabelSmall);
-                if (Gui.Btn(new Rect(r.xMax - 150, y, 60, 52), "◄")) i = (i + items.Count - 1) % items.Count;
-                if (Gui.Btn(new Rect(r.xMax - 80, y, 60, 52), "►")) i = (i + 1) % items.Count;
+                if (Gui.Btn(new Rect(r.xMax - 150, y, 60, 52), "<")) i = (i + items.Count - 1) % items.Count;
+                if (Gui.Btn(new Rect(r.xMax - 80, y, 60, 52), ">")) i = (i + 1) % items.Count;
                 if (slot == EquipmentSlot.Weapon) PickWeapon = items[i]; else PickRelic = items[i];
                 y += 64;
             }
@@ -207,20 +207,47 @@ namespace Runavelle.Game
             Gui.DrawPanel(r);
             Gui.Text(new Rect(r.x, r.y + 16, r.width, 60), "Cài Đặt", new GUIStyle(Gui.H1) { alignment = TextAnchor.MiddleCenter });
             float y = r.y + 100, lx = r.x + 60, bx = r.x + 640, bw = 380, bh = 58, step = 70;
-            string[] vfx = { "Thấp", "Vừa", "Cao" };
-            Row("Hiệu ứng hình ảnh", vfx[Settings.VfxLevel], () => Settings.VfxLevel = (Settings.VfxLevel + 1) % 3);
-            Row("Số sát thương", Settings.DamageNumbers ? "Bật" : "Tắt", () => Settings.DamageNumbers = !Settings.DamageNumbers);
-            Row("Rung màn hình", Settings.ScreenShake ? "Bật" : "Tắt", () => Settings.ScreenShake = !Settings.ScreenShake);
-            Row("Giảm nháy sáng", Settings.ReducedFlashes ? "Bật" : "Tắt", () => Settings.ReducedFlashes = !Settings.ReducedFlashes);
-            Row("Biểu tượng nguyên tố (mù màu)", Settings.ElementGlyphs ? "Bật" : "Tắt", () => Settings.ElementGlyphs = !Settings.ElementGlyphs);
-            Row("Điều khiển cảm ứng", Settings.TouchControls ? "Bật" : "Tắt", () => Settings.TouchControls = !Settings.TouchControls);
-            Row("Ban ngày nhanh (x2)", Settings.FastDay ? "Bật" : "Tắt", () => Settings.FastDay = !Settings.FastDay);
-            Row("Nhịp đêm chậm (x0.75)", Settings.SlowNights ? "Bật" : "Tắt", () => Settings.SlowNights = !Settings.SlowNights);
-            Row("Chất lượng / FPS", Settings.Quality == 0 ? "Tiết kiệm (30)" : Settings.Quality == 1 ? "Cân bằng (60)" : "Cao (60)", () => Settings.Quality = (Settings.Quality + 1) % 3);
-            Row("Cỡ giao diện", Mathf.RoundToInt(Settings.UiScale * 100) + "%", () => Settings.UiScale = Settings.UiScale >= 1.3f ? 0.8f : Settings.UiScale + 0.1f);
-            Row("Âm lượng tổng", Mathf.RoundToInt(Settings.Master * 100) + "%", () => Settings.Master = Settings.Master >= 1f ? 0f : Mathf.Min(1f, Settings.Master + 0.1f));
-            Row("Nhạc", Mathf.RoundToInt(Settings.Music * 100) + "%", () => Settings.Music = Settings.Music >= 1f ? 0f : Mathf.Min(1f, Settings.Music + 0.1f));
-            Row("Hiệu ứng âm thanh", Mathf.RoundToInt(Settings.Sfx * 100) + "%", () => Settings.Sfx = Settings.Sfx >= 1f ? 0f : Mathf.Min(1f, Settings.Sfx + 0.1f));
+            string[] tabs = { "Hình ảnh", "Âm thanh", "Điều khiển & trợ năng" };
+            float tw = (r.width - 120) / tabs.Length;
+            for (int t = 0; t < tabs.Length; t++)
+                if (Gui.Btn(new Rect(r.x + 60 + t * tw, y, tw - 10, 54), tabs[t], _settingsTab != t, Gui.ButtonSmall, _settingsTab == t ? "blue" : null)) _settingsTab = t;
+            y += 76;
+            string Pct(float v) => Mathf.RoundToInt(v * 100) + "%";
+            float Step(float v) => v >= 1f ? 0f : Mathf.Min(1f, v + 0.1f);
+            if (_settingsTab == 0)
+            {
+                string[] vfx = { "Thấp", "Vừa", "Cao" };
+                Row("Mật độ hiệu ứng", vfx[Settings.VfxLevel], () => Settings.VfxLevel = (Settings.VfxLevel + 1) % 3);
+                string[] dmg = { "Tắt", "Chỉ quan trọng", "Tất cả (gộp)" };
+                Row("Số sát thương", dmg[(int)Settings.DamageText], () => { Settings.DamageText = (DamageTextMode)(((int)Settings.DamageText + 2) % 3); Settings.DamageNumbers = Settings.DamageText != DamageTextMode.Off; });
+                Row("Rung màn hình", !Settings.ScreenShake || Settings.ShakeAmount <= 0f ? "Tắt" : Settings.ShakeAmount < 1f ? "Nhẹ" : "Đầy đủ",
+                    () => { float v = !Settings.ScreenShake || Settings.ShakeAmount <= 0f ? 0.5f : Settings.ShakeAmount < 1f ? 1f : 0f; Settings.ShakeAmount = v; Settings.ScreenShake = v > 0f; });
+                Row("Giảm nháy sáng", Settings.ReducedFlashes ? "Bật" : "Tắt", () => Settings.ReducedFlashes = !Settings.ReducedFlashes);
+                string[] amb = { "Tắt", "Giảm", "Đầy đủ" };
+                Row("Sinh hoạt môi trường (chim, lá…)", amb[Mathf.Clamp(Settings.AmbientLevel, 0, 2)], () => Settings.AmbientLevel = (Settings.AmbientLevel + 1) % 3);
+                Row("Chất lượng / FPS", Settings.Quality == 0 ? "Tiết kiệm (30)" : Settings.Quality == 1 ? "Cân bằng (60)" : "Cao (60)", () => Settings.Quality = (Settings.Quality + 1) % 3);
+                Row("Cỡ giao diện", Pct(Settings.UiScale), () => Settings.UiScale = Settings.UiScale >= 1.3f ? 0.8f : Settings.UiScale + 0.1f);
+                Row("Thu phóng camera mặc định", Settings.CameraZoom <= 7.5f ? "Gần" : Settings.CameraZoom <= 9.5f ? "Vừa" : "Xa", () => Settings.CameraZoom = Settings.CameraZoom <= 7.5f ? 9f : Settings.CameraZoom <= 9.5f ? 11.5f : 7f);
+            }
+            else if (_settingsTab == 1)
+            {
+                Row("Âm lượng tổng", Pct(Settings.Master), () => Settings.Master = Step(Settings.Master));
+                Row("Nhạc", Pct(Settings.Music), () => Settings.Music = Step(Settings.Music));
+                Row("Hiệu ứng chiến đấu", Pct(Settings.Sfx), () => Settings.Sfx = Step(Settings.Sfx));
+                Row("Giao diện", Pct(Settings.Ui), () => Settings.Ui = Step(Settings.Ui));
+                Row("Môi trường", Pct(Settings.Ambience), () => Settings.Ambience = Step(Settings.Ambience));
+                Row("Lời thoại Tướng đồng minh", Pct(Settings.Voice), () => Settings.Voice = Step(Settings.Voice));
+                Row("Phụ đề cảnh báo & lời thoại", Settings.Captions ? "Bật" : "Tắt", () => Settings.Captions = !Settings.Captions);
+            }
+            else
+            {
+                Row("Điều khiển cảm ứng", Settings.TouchControls ? "Bật" : "Tắt", () => Settings.TouchControls = !Settings.TouchControls);
+                Row("Biểu tượng nguyên tố (mù màu)", Settings.ElementGlyphs ? "Bật" : "Tắt", () => Settings.ElementGlyphs = !Settings.ElementGlyphs);
+                Row("Giảm chuyển động", Settings.ReducedMotion ? "Bật" : "Tắt", () => Settings.ReducedMotion = !Settings.ReducedMotion);
+                Row("Ban ngày nhanh (x2)", Settings.FastDay ? "Bật" : "Tắt", () => Settings.FastDay = !Settings.FastDay);
+                Row("Nhịp đêm chậm (x0.75)", Settings.SlowNights ? "Bật" : "Tắt", () => Settings.SlowNights = !Settings.SlowNights);
+                Row("Bảng gỡ lỗi AI (lý do lựa chọn)", AiDebug ? "Bật" : "Tắt", () => AiDebug = !AiDebug);
+            }
             if (Gui.Btn(new Rect(r.center.x - 160, r.yMax - 90, 320, 66), "XONG", true, Gui.ButtonBig))
             {
                 Settings.Apply();
@@ -236,6 +263,10 @@ namespace Runavelle.Game
                 y += step;
             }
         }
+
+        private int _settingsTab;
+        /// <summary>Debug overlay: AI reasons above soldiers/AI Generals (not saved).</summary>
+        public bool AiDebug;
 
         public void OpenSettingsFromRun()
         {
