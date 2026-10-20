@@ -13,3 +13,8 @@
 - `artlib.Canvas`: invisible 64 px safety margin; `save` grows the sprite only where content spills (touching counts) and compensates the pivot; `write_manifest` unifies frame groups (`unit/ enemy/ general/` `*_N`).
 - 451 sprites regenerated (mostly un-cropped shadows/weapons), drone ×1.6, shadow icon rim; 2 reasoned waivers (brannoc_1 gallop hoof, storm serpent lunge).
 - `artpipe generate` keeps Blender renders as precedence over procedural fallbacks.
+
+## P2 — Night forecast
+- `NightForecast` (fronts with compass/first contact/threat, special threats incl. wall bypasses, Exact/Estimate + reasons); `GameSession.Forecast`, `ForecastNext()` (same MakePlanFor path, cached).
+- Day panel, report intel and lane arrows use it; flyer-only lanes now get violet arrows, arrow size ∝ threat share.
+- Bug fix: next-night intel ignored boss override / Ascension 10 extra boss.

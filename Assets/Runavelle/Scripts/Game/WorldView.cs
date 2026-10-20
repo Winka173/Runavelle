@@ -487,12 +487,12 @@ namespace Runavelle.Game
 
         private void SyncLaneMarkers(bool show)
         {
-            var plan = _s.Plan;
+            var f = _s.Forecast;
             int needed = 0;
-            if (show && plan != null)
-                foreach (var laneId in plan.Lanes)
+            if (show && f != null)
+                foreach (var front in f.Fronts)
                 {
-                    var lane = _s.LaneById(laneId);
+                    var lane = _s.LaneById(front.LaneId);
                     if (lane == null) continue;
                     var c = lane.Center;
                     var toCastle = (V(_s.W.Castle.Center) - V(c)).normalized;
@@ -503,8 +503,11 @@ namespace Runavelle.Game
                     float bob = Mathf.Sin(Time * 3f) * 0.2f;
                     sr.transform.position = new Vector3(p.x + toCastle.x * bob, p.y + toCastle.y * bob, 0);
                     sr.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(toCastle.y, toCastle.x) * Mathf.Rad2Deg - 90f);
-                    sr.transform.localScale = new Vector3(1.2f, 1.2f, 1);
-                    sr.color = new Color(0.95f, 0.3f, 0.25f, 0.9f);
+                    // arrow size ~ share of tonight's threat; violet = flyer-only bypass route
+                    float share = f.TotalThreat > 0 ? (float)front.Threat / f.TotalThreat : 0f;
+                    float k = 1f + share * 0.8f;
+                    sr.transform.localScale = new Vector3(k, k, 1);
+                    sr.color = front.FlyerOnly ? new Color(0.62f, 0.4f, 1f, 0.9f) : new Color(0.95f, 0.3f, 0.25f, 0.9f);
                 }
             for (int i = needed; i < _laneMarkers.Count; i++) _laneMarkers[i].gameObject.SetActive(false);
         }

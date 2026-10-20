@@ -109,17 +109,59 @@ namespace Runavelle.Core
         }
 
         /// <summary>Night plan with run rules applied (Ascension 10 adds the map's night-10 boss to the final night).</summary>
-        private NightPlan MakePlan()
+        private NightPlan MakePlan() => MakePlanFor(Night);
+
+        private NightPlan MakePlanFor(int night)
         {
             ConfigureWaves();
-            var plan = Waves.Plan(Night, Math.Max(TotalNights, Night), BossOverride);
-            if (Setup.Ascension >= 10 && Night == TotalNights && W.Map.Bosses != null && W.Map.Bosses.Length > 1 && W.Map.Bosses[1] != null && plan.Lanes.Count > 0)
+            var plan = Waves.Plan(night, Math.Max(TotalNights, night), BossOverride);
+            if (Setup.Ascension >= 10 && night == TotalNights && W.Map.Bosses != null && W.Map.Bosses.Length > 1 && W.Map.Bosses[1] != null && plan.Lanes.Count > 0)
             {
                 plan.Groups.Add(new SpawnGroup { UnitId = W.Map.Bosses[1], Count = 1, LaneId = plan.Lanes[plan.Lanes.Count - 1], Time = 70f });
                 plan.Groups.Sort((x, y) => x.Time.CompareTo(y.Time));
             }
             return plan;
         }
+
+        private NightForecast _forecast;
+        private NightPlan _forecastFor;
+
+        /// <summary>Tonight's preview, built from the exact plan that will spawn (rolled at day start).</summary>
+        public NightForecast Forecast
+        {
+            get
+            {
+                if (Plan == null) return null;
+                if (_forecastFor != Plan) { _forecast = NightForecast.Build(Plan, Content, W.Map, CastleCenter()); _forecastFor = Plan; }
+                return _forecast;
+            }
+        }
+
+        /// <summary>
+        /// Next night's preview (report screen) through the same MakePlan path the next day will use. It is an
+        /// Estimate when something still pending can change the roll: a Royal Decree draft (budget hooks such as
+        /// Insomnia) or tomorrow's endless mutator.
+        /// </summary>
+        private NightForecast _next;
+        private string _nextKey;
+
+        public NightForecast ForecastNext()
+        {
+            int next = Night + 1;
+            string key = next + "/" + Phase + "/" + TakenDecrees.Count + "/" + W.Mods.All.Count + "/" + (W.Mods.Has(Hook.Insomnia) ? W.Mods.HookValue(Hook.Insomnia) : 0f);
+            if (_next != null && _nextKey == key) return _next; // UI asks every frame
+            _nextKey = key;
+            var reasons = new List<string>();
+            if (Setup.Endless && next > TotalNights) reasons.Add("Đột biến vô tận của đêm sau chưa được áp dụng");
+            if (DecreeDraftPending) reasons.Add("Chiếu chỉ sắp chọn có thể đổi quy mô đợt quái");
+            var plan = MakePlanFor(next);
+            return _next = NightForecast.Build(plan, Content, W.Map, CastleCenter(), reasons.Count > 0 ? ForecastConfidence.Estimate : ForecastConfidence.Exact, reasons);
+        }
+
+        /// <summary>A Royal Decree draft is still ahead of (or open before) the next day.</summary>
+        public bool DecreeDraftPending => Phase == RunPhase.DecreeDraft || (Phase == RunPhase.Report && IsDraftNight(Night) && DraftIndex < DraftsDueBy(Night));
+
+        private Vec2 CastleCenter() => W.Castle != null ? W.Castle.Center : new Vec2(W.Map.CastleOrigin.X + 1.5f, W.Map.CastleOrigin.Y + 1.5f);
 
         /// <summary>Boss for endless nights (null = not overridden, "" = no boss tonight) and short campaigns.</summary>
         private string RulesBoss(int night)

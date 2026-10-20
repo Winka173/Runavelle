@@ -10,6 +10,8 @@
 | P1 Castle growth — living world | NOT STARTED | — |
 | REFINE: cropped sprites (85 clipped) | DONE WITH EVIDENCE | `artlib.Canvas` 64 px invisible safety margin, sprites grow to fit, frames of one animation unified (same size+pivot), pivot compensated. Validator on game art: BLOCK 0 / WARN 0 / waived 16 (was WARN 90). Snapshot `previews/castle_in_context_moonstone_n6.png` layout unchanged |
 | REFINE: clockwork drone scale, el_shadow icon readability | DONE WITH EVIDENCE | drone ×1.6 (0.34 → in range), shadow icon pale rim; both pass validator |
-| P2 … P9 | NOT STARTED | — |
+| P2 Night threat preview (directions, specials, bypass, confidence) | DONE WITH EVIDENCE | `Core/Systems/NightForecast.cs` built only from the authoritative NightPlan. `ForecastTests`: 96 nights × 8 maps — spawned unit×lane counts == forecast; next-night report forecast Exact 16 / Estimate 12 (Estimate always carries a reason); no side effects (identical run state with/without peeking); flyers & burrowers always flagged VƯỢT TƯỜNG with their sky lane shown. Fixed: report screen used `Waves.Plan` without boss override/Ascension rules |
+| P2 Army rally choreography | NOT STARTED | — |
+| P3 … P9 | NOT STARTED | — |
 | Unity MCP / Blender MCP | BLOCKED | not connected; CLI used |
 | Unity builds / device profiling | BLOCKED | no Unity Editor / devices |

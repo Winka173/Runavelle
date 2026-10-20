@@ -163,24 +163,33 @@ namespace Runavelle.Game
         private void DrawDayHud()
         {
             var s = Session;
-            // forecast (right)
-            var fr = new Rect(Gui.Safe.xMax - 476, Gui.Safe.y + 120, 460, 400);
+            // forecast (right) — built from the exact plan that will spawn (NightForecast), incl. wall bypasses
+            var f = s.Forecast;
+            var fr = new Rect(Gui.Safe.xMax - 476, Gui.Safe.y + 120, 460, 470);
             Gui.DrawPanel(fr);
-            Gui.Text(new Rect(fr.x + 20, fr.y + 12, 420, 44), $"Dự báo đêm {s.Night}", Gui.H2);
+            Gui.Text(new Rect(fr.x + 20, fr.y + 12, 300, 44), $"Dự báo đêm {s.Night}", Gui.H2);
+            Gui.Text(new Rect(fr.x + 300, fr.y + 18, 140, 34), ConfidenceLabel(f), new GUIStyle(Gui.LabelSmall) { alignment = TextAnchor.MiddleRight },
+                f.Confidence == ForecastConfidence.Exact ? new Color(0.2f, 0.55f, 0.25f) : new Color(0.8f, 0.5f, 0.1f));
             float y = fr.y + 58;
-            Gui.Text(new Rect(fr.x + 20, y, 420, 34), "<b>Hướng:</b> " + string.Join(", ", s.Plan.Lanes.Select(l => s.LaneById(l)?.Name ?? l)), Gui.LabelSmall);
-            y += 38;
-            foreach (var tag in s.Plan.Tags.Take(5))
+            foreach (var front in f.Fronts.Take(4))
             {
-                Gui.Icon(new Rect(fr.x + 20, y, 30, 30), TagIcon(tag));
-                Gui.Text(new Rect(fr.x + 58, y, 380, 32), tag, Gui.LabelSmall, tag.StartsWith("BOSS") ? new Color(0.75f, 0.2f, 0.15f) : (Color?)null);
+                string route = front.FlyerOnly ? " <color=#6a3fa8>(đường bay)</color>" : "";
+                Gui.Text(new Rect(fr.x + 20, y, 420, 30), $"<b>{front.Direction}</b> – {front.Name}{route}: {front.Enemies} quân, từ giây {Mathf.RoundToInt(front.FirstContact)}", Gui.LabelSmall);
+                y += 30;
+            }
+            y += 4;
+            foreach (var grp in f.Specials.GroupBy(x => x.Kind).Take(5))
+            {
+                bool bypass = grp.Any(x => x.BypassesWalls);
+                var lanes = string.Join(", ", grp.Select(x => s.LaneById(x.LaneId)?.Name ?? x.LaneId).Distinct());
+                Gui.Icon(new Rect(fr.x + 20, y, 30, 30), SpecialIcon(grp.Key));
+                Gui.Text(new Rect(fr.x + 58, y, 390, 32), $"{SpecialLabel(grp.Key)} ×{grp.Sum(x => x.Count)} · {lanes}" + (bypass ? " · <b>VƯỢT TƯỜNG</b>" : ""), Gui.LabelSmall,
+                    grp.Key == SpecialThreatKind.Boss ? new Color(0.75f, 0.2f, 0.15f) : bypass ? new Color(0.45f, 0.25f, 0.7f) : (Color?)null);
                 y += 32;
             }
-            var counts = new Dictionary<string, int>();
-            foreach (var g in s.Plan.Groups) { counts.TryGetValue(g.UnitId, out int n); counts[g.UnitId] = n + g.Count; }
             float x = fr.x + 20;
             y += 6;
-            foreach (var kv in counts.OrderByDescending(k => k.Value).Take(8))
+            foreach (var kv in f.Composition.OrderByDescending(k => k.Value).Take(8))
             {
                 var tex = ArtLibrary.Tex("enemy/" + kv.Key + "_0");
                 if (tex != null) GUI.DrawTexture(new Rect(x, y, 48, 48), tex, ScaleMode.ScaleToFit);
@@ -198,6 +207,38 @@ namespace Runavelle.Game
             DrawBuildBar();
             if (BuildLevel == null && SelectedBuilding >= 0) DrawSelection();
             if (BuildLevel != null) DrawBuildHelp();
+        }
+
+        private static string ConfidenceLabel(NightForecast f) => f.Confidence == ForecastConfidence.Exact ? "CHÍNH XÁC" : "ƯỚC TÍNH";
+
+        private static string SpecialLabel(SpecialThreatKind k)
+        {
+            switch (k)
+            {
+                case SpecialThreatKind.Boss: return "Trùm";
+                case SpecialThreatKind.Flyer: return "Kẻ bay";
+                case SpecialThreatKind.Siege: return "Công thành";
+                case SpecialThreatKind.Burrower: return "Độn thổ";
+                case SpecialThreatKind.Stealth: return "Tàng hình";
+                case SpecialThreatKind.ManaDrain: return "Hút Mana";
+                case SpecialThreatKind.Summoner: return "Triệu hồi";
+                case SpecialThreatKind.Artillery: return "Pháo kích";
+                default: return "Dịch chuyển";
+            }
+        }
+
+        private static string SpecialIcon(SpecialThreatKind k)
+        {
+            switch (k)
+            {
+                case SpecialThreatKind.Boss: return "icon/boss";
+                case SpecialThreatKind.Flyer: return "icon/flyer";
+                case SpecialThreatKind.Siege: case SpecialThreatKind.Artillery: return "icon/siege";
+                case SpecialThreatKind.Burrower: return "icon/burrow";
+                case SpecialThreatKind.ManaDrain: return "icon/drain";
+                case SpecialThreatKind.Summoner: return "icon/summon";
+                default: return "icon/stealth";
+            }
         }
 
         private static string TagIcon(string tag)
@@ -660,8 +701,11 @@ namespace Runavelle.Game
                 L("<color=#6a3fa8><b>Vô tận – đêm " + (s.Night + 1) + " thêm:</b> " + RunRules.MutatorFor(s.Setup.Seed, s.Night + 1).Name + " (hoặc RÚT LUI để kết thúc thắng lợi)</color>");
             if (s.Night < s.TotalNights || s.Setup.Endless)
             {
-                var plan = s.Waves.Plan(s.Night + 1, System.Math.Max(s.TotalNights, s.Night + 1));
-                L("<b>Tình báo đêm tới:</b> " + string.Join(", ", plan.Lanes.Select(l => s.LaneById(l)?.Name ?? l)) + (plan.Tags.Count > 0 ? " · " + string.Join(" · ", plan.Tags.Take(3)) : ""));
+                // same MakePlan path as tomorrow's real roll; marked ƯỚC TÍNH while a decree/mutator can still change it
+                var nf = s.ForecastNext();
+                var sp = nf.Specials.GroupBy(q => q.Kind).Take(3).Select(g => SpecialLabel(g.Key) + (g.Any(q => q.BypassesWalls) ? " (vượt tường)" : ""));
+                L($"<b>Tình báo đêm tới ({ConfidenceLabel(nf)}):</b> " + string.Join(", ", nf.Fronts.Where(q => !q.FlyerOnly).Select(q => q.Direction + " " + q.Enemies)) + " quân" + (sp.Any() ? " · " + string.Join(" · ", sp) : ""));
+                if (nf.Uncertainty.Count > 0) L("<color=#a06010>" + nf.Uncertainty[0] + "</color>");
             }
             if (Gui.Btn(new Rect(r.center.x - 200, r.yMax - 96, 400, 72), "TIẾP TỤC", true, Gui.ButtonBig)) s.ContinueFromReport();
             DrawRetireButton(r);
