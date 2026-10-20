@@ -284,8 +284,15 @@ namespace Runavelle.Game
             Gui.Text(new Rect(r.x + 30, r.y + 16, 900, 56), "Hồ Sơ & Thông Thạo", Gui.H1);
             Gui.Text(new Rect(r.x + 30, r.y + 76, 1500, 40), $"Thắng {Profile.Victories} · Đêm xa nhất {Profile.BestNight} · Thành tựu {Profile.Achievements.Count} · Điểm thông thạo {Profile.TotalMastery()}", Gui.Label);
             DrawMasteryPanel(new Rect(r.x + 30, r.y + 120, 700, r.height - 140));
-            if (Gui.Btn(new Rect(r.xMax - 520, r.y + 16, 240, 52), "Các ván", _historyTab != 0, Gui.ButtonSmall)) _historyTab = 0;
-            if (Gui.Btn(new Rect(r.xMax - 270, r.y + 16, 240, 52), "Thành tựu", _historyTab != 1, Gui.ButtonSmall)) _historyTab = 1;
+            if (Gui.Btn(new Rect(r.xMax - 770, r.y + 16, 240, 52), "Các ván", _historyTab != 0, Gui.ButtonSmall)) _historyTab = 0;
+            if (Gui.Btn(new Rect(r.xMax - 520, r.y + 16, 240, 52), "Thành tựu", _historyTab != 1, Gui.ButtonSmall)) _historyTab = 1;
+            if (Gui.Btn(new Rect(r.xMax - 270, r.y + 16, 240, 52), "Biên niên", _historyTab != 2, Gui.ButtonSmall)) _historyTab = 2;
+            if (_historyTab == 2)
+            {
+                DrawChronicleTab(new Rect(r.x + 760, r.y + 120, 820, r.height - 140));
+                if (Gui.Btn(new Rect(Gui.Safe.x + 40, Gui.Safe.yMax - 100, 260, 72), "QUAY LẠI")) Screen = AppScreen.Title;
+                return;
+            }
             if (_historyTab == 1)
             {
                 DrawAchievementsTab(new Rect(r.x + 760, r.y + 120, 820, r.height - 140));

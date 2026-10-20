@@ -69,7 +69,7 @@ namespace Runavelle.Core
     /// </summary>
     public static class RunSave
     {
-        public const int Version = 1;
+        public const int Version = 2; // 2: Kingdom Chronicle ("chronicle"); v1 saves load with a fresh chronicle
 
         public static bool CanSave(GameSession s) => s.Phase == RunPhase.Day || s.Phase == RunPhase.DecreeDraft || s.Phase == RunPhase.GeneralEvolution || s.Phase == RunPhase.KingdomEvolution;
 
@@ -125,6 +125,7 @@ namespace Runavelle.Core
             foreach (var n in s.W.Analytics.Nights)
                 nights.Add(new Dictionary<string, object> { ["n"] = n.Night, ["d"] = n.Duration, ["k"] = n.Kills, ["c"] = n.CastleDamage, ["g"] = n.Gold, ["m"] = n.Mana, ["l"] = n.Lanes ?? "" });
             root["nights"] = nights;
+            if (s.Chronicle != null) root["chronicle"] = s.Chronicle.ToJson();
             return MiniJson.Write(root);
         }
 
@@ -145,6 +146,7 @@ namespace Runavelle.Core
                 }
                 v = 1;
             }
+            if (v == 1) v = 2; // v1 → v2: no field changes; a missing "chronicle" is rebuilt by RestoreChronicle
             root["saveVersion"] = (double)v;
             return root;
         }
@@ -168,6 +170,7 @@ namespace Runavelle.Core
             foreach (var u in MiniJson.Arr(root, "unlocked") ?? new List<object>()) setup.UnlockedGenerals.Add(u.ToString());
             var s = new GameSession(db, setup);
             s.RestoreFrom(root);
+            s.RestoreChronicle(root);
             return s;
         }
     }

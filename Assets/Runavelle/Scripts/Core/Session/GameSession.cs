@@ -138,6 +138,7 @@ namespace Runavelle.Core
             Plan = MakePlan();
             ApplyDayHazards();
             ChooseObjective();
+            ChronicleBegin();
         }
 
         private Vec2 Generals_RespawnPoint()
@@ -158,6 +159,7 @@ namespace Runavelle.Core
 
             if (Phase == RunPhase.Night) NightTick(dt);
             else if (Phase == RunPhase.Day) DayTick(dt);
+            ChronicleTrack();
         }
 
         private void DayTick(float dt)
@@ -179,6 +181,7 @@ namespace Runavelle.Core
         {
             NightTime += dt;
             SpawnScheduled();
+            TickBreachResponse();
             W.RebuildSpatial();
             Auras.Tick(dt);
             W.CastleGuardTimer = Math.Max(0f, W.CastleGuardTimer - dt);
@@ -338,6 +341,7 @@ namespace Runavelle.Core
         public bool StartNight()
         {
             if (Phase != RunPhase.Day) return false;
+            ChronicleTrack(); // day-time castle upgrades / decrees before the bell
             Phase = RunPhase.Night;
             W.IsNight = true;
             W.Night = Night;
@@ -376,6 +380,7 @@ namespace Runavelle.Core
                 SoldiersLost = rep.SoldiersLost, BuildingsLost = rep.BuildingsLost, Lanes = string.Join(",", Plan.Lanes), CastleHpFrac = W.Castle != null ? W.Castle.HpFraction : 0f });
             LastReport = rep;
             W.Emit(SimEventType.NightEnd, W.Castle.Center, victory ? 1 : 0);
+            ChronicleNightEnd(rep);
             if (!victory)
             {
                 // remove remaining enemies so the defeat screen is calm
@@ -383,6 +388,7 @@ namespace Runavelle.Core
                 CleanupUnits();
                 Phase = RunPhase.Defeat;
                 Score = ComputeScore(false);
+                ChronicleTrack();
                 return;
             }
             OnNightWon(rep);
@@ -473,6 +479,7 @@ namespace Runavelle.Core
             {
                 Phase = RunPhase.Victory;
                 Score = ComputeScore(true);
+                ChronicleTrack();
                 return;
             }
             AdvanceAfterReport();
@@ -506,6 +513,7 @@ namespace Runavelle.Core
             if (IsEndlessNight) RebuildModifiers(); // stack tonight's endless mutator
             Plan = MakePlan();
             OnDayStart();
+            ChronicleTrack();
             AutosaveRequested = true;
         }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Runavelle.Core
 {
@@ -16,7 +17,8 @@ namespace Runavelle.Core
     /// <summary>Offline player profile: unlocks (options, never stat inflation), settings, history, mastery.</summary>
     public sealed class Profile
     {
-        public const int Version = 1;
+        /// <summary>1 = initial; 2 = Kingdom Chronicle archive ("chronicles", absent in v1 → empty).</summary>
+        public const int Version = 2;
         public int Victories;
         public int BestNight;
         public int RunsPlayed;
@@ -25,6 +27,9 @@ namespace Runavelle.Core
         public readonly HashSet<string> Achievements = new HashSet<string>();
         public readonly HashSet<string> Cosmetics = new HashSet<string>();
         public readonly List<RunSummary> History = new List<RunSummary>();
+        /// <summary>Kingdom Chronicles of the most recent runs (newest first, offline, bounded).</summary>
+        public readonly List<RunChronicle> Chronicles = new List<RunChronicle>();
+        public const int MaxChronicles = 20;
         public readonly Dictionary<string, string> Settings = new Dictionary<string, string>();
         public bool TutorialDone;
         public int BestEndlessNight;
@@ -121,6 +126,11 @@ namespace Runavelle.Core
                 Kills = s.W.Analytics.TotalKills, Ascension = s.Setup.Ascension, Score = s.ComputeScore(victory), Daily = s.Setup.IsDaily, Challenge = s.Setup.ChallengeId,
                 Date = DateTime.UtcNow.ToString("yyyy-MM-dd") });
             if (History.Count > 30) History.RemoveRange(30, History.Count - 30);
+            if (s.Chronicle != null)
+            {
+                Chronicles.Insert(0, s.Chronicle);
+                if (Chronicles.Count > MaxChronicles) Chronicles.RemoveRange(MaxChronicles, Chronicles.Count - MaxChronicles);
+            }
             return Mastery.Evaluate(this, s, victory);
         }
 
@@ -142,6 +152,7 @@ namespace Runavelle.Core
                 ["asc"] = asc, ["mastery"] = mast, ["achievements"] = new List<object>(Achievements), ["cosmetics"] = new List<object>(Cosmetics),
                 ["history"] = hist, ["settings"] = settings, ["bestEndless"] = BestEndlessNight,
                 ["mapsWon"] = new List<object>(MapsWon), ["challengesWon"] = new List<object>(ChallengesWon), ["daily"] = DailyToJson(),
+                ["chronicles"] = Chronicles.Select(c => (object)c.ToJson()).ToList(),
             });
         }
 
@@ -178,6 +189,8 @@ namespace Runavelle.Core
             if (daily != null) foreach (var kv in daily) p.DailyBest[kv.Key] = (int)(double)kv.Value;
             var st = MiniJson.Obj(root, "settings");
             if (st != null) foreach (var kv in st) p.Settings[kv.Key] = kv.Value?.ToString();
+            foreach (var c in MiniJson.Arr(root, "chronicles") ?? new List<object>()) // v1 profiles: key absent → empty archive
+                if (c is Dictionary<string, object> cd) p.Chronicles.Add(RunChronicle.FromJson(cd));
             return p;
         }
     }

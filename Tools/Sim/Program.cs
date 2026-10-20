@@ -44,6 +44,15 @@ public static class Program
         int asc = opts.TryGetValue("ascension", out var a) ? int.Parse(a) : 0;
         bool verbose = opts.ContainsKey("verbose");
         if (opts.ContainsKey("norally")) AiTuning.RallyDistance = 0f; // A/B knob: squads stay by their barracks
+        // balancing knobs from the command line: tune.<AiTuning field>=value (sensitivity sweeps without code edits)
+        foreach (var kv in opts.Where(k => k.Key.StartsWith("tune.")))
+        {
+            var f = typeof(AiTuning).GetField(kv.Key.Substring(5), System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+                    ?? throw new ArgumentException("unknown knob " + kv.Key);
+            f.SetValue(null, Convert.ChangeType(kv.Value, f.FieldType, System.Globalization.CultureInfo.InvariantCulture));
+            Console.WriteLine($"knob {f.Name}={f.GetValue(null)}");
+        }
+        if (opts.ContainsKey("nobreach")) { AiTuning.BreachResponseRadius = -1f; AiTuning.BreachGeneralSector = -1f; } // A/B knob: no breach orders
         string challenge = opts.TryGetValue("challenge", out var chl) ? chl : null;
         bool endless = opts.ContainsKey("endless");
         Console.WriteLine($"Runavelle headless harness | seeds={seeds} maps={string.Join(",", maps)} generals={string.Join(",", generals)} strategies={string.Join(",", strategies)} asc={asc}");

@@ -98,6 +98,7 @@ namespace Runavelle.Core
             if (!CanRetire) return false;
             Phase = RunPhase.Victory;
             Score = ComputeScore(true);
+            ChronicleTrack();
             return true;
         }
 

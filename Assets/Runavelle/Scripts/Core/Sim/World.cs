@@ -114,10 +114,15 @@ namespace Runavelle.Core
 
         public int AllocId() => NextId++;
 
+        /// <summary>Core-side listener (e.g. the Kingdom Chronicle): sees every event, independent of presentation draining.</summary>
+        public Action<SimEvent> Observer;
+
         public void Emit(SimEventType type, Vec2 pos, float value = 0f, ElementId e = ElementId.None, int actor = -1, string text = null, int other = -1, ReactionId r = ReactionId.None)
         {
+            var ev = new SimEvent { Type = type, Position = pos, Value = value, Element = e, ActorId = actor, OtherId = other, Text = text, Reaction = r };
+            Observer?.Invoke(ev);
             if (Events.Count > 4000) return; // presentation not draining (headless) – cap memory
-            Events.Add(new SimEvent { Type = type, Position = pos, Value = value, Element = e, ActorId = actor, OtherId = other, Text = text, Reaction = r });
+            Events.Add(ev);
         }
 
         public Actor Get(int id) => id >= 0 && ById.TryGetValue(id, out var a) ? a : null;

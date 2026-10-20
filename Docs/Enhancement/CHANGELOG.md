@@ -26,3 +26,9 @@
 - Navigation A* counters (`PathCalls`, `PathExpanded`) printed by `perf`, plus topology-change spike count.
 - `Tools/Balance/ab_compare.py` (paired seeds, Wilson CI, bootstrap CI of the paired difference, exact McNemar) + self-tests.
 - Tests adjusted with reason: leash invariant excludes `Returning` (walking to a post is not a chase); pursuit-cap test clears the post.
+
+## P3 Breach Crisis / P5 Kingdom Chronicle
+- Breach orders (plug / fall back / general guard / general inner) + `SimEventType.BreachResponse` + labels; knobs in `AiTuning` (Breach*, InnerLineOffset, BreachKeepEngaged).
+- Harness: `tune.<field>=value` knob overrides, `nobreach`.
+- Kingdom Chronicle with save/profile migration, search, replay; History screen tab "Biên niên"; report shows tonight's entries.
+- `World.Observer` hook (emits before the 4000-event cap).

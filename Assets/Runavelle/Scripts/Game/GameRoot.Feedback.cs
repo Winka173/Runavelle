@@ -146,6 +146,16 @@ namespace Runavelle.Game
                         Music.Breach();
                         NearestAiBark(BarkTrigger.WallBreach, e.Position, 14f);
                         break;
+                    case SimEventType.BreachResponse:
+                    {
+                        // autonomous squad/general decision after a breach: say it where they are heading
+                        var order = (BreachOrder)(int)e.Value;
+                        bool hold = order == BreachOrder.Plug || order == BreachOrder.GeneralGuard;
+                        var col = hold ? new Color(0.45f, 0.75f, 1f) : new Color(1f, 0.8f, 0.35f);
+                        vfx.Ring(at, col, 1.2f, 0.5f, "fx/ring_thick");
+                        vfx.Label(at, hold ? "Bịt lỗ hổng!" : "Lui về tuyến trong!", col, 24f, 1.4f);
+                        break;
+                    }
                     case SimEventType.BuildingDestroyed:
                         vfx.Smoke(at, 12, new Color(0.6f, 0.55f, 0.55f, 0.85f));
                         vfx.Decal("fx/rubble_" + (e.ActorId % 3), at, 1.4f, 0f, Color.white);

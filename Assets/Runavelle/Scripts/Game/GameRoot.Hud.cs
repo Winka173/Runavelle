@@ -699,6 +699,9 @@ namespace Runavelle.Game
             DrawHighlights(new Rect(r.xMax + 16, r.y, 420, r.height), rep.Night);
             if (s.Setup.Endless && s.Night >= s.TotalNights)
                 L("<color=#6a3fa8><b>Vô tận – đêm " + (s.Night + 1) + " thêm:</b> " + RunRules.MutatorFor(s.Setup.Seed, s.Night + 1).Name + " (hoặc RÚT LUI để kết thúc thắng lợi)</color>");
+            // Kingdom Chronicle: tonight's notable events (recorded from the simulation, not invented)
+            foreach (var ce in s.Chronicle.Entries.Where(c => c.Night == s.Night && c.Kind != ChronicleKind.NightVictory && c.Kind != ChronicleKind.RunStart).Take(3))
+                L("<color=#6a5a8a>Biên niên:</color> " + ce.Text);
             if (s.Night < s.TotalNights || s.Setup.Endless)
             {
                 // same MakePlan path as tomorrow's real roll; marked ƯỚC TÍNH while a decree/mutator can still change it

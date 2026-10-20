@@ -18,7 +18,17 @@ namespace Runavelle.Core
         public static float Stickiness = 0.5f;             // keep current target (no flapping)
         public static float RallyDistance = 4f;            // max march from the barracks door toward its front (tiles)
         public static float RallyRangedBack = 1.4f;        // ranged squads form up this far behind the melee line
-        public static float LeashSlack = 1.5f;             // never pick targets further than leash + slack from home
+        public static float LeashSlack = 1.5f;
+        // P3 breach crisis
+        public static float BreachResponseRadius = 7f;     // squads whose post/barracks is this close to a gap react
+        public static float BreachThreatRadius = 6f;       // enemy HP counted around the gap
+        public static float BreachPlugRatio = 1.25f;       // plug when enemy HP at the gap <= squad HP x ratio
+        public static float BreachPlugMinHp = 0.45f;       // ...and the squad is not already battered
+        public static bool BreachKeepEngaged = true;       // a squad already fighting finishes its fight instead of re-posting
+        public static float BreachGeneralSector = 9f;      // AI general reacts when the gap is in its sector
+        public static float BreachGeneralMinHp = 0.5f;
+        public static float BreachGeneralRatio = 2.5f;     // enemy HP at the gap vs general HP before falling back
+        public static float InnerLineOffset = 1.8f;        // inner line distance from the Castle edge (tiles)             // never pick targets further than leash + slack from home
 
         // --- ranged spacing
         public static float RangedMinRange = 2.5f;         // soldiers with Range above this count as ranged
