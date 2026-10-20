@@ -245,6 +245,13 @@ def cmd_import(a):
             os.replace(tmp, dst)
         for k in keys:
             gm[k] = st[k]
+        # staged but pixel-identical sprites: refresh provenance metadata (src/sha) without touching the PNG
+        for k, e in st.items():
+            if k in keys or k not in gm or (a.only and not matches(k, a.only)):
+                continue
+            for field in ("src", "sha256"):
+                if field in e:
+                    gm[k][field] = e[field]
         save_manifest(GAME_ART, gm)
     except Exception as e:  # noqa: BLE001
         for tmp, _ in staged:
