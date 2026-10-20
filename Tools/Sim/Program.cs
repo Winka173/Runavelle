@@ -78,8 +78,11 @@ public static class Program
             {
                 sess = new GameSession(db, setup);
                 var bot = new AutoPlayer(sess, strat, seed);
-                bot.SoldierPreference = db.SoldierOrder[i % db.SoldierOrder.Count].ToString().ToLowerInvariant();
-                bot.MagicSchool = "magic_" + Elements.Info(Elements.All[(i * 3) % 8]).Key + "_1";
+                if (strat != AutoPlayer.Strategy.MageHeavy) // the mage policy fixes its own soldier/school
+                {
+                    bot.SoldierPreference = db.SoldierOrder[i % db.SoldierOrder.Count].ToString().ToLowerInvariant();
+                    bot.MagicSchool = "magic_" + Elements.Info(Elements.All[(i * 3) % 8]).Key + "_1";
+                }
                 nights = bot.RunToEnd();
             }
             catch (Exception e) { ex = e.GetType().Name + ": " + e.Message.Replace(',', ';') + " @ " + (e.StackTrace ?? "").Split('\n').FirstOrDefault()?.Trim().Replace(',', ';'); exceptions++; }

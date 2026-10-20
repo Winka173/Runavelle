@@ -9,7 +9,12 @@ namespace Runavelle.Core
     /// </summary>
     public sealed class AutoPlayer
     {
-        public enum Strategy { Balanced, Economy, Towers, Army, Elemental }
+        /// <summary>
+        /// Bot policies for the balance lab. The first five are the original archetypes (behaviour unchanged so older
+        /// reports stay comparable); the rest are the P8 policies. Army doubles as "army-first". None of them is a model
+        /// of real human play.
+        /// </summary>
+        public enum Strategy { Balanced, Economy, Towers, Army, Elemental, GreedyEconomy, WallFirst, MageHeavy, GeneralCarry, RandomPlay }
 
         private readonly GameSession _s;
         public Strategy Plan;
@@ -24,7 +29,10 @@ namespace Runavelle.Core
             _s = s;
             Plan = plan;
             _rng = Rng.Derive(seed, 99);
+            if (plan == Strategy.MageHeavy) { SoldierPreference = "mage"; MagicSchool = "magic_lightning_1"; }
         }
+
+        private int R(int lo, int hi) => lo + (int)(_rng.NextUInt() % (uint)(hi - lo + 1)); // inclusive, deterministic
 
         private World W => _s.W;
 
@@ -38,9 +46,17 @@ namespace Runavelle.Core
             int wells = W.CountFamily(BuildingFamily.ManaWell);
             int targetHouses = Plan == Strategy.Economy ? 3 + night / 2 : 2 + night / 3;
             int targetWells = Plan == Strategy.Elemental ? 2 + night / 4 : 1 + night / 5;
+            switch (Plan)
+            {
+                case Strategy.GreedyEconomy: targetHouses = 4 + night / 2; targetWells = 2 + night / 3; break;  // maximise income, defend late
+                case Strategy.MageHeavy: targetWells = 2 + night / 3; break;                                    // mana for magic towers + mages
+                case Strategy.GeneralCarry: targetHouses = 2 + night / 4; targetWells = 1; break;               // lean kingdom, gold to AI generals
+                case Strategy.RandomPlay: targetHouses = R(1, 5); targetWells = R(0, 3); break;
+            }
 
             // 1. economy first in the early game
-            for (int i = houses; i < Math.Min(targetHouses, 7) && night <= 9; i++) if (!PlaceNear("house_1", CastleCenter, 3, 7)) break;
+            int houseCap = Plan == Strategy.GreedyEconomy ? 9 : 7;
+            for (int i = houses; i < Math.Min(targetHouses, houseCap) && night <= 9; i++) if (!PlaceNear("house_1", CastleCenter, 3, 7)) break;
             for (int i = wells; i < Math.Min(targetWells, 4) && night <= 10; i++) if (!PlaceNear("well_1", CastleCenter, 3, 8)) break;
 
             // 2. defend each threatened front
@@ -52,16 +68,25 @@ namespace Runavelle.Core
                 int barracksNear = CountNear(front, 5f, BuildingFamily.Barracks);
                 int wantTowers = Plan == Strategy.Towers ? 2 + night / 3 : 1 + night / 3;
                 int wantBarracks = Plan == Strategy.Army ? 1 + night / 5 : night >= 2 ? 1 + night / 8 : 0;
+                switch (Plan)
+                {
+                    case Strategy.GreedyEconomy: wantTowers = night <= 3 ? 1 : 1 + night / 4; wantBarracks = night >= 6 ? 1 : 0; break;
+                    case Strategy.MageHeavy: wantTowers = 1 + night / 3; wantBarracks = night >= 2 ? 1 + night / 6 : 0; break;
+                    case Strategy.GeneralCarry: wantTowers = 1 + night / 5; wantBarracks = 0; break;
+                    case Strategy.RandomPlay: wantTowers = R(0, 1 + night / 2); wantBarracks = R(0, 1 + night / 6); break;
+                }
                 for (int i = towersNear; i < wantTowers; i++)
                 {
                     bool archersBanned = _s.BannedFamilies.Contains(BuildingFamily.ArcherTower);
-                    string lvl = archersBanned || ((Plan == Strategy.Elemental || i % 2 == 1) && W.Economy_Mana(_s) >= 30) ? MagicSchool : "archer_1";
+                    bool magic = Plan == Strategy.MageHeavy || (Plan == Strategy.RandomPlay ? R(0, 1) == 1 : (Plan == Strategy.Elemental || i % 2 == 1));
+                    string lvl = archersBanned || (magic && W.Economy_Mana(_s) >= 30) ? MagicSchool : "archer_1";
                     if (!PlaceNear(lvl, front, 1, 5)) break;
                 }
                 if (_s.BannedFamilies.Contains(BuildingFamily.Barracks)) wantBarracks = 0;
                 for (int i = barracksNear; i < wantBarracks; i++)
                     if (!PlaceNear("barracks_" + SoldierPreference, front + (lane.Center - CastleCenter).Normalized * 1.5f, 1, 5)) break;
-                if (night >= 3 && !_s.BannedFamilies.Contains(BuildingFamily.Wall)) WallAcross(lane, 0.5f);
+                int wallNight = Plan == Strategy.WallFirst ? 1 : Plan == Strategy.GreedyEconomy ? 6 : Plan == Strategy.RandomPlay ? R(1, 8) : 3;
+                if (night >= wallNight && !_s.BannedFamilies.Contains(BuildingFamily.Wall)) WallAcross(lane, Plan == Strategy.WallFirst ? 0.42f : 0.5f);
             }
 
             // 3. shrine mid-game
@@ -74,7 +99,8 @@ namespace Runavelle.Core
                 {
                     if (_s.AiSlotCommissioned[slot]) { _s.AssignAiLane(slot, _s.DefaultLaneFor(slot)); continue; }
                     var avail = _s.AvailableAiGenerals();
-                    if (avail.Count > 0 && _s.Economy.Gold > 150) _s.CommissionAiGeneral(slot, avail[0]);
+                    int need = Plan == Strategy.GeneralCarry ? 100 : 150;
+                    if (avail.Count > 0 && _s.Economy.Gold > need) _s.CommissionAiGeneral(slot, avail[Plan == Strategy.RandomPlay ? R(0, avail.Count - 1) : 0]);
                 }
 
             // 5. spend the rest on upgrades (cheapest meaningful first)
@@ -170,7 +196,7 @@ namespace Runavelle.Core
                     var r = _s.CanUpgrade(b, next);
                     if (!r.Ok) continue;
                     float score = UpgradeValue(b, _s.Content.Level(next)) / Math.Max(10f, r.Cost.Gold + r.Cost.Mana * 1.3f);
-                    score += _rng.NextFloat() * 0.01f;
+                    score += _rng.NextFloat() * (Plan == Strategy.RandomPlay ? 1f : 0.01f);
                     if (score > bestScore) { bestScore = score; best = b; bestLevel = next; }
                 }
             }
@@ -180,6 +206,23 @@ namespace Runavelle.Core
 
         private float UpgradeValue(Building b, BuildingLevel next)
         {
+            switch (Plan)
+            {
+                case Strategy.GreedyEconomy:
+                    if (b.Def.Family == BuildingFamily.House || b.Def.Family == BuildingFamily.ManaWell) return _s.Night <= 10 ? 10f : 2f;
+                    break;
+                case Strategy.WallFirst:
+                    if (b.Def.Family == BuildingFamily.Wall) return 8f;
+                    break;
+                case Strategy.MageHeavy:
+                    if (b.Def.Family == BuildingFamily.MagicTower) return 9f;
+                    if (b.Def.Family == BuildingFamily.Barracks) return 7f;
+                    break;
+                case Strategy.GeneralCarry:
+                    if (b.Def.Family == BuildingFamily.Castle) return 9f;
+                    if (b.Def.Family == BuildingFamily.Shrine) return 7f;
+                    break;
+            }
             switch (b.Def.Family)
             {
                 case BuildingFamily.House: return _s.Night <= 9 ? 6f : 1f;
@@ -214,6 +257,12 @@ namespace Runavelle.Core
                     string pick = _s.DecreeOffer[0];
                     foreach (var id in _s.DecreeOffer)
                         if (_s.Content.Decrees[id].Category != DecreeCategory.Cursed) { pick = id; break; }
+                    var want = Plan == Strategy.GreedyEconomy ? DecreeCategory.Economy : Plan == Strategy.WallFirst ? DecreeCategory.Fortress
+                        : Plan == Strategy.MageHeavy ? DecreeCategory.Elemental : Plan == Strategy.GeneralCarry ? DecreeCategory.General : (DecreeCategory)(-1);
+                    if ((int)want >= 0)
+                        foreach (var id in _s.DecreeOffer)
+                            if (_s.Content.Decrees[id].Category == want) { pick = id; break; }
+                    if (Plan == Strategy.RandomPlay) pick = _s.DecreeOffer[R(0, _s.DecreeOffer.Count - 1)];
                     _s.ChooseDecree(pick);
                     break;
                 case RunPhase.GeneralEvolution: _s.ChooseGeneralEvolution((int)(_rng.NextUInt() % 2)); break;
