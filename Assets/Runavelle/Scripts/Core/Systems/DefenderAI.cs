@@ -30,12 +30,24 @@ namespace Runavelle.Core
             var b = _w.Get(u.OwnerBuildingId) as Building;
             if (b == null) return u.Home;
             int idx = Math.Max(0, b.Squad.IndexOf(u.Id));
-            // stand in front of the barracks, toward the castle's threats (away from castle)
-            Vec2 c = b.Center;
-            Vec2 outward = _w.Castle != null ? (c - _w.Castle.Center).Normalized : new Vec2(1, 0);
+            Vec2 c = b.Center, outward;
+            float ahead;
+            if ((_w.IsNight || _w.Rally) && b.RallyPost.HasValue)
+            {
+                // rally: melee line at the post facing the front, ranged squads a step behind it
+                c = b.RallyPost.Value;
+                outward = b.RallyDir;
+                ahead = u.Attack.Range > AiTuning.RangedMinRange ? -AiTuning.RallyRangedBack : 0f;
+            }
+            else
+            {
+                // stand in front of the barracks, toward the castle's threats (away from castle)
+                outward = _w.Castle != null ? (c - _w.Castle.Center).Normalized : new Vec2(1, 0);
+                ahead = b.Size * 0.5f + 0.9f;
+            }
             if (outward.SqrMagnitude < 0.01f) outward = new Vec2(1, 0);
             Vec2 side = new Vec2(-outward.Y, outward.X);
-            Vec2 slot = c + outward * (b.Size * 0.5f + 0.9f) + side * ((idx % 4) - 1.5f) * 0.7f - outward * (idx / 4) * 0.7f;
+            Vec2 slot = c + outward * ahead + side * ((idx % 4) - 1.5f) * 0.7f - outward * (idx / 4) * 0.7f;
             var t = Int2.FromPosition(slot);
             if (!_w.FriendlyPassable(t.X, t.Y)) slot = _nav.NearestFriendlyPassable(t).Center;
             return slot;
@@ -51,6 +63,7 @@ namespace Runavelle.Core
             if (u.Status.Stunned) return;
             var barracks = _w.Get(u.OwnerBuildingId) as Building;
             Vec2 home = barracks != null && !barracks.Dead ? barracks.Center : u.Home;
+            if (_w.IsNight && barracks != null && barracks.RallyPost.HasValue) home = barracks.RallyPost.Value; // leash anchored at the post
             u.Home = home;
 
             if (!_w.IsNight)

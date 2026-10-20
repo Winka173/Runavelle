@@ -319,7 +319,7 @@ namespace Runavelle.Game
         private void DayInput()
         {
             if (Input.UndoPressed) { if (Session.UndoLast()) ShowToast("Đã hoàn tác."); }
-            if (Input.StartNightPressed && BuildLevel == null) { StartNightAction(); return; }
+            if (Input.StartNightPressed && BuildLevel == null) { if (InDusk) SkipDusk(); else StartNightAction(); return; }
             if (Input.CancelPressed) { ClearBuildMode(); SelectedBuilding = -1; }
             if (BuildLevel != null)
             {
@@ -402,8 +402,16 @@ namespace Runavelle.Game
             SelectedBuilding = -1;
             Paused = false;
             _dusk = DuskDuration;
+            Session.BeginRally(); // squads march to their posts during the bell (autonomous; no troop micro)
             AudioService.Play("dusk_bell", 0.9f, 1, 1f, category: SoundCategory.Stinger);
-            Caption("[Chuông hoàng hôn]");
+            AudioService.Play("horn", 0.55f, 1, 0.4f, category: SoundCategory.Stinger);
+            Caption("[Chuông hoàng hôn – kèn tập hợp]");
+        }
+
+        /// <summary>Skip the dusk choreography: the night starts now (posts are identical either way).</summary>
+        public void SkipDusk()
+        {
+            if (InDusk) _dusk = Mathf.Min(_dusk, 0.01f);
         }
 
         private void TickDusk(float dt)

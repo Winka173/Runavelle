@@ -136,8 +136,20 @@ def castle_props():
     cv.save("building/prop_arcanum", pivot=(24, 60))
 
 
+def rally_flag():
+    # army rally marker: pole + swallow-tail pennant (near-white cloth, tinted per kingdom at runtime)
+    cv = Canvas(48, 72)
+    cv.shadow(16, 68, 9, 3, 70)
+    cv.inked_line(16, 68, 16, 10, rgb('#6b4a32'), 3)
+    cv.circle(16, 9, 3, rgb('#e8c25a'))
+    cv.poly([(17, 12), (44, 17), (36, 24), (44, 31), (17, 34)], rgb('#f4f0ea'), ink=2.5)
+    cv.poly([(17, 20), (40, 22), (17, 26)], rgb('#d8d0c4'), ink=0, shade=False)
+    cv.save("fx/rally_flag", pivot=(16, 68))
+
+
 def run():
     particles()
     decals()
     ambient()
     castle_props()
+    rally_flag()

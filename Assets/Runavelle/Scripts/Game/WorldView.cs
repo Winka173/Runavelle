@@ -24,6 +24,7 @@ namespace Runavelle.Game
         private readonly List<int> _remove = new List<int>();
         private SpriteRenderer _night;
         private readonly List<SpriteRenderer> _laneMarkers = new List<SpriteRenderer>();
+        private readonly List<SpriteRenderer> _rallyFlags = new List<SpriteRenderer>();
         private float _nightBlend;
         public readonly Vfx Vfx;
         public float Alpha;
@@ -280,6 +281,7 @@ namespace Runavelle.Game
             SyncBanner();
             SyncHazards();
             SyncLaneMarkers(showLaneForecast);
+            SyncRallyFlags();
             Vfx.Update(dt, settings);
         }
 
@@ -483,6 +485,28 @@ namespace Runavelle.Game
             float pulse = 6.5f + Mathf.Sin(Time * 1.5f) * 0.15f;
             _kingdomRing.transform.localScale = new Vector3(pulse, pulse, 1);
             _kingdomRing.color = k == "fortress" ? new Color(0.75f, 0.75f, 0.85f, 0.35f) : k == "legion" ? new Color(1f, 0.45f, 0.35f, 0.35f) : new Color(0.7f, 0.5f, 1f, 0.4f);
+        }
+
+        /// <summary>Rally banners at each squad's muster post (dusk and first seconds of the night); tinted by kingdom.</summary>
+        private void SyncRallyFlags()
+        {
+            int needed = 0;
+            bool show = _s.W.Rally || (_s.W.IsNight && _s.NightTime < 12f);
+            if (show)
+                foreach (var b in _s.W.Buildings)
+                {
+                    if (b.Dead || !b.RallyPost.HasValue) continue;
+                    if (_rallyFlags.Count <= needed) _rallyFlags.Add(NewSR("rally", ArtLibrary.Get("fx/rally_flag"), 0));
+                    var sr = _rallyFlags[needed++];
+                    sr.gameObject.SetActive(true);
+                    var p = b.RallyPost.Value + b.RallyDir * 0.8f;
+                    sr.transform.position = new Vector3(p.X, p.Y, 0);
+                    sr.transform.rotation = Quaternion.Euler(0, 0, Mathf.Sin(Time * 2.6f + b.Id) * 3f);
+                    sr.sortingOrder = SortY(p.Y);
+                    var k = _s.KingdomEvolution;
+                    sr.color = k == "fortress" ? new Color(0.75f, 0.8f, 0.95f) : k == "legion" ? new Color(1f, 0.45f, 0.4f) : k == "arcanum" ? new Color(0.78f, 0.6f, 1f) : new Color(0.55f, 0.7f, 1f);
+                }
+            for (int i = needed; i < _rallyFlags.Count; i++) _rallyFlags[i].gameObject.SetActive(false);
         }
 
         private void SyncLaneMarkers(bool show)

@@ -18,3 +18,11 @@
 - `NightForecast` (fronts with compass/first contact/threat, special threats incl. wall bypasses, Exact/Estimate + reasons); `GameSession.Forecast`, `ForecastNext()` (same MakePlanFor path, cached).
 - Day panel, report intel and lane arrows use it; flyer-only lanes now get violet arrows, arrow size ∝ threat share.
 - Bug fix: next-night intel ignored boss override / Ascension 10 extra boss.
+
+## P2 — Army Rally
+- `GameSession.BeginRally/AssignRallyPosts`, `Building.RallyPost/RallyDir`, `World.Rally`; `AiTuning.RallyDistance` / `RallyRangedBack` knobs (`norally` harness/perf flag = 0).
+- DefenderAI: formation at the post at dusk/night, leash anchor at the post at night.
+- Dusk: horn + rally flags + skip ("TẬP HỢP… (BỎ QUA)" / start-night key).
+- Navigation A* counters (`PathCalls`, `PathExpanded`) printed by `perf`, plus topology-change spike count.
+- `Tools/Balance/ab_compare.py` (paired seeds, Wilson CI, bootstrap CI of the paired difference, exact McNemar) + self-tests.
+- Tests adjusted with reason: leash invariant excludes `Returning` (walking to a post is not a chase); pursuit-cap test clears the post.

@@ -50,6 +50,9 @@ namespace Runavelle.Core
         public int ShotCounter;
         public float RespawnTimer;
         public readonly List<int> Squad = new List<int>();
+        /// <summary>Barracks only: tonight's muster point toward the nearest forecast front, stopped behind the wall line (null = by the barracks).</summary>
+        public Vec2? RallyPost;
+        public Vec2 RallyDir;
         public float DisabledTimer;
         public float ShieldHp;
         /// <summary>Temporary structures (General barriers) expire after this many seconds; &lt;0 = permanent.</summary>

@@ -355,6 +355,8 @@ namespace Runavelle.Core
             W.DoubleUltUsed = false;
             _warned.Clear();
             foreach (var g in Plan.Groups) g.Spawned = 0;
+            if (!W.Rally) AssignRallyPosts(); // headless / skipped dusk: same posts, no march head start
+            W.Rally = false;
             PlaceAIGenerals();
             OnNightStart();
             W.Emit(SimEventType.NightStart, W.Castle.Center, Night);
@@ -364,6 +366,7 @@ namespace Runavelle.Core
         private void EndNight(bool victory)
         {
             W.IsNight = false;
+            foreach (var b in W.Buildings) b.RallyPost = null; // back to the barracks yard by day
             W.Projectiles.Clear();
             W.Zones.Clear();
             W.Telegraphs.Clear();

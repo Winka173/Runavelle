@@ -21,4 +21,5 @@ jobs:
         with: { python-version: '3.12' }
       - run: pip install numpy pillow
       - run: python -m unittest discover -s Tools/ArtPipeline/tests -v
+      - run: python -m unittest discover -s Tools/Balance/tests -v
       - run: python Tools/ArtPipeline/validator.py --out Build/art_validation

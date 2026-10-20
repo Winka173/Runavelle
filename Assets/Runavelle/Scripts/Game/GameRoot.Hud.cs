@@ -200,7 +200,7 @@ namespace Runavelle.Game
                 Gui.Text(new Rect(fr.x + 20, fr.yMax - 150, 420, 34), "<b>Nhiệm vụ phụ:</b> " + s.Objective.Text + " – thưởng " + Gui.Money(s.Objective.Reward.Gold, s.Objective.Reward.Mana), Gui.LabelSmall, Gui.Gold);
             string hz = HazardNote(s);
             if (hz != null) Gui.Text(new Rect(fr.x + 20, fr.yMax - 116, 420, 34), hz, Gui.LabelSmall, new Color(0.3f, 0.55f, 0.85f));
-            if (Gui.Btn(new Rect(fr.x + 20, fr.yMax - 76, 420, 64), InDusk ? "HOÀNG HÔN…" : "BẮT ĐẦU ĐÊM", !InDusk, Gui.ButtonBig, "red")) StartNightAction();
+            if (Gui.Btn(new Rect(fr.x + 20, fr.yMax - 76, 420, 64), InDusk ? "TẬP HỢP… (BỎ QUA)" : "BẮT ĐẦU ĐÊM", true, Gui.ButtonBig, "red")) { if (InDusk) SkipDusk(); else StartNightAction(); }
 
             DrawAiGeneralPanel(new Rect(Gui.Safe.xMax - 476, fr.yMax + 10, 460, 170));
             DrawDayLoadout(new Rect(Gui.Safe.xMax - 476, fr.yMax + (s.AiSlotsAvailable > 0 ? 190 : 10), 460, 132));

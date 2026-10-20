@@ -147,9 +147,13 @@ namespace Runavelle.Core
         private int _stampId;
 
         /// <summary>A* for friendly ground units (gates passable). Writes tiles into path; false if unreachable.</summary>
+        /// <summary>Profiling counters (friendly A*): calls and expanded nodes since the last reset.</summary>
+        public long PathCalls, PathExpanded;
+
         public bool FindFriendlyPath(Int2 start, Int2 goal, List<Int2> path, int maxNodes = 900)
         {
             path.Clear();
+            PathCalls++;
             int n = _width * _height;
             if (_g == null) { _g = new float[n]; _parent = new int[n]; _stamp = new int[n]; }
             if (!_w.Map.InBounds(start.X, start.Y) || !_w.Map.InBounds(goal.X, goal.Y)) return false;
@@ -164,6 +168,7 @@ namespace Runavelle.Core
             int bestIdx = s; float bestH = Heur(start, goal);
             while (open.Count > 0 && expanded++ < maxNodes)
             {
+                PathExpanded++;
                 open.Pop(out int cur, out _);
                 if (cur == gIdx) { bestIdx = cur; break; }
                 int cx = cur % _width, cy = cur / _width;

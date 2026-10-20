@@ -19,7 +19,8 @@ public static class Program
         }
         if (args.Length > 0 && args[0] == "perf")
         {
-            // perf <map> <general> <seed> <nights>
+            // perf <map> <general> <seed> <nights> [norally]
+            if (args.Contains("norally")) AiTuning.RallyDistance = 0f;
             Perf.Run(args[1], args[2], ulong.Parse(args[3]), int.Parse(args[4]));
             return 0;
         }
@@ -42,6 +43,7 @@ public static class Program
         var strategies = opts.TryGetValue("strategies", out var st) ? st.Split(',').Select(x => Enum.Parse<AutoPlayer.Strategy>(x)).ToList() : new List<AutoPlayer.Strategy> { AutoPlayer.Strategy.Balanced };
         int asc = opts.TryGetValue("ascension", out var a) ? int.Parse(a) : 0;
         bool verbose = opts.ContainsKey("verbose");
+        if (opts.ContainsKey("norally")) AiTuning.RallyDistance = 0f; // A/B knob: squads stay by their barracks
         string challenge = opts.TryGetValue("challenge", out var chl) ? chl : null;
         bool endless = opts.ContainsKey("endless");
         Console.WriteLine($"Runavelle headless harness | seeds={seeds} maps={string.Join(",", maps)} generals={string.Join(",", generals)} strategies={string.Join(",", strategies)} asc={asc}");

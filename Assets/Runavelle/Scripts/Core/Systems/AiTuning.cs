@@ -16,6 +16,8 @@ namespace Runavelle.Core
         public static float BonusSpearVsLarge = 0.8f;
         public static float BonusInsideBreach = 0.8f;      // enemy standing in a wall gap opened this night
         public static float Stickiness = 0.5f;             // keep current target (no flapping)
+        public static float RallyDistance = 4f;            // max march from the barracks door toward its front (tiles)
+        public static float RallyRangedBack = 1.4f;        // ranged squads form up this far behind the melee line
         public static float LeashSlack = 1.5f;             // never pick targets further than leash + slack from home
 
         // --- ranged spacing

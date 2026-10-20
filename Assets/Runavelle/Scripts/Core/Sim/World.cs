@@ -65,6 +65,8 @@ namespace Runavelle.Core
         public int Tick;
         public int Night;
         public bool IsNight;
+        /// <summary>Dusk muster: squads already march to their rally posts while the day simulation runs.</summary>
+        public bool Rally;
         public int ReactionsThisTick;
 
         public readonly List<Building> Buildings = new List<Building>();

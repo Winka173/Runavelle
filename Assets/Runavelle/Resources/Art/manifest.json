@@ -2525,6 +2525,15 @@
 "py": 0.5,
 "w": 96
 },
+"fx/rally_flag": {
+"h": 72,
+"ppu": 64,
+"px": 0.3333,
+"py": 0.0556,
+"sha256": "e8498e543c37fe8a",
+"src": "Tools/Art/fx_feel.py",
+"w": 48
+},
 "fx/ray": {
 "h": 16,
 "ppu": 64,

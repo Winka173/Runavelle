@@ -273,5 +273,59 @@ namespace Runavelle.Core
             AdvanceAfterReport();
             return true;
         }
+
+        // ------------------------------------------------------------------ Army Rally (P2)
+        /// <summary>Dusk: assign posts and let squads march while the bell rings. Skippable — StartNight works without it.</summary>
+        public void BeginRally()
+        {
+            if (Phase != RunPhase.Day || W.Rally) return;
+            AssignRallyPosts();
+            PlaceAIGenerals(); // AI generals get their zones at the bell too
+            W.Rally = true;
+        }
+
+        /// <summary>Deterministic posts: each barracks musters toward its nearest ground front from tonight's forecast,
+        /// marching in a straight line and stopping before the first wall/gate/blocked tile (squads stay inside the walls).</summary>
+        public void AssignRallyPosts()
+        {
+            var f = Forecast;
+            foreach (var b in W.Buildings)
+            {
+                if (b.Dead || b.Family != BuildingFamily.Barracks) continue;
+                b.RallyPost = b.Ruined || f == null ? (Vec2?)null : RallyPostFor(b, f, out b.RallyDir);
+            }
+        }
+
+        private Vec2? RallyPostFor(Building b, NightForecast f, out Vec2 dir)
+        {
+            dir = new Vec2(1, 0);
+            SpawnLane best = null;
+            float bestD = float.MaxValue;
+            foreach (var fr in f.Fronts)
+            {
+                if (fr.FlyerOnly) continue;
+                var lane = LaneById(fr.LaneId);
+                if (lane == null) continue;
+                float d = Vec2.Distance(b.Center, lane.Center);
+                if (d < bestD) { bestD = d; best = lane; }
+            }
+            if (best == null) return null;
+            dir = (best.Center - b.Center).Normalized;
+            if (dir.SqrMagnitude < 0.01f) return null;
+            var start = b.Center + dir * (b.Size * 0.5f + 0.9f);
+            Vec2? last = null;
+            for (float t = 0f; t <= AiTuning.RallyDistance; t += 0.5f)
+            {
+                var p = start + dir * t;
+                var tile = Int2.FromPosition(p);
+                if (!W.FriendlyPassable(tile.X, tile.Y)) break;
+                var occ = W.BuildingAt(tile.X, tile.Y);
+                if (occ != null && occ.IsWallLike && !occ.Ruined) break; // open gates count as the wall line too
+                last = p;
+            }
+            if (last == null) return null;
+            var post = last.Value - dir * 0.6f;
+            return Vec2.Distance(post, b.Center) < b.Size * 0.5f + 0.5f ? (Vec2?)null : post;
+        }
     }
 }

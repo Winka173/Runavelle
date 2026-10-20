@@ -267,6 +267,7 @@ namespace Runavelle.Tests
             var b = s.Place("barracks_cavalry", T.FindSpot(s, "barracks_cavalry", s.W.Castle.Center + new Vec2(7, 0)));
             Assert.IsNotNull(b, "cavalry barracks available");
             s.StartNight();
+            b.RallyPost = null; // pursuit-cap mechanics around the barracks anchor (rally posts covered by RallyTests)
             var cav = (Unit)s.W.Get(b.Squad[0]);
             Assume.That(cav.Speed >= AiTuning.FastSpeed);
             var runner = T.SpawnEnemy(s, "wolf_rider", b.Center + new Vec2(cav.Leash - 1f, 0));

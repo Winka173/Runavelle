@@ -428,7 +428,8 @@ namespace Runavelle.Tests
                     foreach (var u in s.W.Units)
                     {
                         if (u.Dead || u.Team != Team.Player) continue;
-                        if (u.Role == UnitRole.Soldier && u.State != UnitState.Retreating)
+                        // walking back to the (rally) post is not a chase: only pursuit states count
+                        if (u.Role == UnitRole.Soldier && u.State != UnitState.Retreating && u.State != UnitState.Returning)
                             worstSoldier = Math.Max(worstSoldier, Vec2.Distance(u.Position, u.Home) - (u.Leash + u.Attack.Range + 3f));
                         if (u.Role == UnitRole.General && !u.IsPlayerControlled && u.State != UnitState.Retreating && u.State != UnitState.Downed && s.Generals.Posts.TryGetValue(u.AiSlot, out var post))
                             worstAi = Math.Max(worstAi, Vec2.Distance(u.Position, post) - (7.5f + 1f + u.Attack.Range + 3f + 1.5f)); // +1.5: path detours around flooded shallows (Tide)
