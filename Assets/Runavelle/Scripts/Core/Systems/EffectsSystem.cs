@@ -71,12 +71,11 @@ namespace Runavelle.Core
                 if (grant != ElementId.None && !target.Dead) _combat.ApplyElement(target, grant, attacker.Buffs.GrantElement != ElementId.None ? attacker.Buffs.GrantStatus : 18f, info);
                 return;
             }
-            var p = new Projectile
-            {
-                Id = _w.AllocId(), Team = attacker.Team, Position = attacker.Position, PrevPosition = attacker.Position, TargetId = target.Id,
-                TargetPos = _w.ClosestPoint(attacker.Position, target), Speed = a.ProjectileSpeed, Payload = info, Splash = a.Splash, Element = a.Element, Visual = visual,
-            };
-            if (grant != ElementId.None) p.GrantElement = grant;
+            var p = _projectilePool.Count > 0 ? _projectilePool.Pop() : new Projectile();
+            p.Id = _w.AllocId(); p.Team = attacker.Team; p.Position = attacker.Position; p.PrevPosition = attacker.Position; p.TargetId = target.Id;
+            p.TargetPos = _w.ClosestPoint(attacker.Position, target); p.Speed = a.ProjectileSpeed; p.Payload = info; p.Splash = a.Splash; p.Element = a.Element; p.Visual = visual;
+            p.Dead = false;
+            p.GrantElement = grant;
             p.GrantStatus = attacker.Buffs.GrantElement != ElementId.None ? attacker.Buffs.GrantStatus : 18f;
             _w.Projectiles.Add(p);
             _w.Emit(SimEventType.ProjectileFired, attacker.Position, 0, a.Element, attacker.Id, null, target.Id);
@@ -87,7 +86,7 @@ namespace Runavelle.Core
             if (splash > 0f)
             {
                 Team victims = info.Source == SourceKind.Enemy ? Team.Player : Team.Enemy;
-                var hits = _w.UnitsInRadius(victims, at, splash, _tmp).ToArray();
+                var hits = _w.UnitsInRadius(victims, at, splash, _tmp).Snapshot(_w);
                 bool primaryHit = false;
                 foreach (var u in hits)
                 {
@@ -122,8 +121,18 @@ namespace Runavelle.Core
                 }
                 else if (p.Splash > 0f) Impact(null, p.TargetPos, p.Payload, p.Splash);
             }
-            _w.Projectiles.RemoveAll(p => p.Dead);
+            // compact in place and recycle finished projectiles (no per-shot garbage)
+            int w = 0;
+            for (int i = 0; i < _w.Projectiles.Count; i++)
+            {
+                var p = _w.Projectiles[i];
+                if (p.Dead) { if (_projectilePool.Count < 256) _projectilePool.Push(p); continue; }
+                _w.Projectiles[w++] = p;
+            }
+            _w.Projectiles.RemoveRange(w, _w.Projectiles.Count - w);
         }
+
+        private readonly Stack<Projectile> _projectilePool = new Stack<Projectile>();
 
         private bool TryIntercept(Actor target, Projectile p)
         {
@@ -150,7 +159,7 @@ namespace Runavelle.Core
                 if (z.TickTimer > 0f) continue;
                 z.TickTimer = 0.5f;
                 Team victims = z.Team == Team.Player ? Team.Enemy : Team.Player;
-                foreach (var u in _w.UnitsInRadius(victims, z.Position, z.Radius, _tmp).ToArray())
+                foreach (var u in _w.UnitsInRadius(victims, z.Position, z.Radius, _tmp).Snapshot(_w))
                 {
                     if (u.IsFlying && (z.Kind == ZoneKind.Lava || z.Kind == ZoneKind.Mud)) continue;
                     switch (z.Kind)
@@ -196,10 +205,11 @@ namespace Runavelle.Core
         /// <summary>Area damage helper used by abilities and bosses (hits units and optionally structures).</summary>
         public void AreaDamage(Team victims, Vec2 p, float r, DamageInfo d, bool structures)
         {
-            foreach (var u in _w.UnitsInRadius(victims, p, r, _tmp).ToArray()) _combat.Deal(u, d);
+            foreach (var u in _w.UnitsInRadius(victims, p, r, _tmp).Snapshot(_w)) _combat.Deal(u, d);
             if (!structures) return;
-            foreach (var b in _w.Buildings.ToArray())
+            for (int i = 0, n = _w.Buildings.Count; i < n && i < _w.Buildings.Count; i++)
             {
+                var b = _w.Buildings[i];
                 if (b.Dead || b.Ruined || b.Team != victims) continue;
                 if (_w.DistanceToActor(p, b) <= r) _combat.Deal(b, d);
             }

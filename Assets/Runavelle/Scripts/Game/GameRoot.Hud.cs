@@ -19,6 +19,7 @@ namespace Runavelle.Game
             if (Session == null) return;
             var s = Session;
             DrawWorldLabels();
+            DrawBreachMarkers();
             DrawCaptionsAndBarks();
             DrawAiDebug();
             DrawTopBar();
@@ -377,6 +378,26 @@ namespace Runavelle.Game
         }
 
         /// <summary>Debug overlay: why each soldier / AI General is doing what it does (Settings → Bảng gỡ lỗi AI).</summary>
+        /// <summary>Crisis markers: breaches of the current night pulse over the gap (highest HUD priority).</summary>
+        private void DrawBreachMarkers()
+        {
+            var s = Session;
+            if (s.Phase != RunPhase.Night) return;
+            var br = s.W.Analytics.Breaches;
+            float pulse = 0.6f + 0.4f * Mathf.Sin(Time.unscaledTime * 6f);
+            int shown = 0;
+            for (int i = br.Count - 1; i >= 0 && shown < 6; i--)
+            {
+                if (br[i].Night != s.Night) break;
+                var t = Int2.FromPosition(new Vec2(br[i].X, br[i].Y));
+                var bld = s.W.BuildingAt(t.X, t.Y);
+                if (bld != null && !bld.Ruined) continue; // already rebuilt
+                var p = Rig.WorldToGui(new Vector2(br[i].X, br[i].Y + 1.4f));
+                Gui.Text(new Rect(p.x - 60, p.y - 30, 120, 50), "!", new GUIStyle(Gui.H1) { fontSize = 46, alignment = TextAnchor.MiddleCenter }, new Color(1f, 0.25f, 0.2f, pulse), true);
+                shown++;
+            }
+        }
+
         private void DrawAiDebug()
         {
             if (!AiDebug || Session == null) return;
@@ -454,7 +475,9 @@ namespace Runavelle.Game
                     if (Gui.Btn(br, "", res.Ok || res.Reason?.StartsWith("Không đủ") == true ? res.Ok : false, Gui.Button)) s.Upgrade(b, next);
                     Gui.Icon(new Rect(br.x + 10, br.y + 10, 64, 64), ArtLibrary.LevelPreviewKey(l, Db));
                     Gui.Text(new Rect(br.x + 84, br.y + 6, 470, 34), $"<b>{l.Name}</b>  {CostShort(s.CostOf(l), false)}", Gui.LabelSmall);
-                    Gui.Text(new Rect(br.x + 84, br.y + 38, 470, 46), Short(l.Description, 80), new GUIStyle(Gui.LabelSmall) { fontSize = 17 });
+                    var delta = s.UpgradePreview(b, next);
+                    string deltaText = delta.Count > 0 ? string.Join(" · ", delta.Take(3)) : Short(l.Description, 80);
+                    Gui.Text(new Rect(br.x + 84, br.y + 38, 470, 46), deltaText, new GUIStyle(Gui.LabelSmall) { fontSize = 17 });
                     y += 92;
                     if (y > r.yMax - 220) break;
                 }
@@ -798,8 +821,34 @@ namespace Runavelle.Game
         }
 
         // ------------------------------------------------------------------ world-space ghost
+        private SpriteRenderer _selRing;
+
+        /// <summary>Contextual range: the selected tower/aura/barracks shows its reach (no hover needed on touch).</summary>
+        private void SyncSelectionRing()
+        {
+            var b = Session != null && Screen == AppScreen.Run ? Session.W.Get(SelectedBuilding) as Building : null;
+            float range = 0f;
+            if (b != null && !b.Dead && !b.Ruined)
+                range = b.Level.Attack != null ? b.Level.Attack.Range + b.Size * 0.5f : b.Level.Aura != null ? b.Level.Aura.Radius : b.Level.Soldier != SoldierClass.None ? 5.5f : 0f;
+            if (_selRing == null)
+            {
+                var go = new GameObject("selRange");
+                go.transform.SetParent(transform, false);
+                _selRing = go.AddComponent<SpriteRenderer>();
+                _selRing.sprite = ArtLibrary.Get("fx/ring");
+                _selRing.sortingOrder = -30800;
+            }
+            _selRing.gameObject.SetActive(range > 0f);
+            if (range <= 0f) return;
+            _selRing.transform.position = new Vector3(b.Center.X, b.Center.Y, 0);
+            float d = range * 2f / 0.875f;
+            _selRing.transform.localScale = new Vector3(d, d, 1);
+            _selRing.color = new Color(0.6f, 0.9f, 1f, 0.7f);
+        }
+
         private void LateUpdate()
         {
+            SyncSelectionRing();
             if (Session == null || Screen != AppScreen.Run || Session.Phase != RunPhase.Day || BuildLevel == null || !HasGhost) { HideGhost(); return; }
             var def = Db.BuildingOfLevel(BuildLevel);
             var level = Db.Level(BuildLevel);

@@ -207,6 +207,7 @@ namespace Runavelle.Core
             Fx.TickZones(dt);
             Fx.TickTelegraphs(dt);
             TickHazards(dt);
+            TickLastBastion();
             TickTemporaryStructures(dt);
             CleanupUnits();
 
@@ -349,6 +350,8 @@ namespace Runavelle.Core
             Enemies.ManaDrained = 0;
             W.DeadEnemies.Clear();
             W.RebirthUsed = false;
+            W.LastBastionUsed = false;
+            W.NightStartTime = W.Time;
             W.DoubleUltUsed = false;
             _warned.Clear();
             foreach (var g in Plan.Groups) g.Spawned = 0;
@@ -367,7 +370,7 @@ namespace Runavelle.Core
             var rep = new NightReport { Night = Night, Victory = victory, Duration = NightTime, Kills = W.Analytics.NightKills, CastleDamage = W.Analytics.NightCastleDamage,
                 SoldiersLost = W.Analytics.NightSoldiersLost, BuildingsLost = W.Analytics.NightBuildingsLost };
             W.Analytics.Nights.Add(new NightRecord { Night = Night, Duration = NightTime, Kills = rep.Kills, CastleDamage = rep.CastleDamage, Gold = Economy.Gold, Mana = Economy.Mana,
-                SoldiersLost = rep.SoldiersLost, BuildingsLost = rep.BuildingsLost, Lanes = string.Join(",", Plan.Lanes) });
+                SoldiersLost = rep.SoldiersLost, BuildingsLost = rep.BuildingsLost, Lanes = string.Join(",", Plan.Lanes), CastleHpFrac = W.Castle != null ? W.Castle.HpFraction : 0f });
             LastReport = rep;
             W.Emit(SimEventType.NightEnd, W.Castle.Center, victory ? 1 : 0);
             if (!victory)

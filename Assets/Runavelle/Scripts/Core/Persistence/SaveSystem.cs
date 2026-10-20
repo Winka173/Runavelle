@@ -38,7 +38,9 @@ namespace Runavelle.Core
             var p = TryRead(path);
             if (p != null) return p;
             usedBackup = true;
-            return TryRead(path + ".bak");
+            // interrupted write: the old file was already moved to .bak but the new .tmp never got renamed.
+            // A checksummed, complete .tmp is newer than .bak, so prefer it.
+            return TryRead(path + ".tmp") ?? TryRead(path + ".bak");
         }
 
         private static string TryRead(string path)

@@ -184,6 +184,8 @@ namespace Runavelle.Core
         public SourceKind Source;
         public int SourceActorId;
         public string SourceName;
+        /// <summary>Elemental Battlefield: zone left behind by a reaction (bounded count, refresh instead of stacking).</summary>
+        public bool FromReaction;
     }
 
     /// <summary>A visible warning that resolves into an effect after Delay seconds (boss attacks, hazards).</summary>

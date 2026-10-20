@@ -70,6 +70,26 @@ namespace Runavelle.Core
             BaseBudgetMult = budget;
         }
 
+        /// <summary>
+        /// Last Bastion (opt-in decree, never baseline rubber-banding): the first time each night the Castle falls
+        /// below 30% HP it gains a shield and the player's General gets half of the Ultimate cooldown back.
+        /// </summary>
+        public const float LastBastionThreshold = 0.3f;
+
+        private void TickLastBastion()
+        {
+            if (W.LastBastionUsed || !W.Mods.Has(Hook.LastBastion) || W.Castle == null || W.Castle.Dead) return;
+            if (W.Castle.HpFraction >= LastBastionThreshold) return;
+            W.LastBastionUsed = true;
+            W.Castle.ShieldHp = Math.Max(W.Castle.ShieldHp, W.Castle.MaxHp * W.Mods.HookValue(Hook.LastBastion));
+            var g = W.PlayerGeneral;
+            if (g != null) g.UltCooldown *= 0.5f;
+            W.Analytics.LastBastionTriggers++;
+            W.Analytics.BuildLog.Add($"N{Night} last_bastion");
+            W.Emit(SimEventType.StatusApplied, W.Castle.Center, 0, ElementId.Light, W.Castle.Id, "bastion");
+            W.Emit(SimEventType.Announcement, W.Castle.Center, 0, ElementId.Light, W.Castle.Id, "Thành Lũy Cuối Cùng! Lâu Đài được bảo hộ.");
+        }
+
         public bool CanRetire => Setup.Endless && Phase == RunPhase.Report && Night >= TotalNights;
 
         /// <summary>Endless: end the run on your own terms after a won night (counts as a victory).</summary>

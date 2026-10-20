@@ -245,7 +245,7 @@ namespace Runavelle.Core
                     for (int i = 0; i < steps; i++)
                     {
                         _move.Step(g, dir * (e.Value / steps));
-                        foreach (var u in _w.UnitsInRadius(Team.Enemy, g.Position, e.Radius, _tmp).ToArray())
+                        foreach (var u in _w.UnitsInRadius(Team.Enemy, g.Position, e.Radius, _tmp).Snapshot(_w))
                             if (hit.Add(u.Id)) _combat.Deal(u, Info(g, e, power));
                     }
                     g.IFrames = 0.4f;
@@ -258,7 +258,7 @@ namespace Runavelle.Core
                             SpawnAllySummon(e.SummonId, p + new Vec2((i % 3 - 1) * 0.8f, (i / 3 - 0.5f) * 0.8f), e.Duration);
                     break;
                 case AbilityEffectKind.Pull:
-                    foreach (var u in _w.UnitsInRadius(Team.Enemy, p, e.Radius, _tmp).ToArray())
+                    foreach (var u in _w.UnitsInRadius(Team.Enemy, p, e.Radius, _tmp).Snapshot(_w))
                     {
                         if (u.IsBoss) continue;
                         Vec2 d = p - u.Position;
@@ -268,7 +268,7 @@ namespace Runavelle.Core
                     }
                     break;
                 case AbilityEffectKind.Knockwave:
-                    foreach (var u in _w.UnitsInRadius(Team.Enemy, p, e.Radius, _tmp).ToArray())
+                    foreach (var u in _w.UnitsInRadius(Team.Enemy, p, e.Radius, _tmp).Snapshot(_w))
                     {
                         var d = Info(g, e, power);
                         d.Knockback = e.Value;
@@ -276,7 +276,7 @@ namespace Runavelle.Core
                     }
                     break;
                 case AbilityEffectKind.FreezeArea:
-                    foreach (var u in _w.UnitsInRadius(Team.Enemy, p, e.Radius, _tmp).ToArray())
+                    foreach (var u in _w.UnitsInRadius(Team.Enemy, p, e.Radius, _tmp).Snapshot(_w))
                     {
                         u.Status.FreezeTimer = Math.Max(u.Status.FreezeTimer, u.Status.CcDuration(e.Duration, u.Def.CcResist));
                         _w.Emit(SimEventType.Freeze, u.Position, u.Status.FreezeTimer, ElementId.Ice, u.Id);

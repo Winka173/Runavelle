@@ -14,6 +14,7 @@ namespace Runavelle.Game
         private readonly GameSession _s;
         private readonly Transform _root;
         private readonly Dictionary<int, UnitView> _units = new Dictionary<int, UnitView>();
+        private readonly Stack<UnitView> _unitPool = new Stack<UnitView>();
         private readonly Dictionary<int, BuildingView> _buildings = new Dictionary<int, BuildingView>();
         private readonly Dictionary<int, SpriteRenderer> _projectiles = new Dictionary<int, SpriteRenderer>();
         private readonly Dictionary<int, SpriteRenderer> _zones = new Dictionary<int, SpriteRenderer>();
@@ -204,12 +205,16 @@ namespace Runavelle.Game
             {
                 if (u.Dead) continue;
                 _seen.Add(u.Id);
-                if (!_units.TryGetValue(u.Id, out var uv)) { uv = new UnitView(this, u); _units[u.Id] = uv; }
+                if (!_units.TryGetValue(u.Id, out var uv))
+                {
+                    if (_unitPool.Count > 0) { uv = _unitPool.Pop(); uv.Bind(u); } else uv = new UnitView(this, u);
+                    _units[u.Id] = uv;
+                }
                 uv.Sync(u, Alpha, dt, Time, _nightBlend, settings);
             }
             _remove.Clear();
             foreach (var kv in _units) if (!_seen.Contains(kv.Key)) _remove.Add(kv.Key);
-            foreach (var id in _remove) { _units[id].Destroy(); _units.Remove(id); }
+            foreach (var id in _remove) { _units[id].Hide(); _unitPool.Push(_units[id]); _units.Remove(id); }
 
             // projectiles
             _seen.Clear();
@@ -531,23 +536,32 @@ namespace Runavelle.Game
             public float Hold;
             /// <summary>Short hop of nearby troops when the player's General casts an Ultimate.</summary>
             public float Cheer;
-            private readonly float _baseScale;
+            private const float _baseScale = 1f;
             private Vector2 _smoothPos;
             private bool _first = true;
 
             public UnitView(WorldView v, Unit u)
             {
-                _go = new GameObject("u" + u.Id);
+                _go = new GameObject("u");
                 _go.transform.SetParent(v._root, false);
                 _shadow = v.NewSR("shadow", ArtLibrary.Get("fx/shadow"), OrderGround + 10, _go.transform);
-                _shadow.color = new Color(0, 0, 0, 0.35f);
                 _ring = v.NewSR("ring", ArtLibrary.Get("fx/ring"), OrderGround + 11, _go.transform);
                 _body = v.NewSR("body", ArtLibrary.Get(ArtLibrary.UnitKey(u, false)), 0, _go.transform);
                 _hpBg = v.NewSR("hpbg", ArtLibrary.Get("fx/pixel"), 29000, _go.transform);
                 _hpFill = v.NewSR("hp", ArtLibrary.Get("fx/pixel"), 29001, _go.transform);
                 _status = v.NewSR("st", ArtLibrary.Get("icon/el_none"), 29002, _go.transform);
                 _light = v.NewSR("light", ArtLibrary.Get("fx/glow"), OrderLight, _go.transform);
-                _baseScale = u.Role == UnitRole.General ? 1.0f : u.IsBoss ? 1.0f : 1f;
+                Bind(u);
+            }
+
+            /// <summary>(Re)initialises a pooled view for a new unit — views are recycled, not destroyed.</summary>
+            public void Bind(Unit u)
+            {
+                _go.SetActive(true);
+                _first = true; Flash = 0f; Hold = 0f; Cheer = 0f;
+                _shadow.color = new Color(0, 0, 0, 0.35f);
+                _ring.sprite = ArtLibrary.Get("fx/ring");
+                _body.transform.localScale = Vector3.one;
                 bool friendly = u.Team == Team.Player;
                 _ring.color = u.Role == UnitRole.General ? new Color(1f, 0.85f, 0.35f, u.IsPlayerControlled ? 0.95f : 0.6f) : friendly ? new Color(0.35f, 0.75f, 1f, 0.55f) : new Color(1f, 0.3f, 0.25f, 0.6f);
                 // mastery cosmetic: badge ring under the player's General
@@ -644,6 +658,7 @@ namespace Runavelle.Game
 
             public void SetCheer(float t) => Cheer = Mathf.Max(Cheer, t);
 
+            public void Hide() => _go.SetActive(false);
             public void Destroy() => Object.Destroy(_go);
         }
 

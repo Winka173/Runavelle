@@ -33,6 +33,8 @@ namespace Runavelle.Core
             D("arcane_masonry", "Nề Huyền Bí", F, c, "Tháp Phép +30% máu, +10% sát thương.", M(Stat.MaxHp, Scope.MagicTowers, 0.3f), M(Stat.Damage, Scope.MagicTowers, 0.1f)).RequireFamily = magic;
             D("siege_breakers", "Phá Công Thành", F, r, "Mọi đồng minh +35% sát thương lên xe công thành, kẻ phá cổng và boss.", H(Hook.SiegeBreakers, 0.35f));
             D("sky_watch", "Canh Trời", F, c, "Mọi đồng minh +40% sát thương lên kẻ bay.", H(Hook.SkyWatch, 0.4f)).MinNight = 4;
+            D("last_bastion", "Thành Lũy Cuối Cùng", F, r, "Lần đầu mỗi đêm Lâu Đài tụt dưới 30% máu: nhận khiên bằng 25% máu tối đa (tới bình minh) và tối thượng của Tướng hồi lại một nửa. Tối đa 1 lần/đêm.",
+                H(Hook.LastBastion, 0.25f)).MinNight = 3;
             D("living_fortress", "Pháo Đài Sống", F, r, "Khi tướng dùng tối thượng, tường/cổng trong 8 ô hồi 15% máu.", H(Hook.WallsMendOnUltimate, 0.15f)).RequireFamily = wall;
             // ---------------- Army
             D("storm_legion", "Quân Đoàn Bão", A, r, "Lính dùng Sét nảy thêm 1 mục tiêu.", H(Hook.StormLegion, 1f)).RequireFamily = barr;

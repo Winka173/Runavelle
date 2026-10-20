@@ -49,6 +49,8 @@ public static class Program
         int runs = 0, wins = 0, exceptions = 0;
         var total = Stopwatch.StartNew();
         var byKey = new Dictionary<string, (int runs, int wins, double nights)>();
+        var firstBreach = new List<float>(); var castleLeft = new List<float>(); double rxTotal = 0, nightSeconds = 0, genDmg = 0, allDmg = 0; int bastions = 0;
+        var killSrc = new Dictionary<SourceKind, int>();
         foreach (var map in maps)
         foreach (var gen in generals)
         foreach (var strat in strategies)
@@ -79,6 +81,15 @@ public static class Program
             int rx = an?.Reactions.Values.Sum() ?? 0;
             float cd = an?.Nights.Sum(n => n.CastleDamage) ?? 0;
             Console.WriteLine($"{map},{gen},{strat},{seed},{(win ? "WIN" : "LOSS")},{nights},{an?.TotalKills},{cd:0},{rx},{an?.PeakEnemies},{an?.MaxReactionsInTick},{sess?.Economy.Gold},{sess?.Economy.Mana},{sw.Elapsed.TotalSeconds:0.0},{ex}");
+            if (an != null)
+            {
+                foreach (var g2 in an.Breaches.GroupBy(b => b.Night)) firstBreach.Add(g2.Min(b => b.Time));
+                foreach (var n in an.Nights) { castleLeft.Add(n.CastleHpFrac); nightSeconds += n.Duration; }
+                rxTotal += rx;
+                foreach (var kv in an.DamageByKind) { allDmg += kv.Value; if (kv.Key == SourceKind.PlayerGeneral) genDmg += kv.Value; }
+                foreach (var kv in an.KillsBySource) { killSrc.TryGetValue(kv.Key, out int c0); killSrc[kv.Key] = c0 + kv.Value; }
+                bastions += an.LastBastionTriggers;
+            }
             if (verbose && sess != null)
             {
                 foreach (var n in an.Nights) Console.WriteLine($"   night {n.Night}: {n.Duration:0}s kills={n.Kills} castleDmg={n.CastleDamage:0} lost={n.SoldiersLost}/{n.BuildingsLost} gold={n.Gold} mana={n.Mana} lanes={n.Lanes}");
@@ -92,6 +103,10 @@ public static class Program
         Console.WriteLine();
         Console.WriteLine("summary,key,runs,wins,win_rate,avg_nights");
         foreach (var kv in byKey.OrderBy(k => k.Key)) Console.WriteLine($"summary,{kv.Key},{kv.Value.runs},{kv.Value.wins},{100.0 * kv.Value.wins / kv.Value.runs:0}%,{kv.Value.nights / kv.Value.runs:0.0}");
+        firstBreach.Sort();
+        int kills = Math.Max(1, killSrc.Values.Sum());
+        Console.WriteLine($"metrics,first_breach_s_median={(firstBreach.Count == 0 ? 0 : firstBreach[firstBreach.Count / 2]):0.0},nights_with_breach={firstBreach.Count},castle_hp_left_mean={(castleLeft.Count == 0 ? 0 : castleLeft.Average() * 100):0}%,reactions_per_s={(nightSeconds <= 0 ? 0 : rxTotal / nightSeconds):0.00},general_damage_share={(allDmg <= 0 ? 0 : genDmg / allDmg * 100):0}%,last_bastion={bastions}");
+        Console.WriteLine("metrics,kills_by_source," + string.Join(";", killSrc.OrderByDescending(k => k.Value).Select(k => $"{k.Key}={100.0 * k.Value / kills:0}%")));
         Console.WriteLine($"TOTAL runs={runs} wins={wins} ({100.0 * wins / Math.Max(1, runs):0}%) exceptions={exceptions} wall={total.Elapsed.TotalSeconds:0.0}s");
         return exceptions > 0 ? 2 : 0;
     }

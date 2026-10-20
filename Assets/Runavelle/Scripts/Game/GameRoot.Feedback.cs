@@ -263,6 +263,14 @@ namespace Runavelle.Game
                         break;
                     case SimEventType.StatusApplied:
                         if (e.Text == "exhausted") vfx.Label(at, "Kiệt sức! (+50% sát thương)", new Color(1f, 0.9f, 0.4f), 26f, 1.4f);
+                        else if (e.Text == "bastion")
+                        {
+                            vfx.Ring(at, Gui.Gold, 3.5f, 0.9f, "fx/ring_thick");
+                            vfx.Element(at, ElementId.Light, 2.5f);
+                            AudioService.Play("bastion", 1f, 1, 1f, category: SoundCategory.Stinger);
+                            Caption("[Thành Lũy Cuối Cùng]");
+                            Rig.Punch(0.5f);
+                        }
                         else if (e.Text == "possessed") vfx.Label(at, "Tháp bị khống chế!", new Color(0.8f, 0.5f, 1f), 26f, 1.4f);
                         break;
                 }

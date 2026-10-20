@@ -10,6 +10,8 @@ namespace Runavelle.Core
         public float X, Y;
         public string LevelId;
         public string Cause;
+        /// <summary>Seconds after the night started.</summary>
+        public float Time;
     }
 
     [Serializable]
@@ -23,6 +25,7 @@ namespace Runavelle.Core
         public int SoldiersLost;
         public int BuildingsLost;
         public string Lanes;
+        public float CastleHpFrac;
     }
 
     /// <summary>Local, offline per-run metrics. Nothing is uploaded.</summary>
@@ -34,10 +37,14 @@ namespace Runavelle.Core
         public readonly Dictionary<ReactionId, float> ReactionDamage = new Dictionary<ReactionId, float>();
         public readonly Dictionary<string, float> CastleDamageBy = new Dictionary<string, float>();
         public readonly Dictionary<string, int> KillsByEnemy = new Dictionary<string, int>();
+        /// <summary>Who landed the killing blow (tower / soldier / General / reaction / zone / hazard …).</summary>
+        public readonly Dictionary<SourceKind, int> KillsBySource = new Dictionary<SourceKind, int>();
         public readonly List<BreachRecord> Breaches = new List<BreachRecord>();
         public readonly List<NightRecord> Nights = new List<NightRecord>();
         public readonly List<string> BuildLog = new List<string>();
         public int TotalKills;
+        /// <summary>Telemetry: how often the opt-in Last Bastion comeback fired this run.</summary>
+        public int LastBastionTriggers;
         public int SoldiersLost;
         public int PeakEnemies;
         public int MaxReactionsInTick;

@@ -124,7 +124,7 @@ namespace Runavelle.Core
                             if (blocker != null && !blocker.Ruined) { _combat.Deal(blocker, Info(boss, ab)); break; }
                             if (!_w.TerrainPassable(tile.X, tile.Y)) break;
                             boss.Position = next;
-                            foreach (var u in _w.UnitsInRadius(Team.Player, boss.Position, ab.Radius, _tmp).ToArray())
+                            foreach (var u in _w.UnitsInRadius(Team.Player, boss.Position, ab.Radius, _tmp).Snapshot(_w))
                                 if (hit.Add(u.Id)) { var d = Info(boss, ab); d.Knockback = 1f; _combat.Deal(u, d); }
                         }
                         Exhaust(boss, ab);
@@ -194,7 +194,7 @@ namespace Runavelle.Core
                 case BossAbilityKind.Gust:
                     Telegraph(boss, ab, boss.Position, () =>
                     {
-                        foreach (var u in _w.UnitsInRadius(Team.Player, boss.Position, ab.Radius, _tmp).ToArray())
+                        foreach (var u in _w.UnitsInRadius(Team.Player, boss.Position, ab.Radius, _tmp).Snapshot(_w))
                         {
                             var d = Info(boss, ab);
                             d.Knockback = ab.Value;

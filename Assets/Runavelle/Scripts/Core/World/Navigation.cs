@@ -28,7 +28,14 @@ namespace Runavelle.Core
             _width = w.Map.Width;
             _height = w.Map.Height;
             for (int i = 0; i < 4; i++) _dist[i] = new float[_width * _height];
+            _flowHeap = new MinHeap(_width * _height);
+            _pathHeap = new MinHeap(256);
+            _costCache = new float[_width * _height];
         }
+
+        // reused buffers: flow-field rebuilds and A* searches allocate nothing after warm-up
+        private readonly MinHeap _flowHeap, _pathHeap;
+        private readonly float[] _costCache;
 
         public float[] Field(FlowKind kind)
         {
@@ -56,7 +63,8 @@ namespace Runavelle.Core
             Rebuilds++;
             var dist = _dist[(int)kind];
             for (int i = 0; i < dist.Length; i++) dist[i] = float.PositiveInfinity;
-            var open = new MinHeap(_width * _height);
+            var open = _flowHeap;
+            open.Count = 0;
             var c = _w.Map.CastleOrigin;
             for (int dx = 0; dx < 3; dx++)
                 for (int dy = 0; dy < 3; dy++)
@@ -65,7 +73,7 @@ namespace Runavelle.Core
                     dist[idx] = 0f;
                     open.Push(idx, 0f);
                 }
-            var costCache = new float[_width * _height];
+            var costCache = _costCache;
             for (int y = 0; y < _height; y++)
                 for (int x = 0; x < _width; x++)
                     costCache[y * _width + x] = TileCost(x, y, kind);
@@ -147,7 +155,8 @@ namespace Runavelle.Core
             if (!_w.Map.InBounds(start.X, start.Y) || !_w.Map.InBounds(goal.X, goal.Y)) return false;
             if (!_w.FriendlyPassable(goal.X, goal.Y)) goal = NearestFriendlyPassable(goal);
             _stampId++;
-            var open = new MinHeap(256);
+            var open = _pathHeap;
+            open.Count = 0;
             int s = start.Y * _width + start.X, gIdx = goal.Y * _width + goal.X;
             _g[s] = 0; _parent[s] = -1; _stamp[s] = _stampId;
             open.Push(s, Heur(start, goal));

@@ -151,11 +151,41 @@ namespace Runavelle.Core
                 plan.Groups.Add(new SpawnGroup { UnitId = def.Id, Count = count, LaneId = lane, Time = t, Interval = def.HasTag("swarm") ? 0.35f : 0.8f });
                 t += rng.Range(3f, 7f) + Math.Max(0, 6 - night) * 0.6f;
             }
+            Stage(plan);
             if (plan.BossUnitId != null)
                 plan.Groups.Add(new SpawnGroup { UnitId = plan.BossUnitId, Count = 1, LaneId = plan.Lanes[0], Time = Math.Max(12f, t * 0.55f) });
             plan.Groups.Sort((a, b) => a.Time.CompareTo(b.Time));
             BuildTags(plan);
             return plan;
+        }
+
+        /// <summary>Battle staging role: 0 scouts (fast/swarm), 1 main force, 2 siege specialists / elites / artillery.</summary>
+        public static int StageOf(UnitDefinition u)
+        {
+            if (u.Behavior == EnemyBehavior.Siege || u.Behavior == EnemyBehavior.GateBreaker || u.Behavior == EnemyBehavior.Artillery || u.HasTag("elite")) return 2;
+            if (u.HasTag("swarm") || u.HasTag("fast") || u.Speed >= 3.2f) return 0;
+            return 1;
+        }
+
+        /// <summary>
+        /// Staging: scouts → rising force → siege/elites. Keeps the exact same groups (advertised budget), the same lanes
+        /// and the same set of time slots — only reassigns which group uses which slot (stable, deterministic).
+        /// </summary>
+        public void Stage(NightPlan plan)
+        {
+            if (plan.Groups.Count < 3) return;
+            var times = new List<float>();
+            foreach (var g in plan.Groups) times.Add(g.Time);
+            times.Sort();
+            var order = new List<SpawnGroup>(plan.Groups);
+            var idx = new Dictionary<SpawnGroup, int>();
+            for (int i = 0; i < order.Count; i++) idx[order[i]] = i;
+            order.Sort((a, b) =>
+            {
+                int sa = StageOf(_db.Unit(a.UnitId)), sb = StageOf(_db.Unit(b.UnitId));
+                return sa != sb ? sa.CompareTo(sb) : idx[a].CompareTo(idx[b]);
+            });
+            for (int i = 0; i < order.Count; i++) order[i].Time = times[i];
         }
 
         public void BuildTags(NightPlan plan)

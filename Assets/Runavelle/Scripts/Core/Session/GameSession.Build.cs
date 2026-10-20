@@ -165,6 +165,48 @@ namespace Runavelle.Core
             return open;
         }
 
+        /// <summary>
+        /// Honest upgrade preview: the stat lines that change from the current level to `nextId`, including run
+        /// modifiers for this building's scope (same formulas the simulation uses for damage/HP/range/income).
+        /// </summary>
+        public List<string> UpgradePreview(Building b, string nextId)
+        {
+            var lines = new List<string>();
+            var cur = b.Level;
+            var nxt = Content.Level(nextId);
+            var sc = World.ScopeOf(b);
+            string F(float v) => v.ToString(v >= 10f ? "0" : "0.#", System.Globalization.CultureInfo.InvariantCulture);
+            void Diff(string label, float a, float c) { if (Math.Abs(a - c) > 0.05f) lines.Add($"{label} {F(a)} → {F(c)}"); }
+            Diff("Máu", W.Mods.Apply(cur.MaxHp, Stat.MaxHp, sc), W.Mods.Apply(nxt.MaxHp, Stat.MaxHp, sc));
+            Diff("Giáp", cur.Armor, nxt.Armor);
+            if (cur.Attack != null || nxt.Attack != null)
+            {
+                float d0 = cur.Attack != null ? W.Mods.Apply(cur.Attack.Damage, Stat.Damage, sc) : 0f, d1 = nxt.Attack != null ? W.Mods.Apply(nxt.Attack.Damage, Stat.Damage, sc) : 0f;
+                Diff("Sát thương", d0, d1);
+                float r0 = cur.Attack?.Range ?? 0f, r1 = nxt.Attack?.Range ?? 0f;
+                Diff("Tầm", r0, r1);
+                float s0 = cur.Attack != null ? 1f / cur.Attack.Interval : 0f, s1 = nxt.Attack != null ? 1f / nxt.Attack.Interval : 0f;
+                Diff("Đòn/giây", s0, s1);
+                if ((nxt.Attack?.Splash ?? 0f) > (cur.Attack?.Splash ?? 0f)) lines.Add("Thêm sát thương lan " + F(nxt.Attack.Splash) + " ô");
+                if ((nxt.Attack?.ChainCount ?? 0) > (cur.Attack?.ChainCount ?? 0)) lines.Add("Nảy thêm " + (nxt.Attack.ChainCount - (cur.Attack?.ChainCount ?? 0)) + " mục tiêu");
+                if (nxt.Attack != null && nxt.Attack.HitsAir && (cur.Attack == null || !cur.Attack.HitsAir)) lines.Add("Bắn được kẻ bay");
+            }
+            Diff("Vàng mỗi bình minh", W.Mods.Apply(cur.IncomePerDawn.Gold, Stat.GoldIncome, sc), W.Mods.Apply(nxt.IncomePerDawn.Gold, Stat.GoldIncome, sc));
+            Diff("Mana mỗi bình minh", W.Mods.Apply(cur.IncomePerDawn.Mana, Stat.ManaIncome, sc), W.Mods.Apply(nxt.IncomePerDawn.Mana, Stat.ManaIncome, sc));
+            if (cur.Soldier != SoldierClass.None || nxt.Soldier != SoldierClass.None)
+            {
+                Diff("Quân số", cur.SquadSize, nxt.SquadSize);
+                Diff("Máu lính ×", cur.SoldierHpMult, nxt.SoldierHpMult);
+                Diff("Sát thương lính ×", cur.SoldierDmgMult, nxt.SoldierDmgMult);
+                if (nxt.NightRespawnInterval > 0f && cur.NightRespawnInterval <= 0f) lines.Add("Bổ sung lính trong đêm mỗi " + F(nxt.NightRespawnInterval) + " giây");
+            }
+            if (nxt.Element != ElementId.None && nxt.Element != cur.Element) lines.Add("Nguyên tố: " + Elements.Name(nxt.Element));
+            if (nxt.SecondarySlot && !cur.SecondarySlot) lines.Add("Mở ô nguyên tố phụ");
+            if (nxt.Aura != null && cur.Aura == null) lines.Add("Thêm hào quang " + F(nxt.Aura.Radius) + " ô");
+            if (nxt.ReflectFraction > cur.ReflectFraction) lines.Add("Phản " + Math.Round(nxt.ReflectFraction * 100) + "% sát thương cận chiến");
+            return lines;
+        }
+
         private int _royalArchitectNight;
         public bool RoyalArchitectAvailable => W.Mods.Has(Hook.RoyalArchitect) && _royalArchitectNight != Night;
 

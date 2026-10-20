@@ -302,8 +302,7 @@ namespace Runavelle.Core
         {
             _tmp2.Clear();
             _w.UnitsInRadius(victims, p, r, _tmp2);
-            var copy = _tmp2.ToArray();
-            foreach (var u in copy)
+            foreach (var u in _tmp2.Snapshot(_w))
             {
                 Deal(u, d);
                 if (!u.Dead) extra?.Invoke(u);
@@ -359,7 +358,7 @@ namespace Runavelle.Core
                     _w.UnitsInRadius(victims, p, 3.5f, _tmp2);
                     _tmp2.Sort((x, y) => Vec2.SqrDistance(x.Position, p).CompareTo(Vec2.SqrDistance(y.Position, p)));
                     int n = 0;
-                    foreach (var u in _tmp2.ToArray())
+                    foreach (var u in _tmp2.Snapshot(_w))
                     {
                         if (n >= jumps) break;
                         if (u == t || u.Status.Gauge[(int)ElementId.Water] < StatusState.ReactThreshold) continue;
@@ -395,7 +394,7 @@ namespace Runavelle.Core
                     _w.UnitsInRadius(victims, p, 3f, _tmp2);
                     _tmp2.Sort((x, y) => x.Id.CompareTo(y.Id));
                     int n = 0;
-                    foreach (var u in _tmp2.ToArray())
+                    foreach (var u in _tmp2.Snapshot(_w))
                     {
                         if (n >= 3 || u == t) continue;
                         _w.Emit(SimEventType.Reaction, u.Position, 0f, ElementId.Lightning, u.Id, "arc", t.Id, r.Id);
@@ -422,7 +421,7 @@ namespace Runavelle.Core
                     var spikes = ReactionHit(src, (20 + 0.9f * a) * k, ElementId.Earth);
                     _tmp2.Clear();
                     _w.UnitsInRadius(victims, p, 1.5f, _tmp2);
-                    foreach (var u in _tmp2.ToArray())
+                    foreach (var u in _tmp2.Snapshot(_w))
                     {
                         var d = spikes;
                         if (u.Status.Frozen) d.Amount *= 2f;
@@ -466,7 +465,7 @@ namespace Runavelle.Core
                     _tmp2.Clear();
                     _w.UnitsInRadius(victims, p, 5f, _tmp2);
                     int n = 0;
-                    foreach (var u in _tmp2.ToArray())
+                    foreach (var u in _tmp2.Snapshot(_w))
                     {
                         if (n >= 8) break;
                         if (u != t && u.Status.Gauge[(int)ElementId.Shadow] < StatusState.ReactThreshold) continue;
@@ -494,7 +493,7 @@ namespace Runavelle.Core
                     foreach (var b in _w.Buildings)
                         if (!b.Dead && !b.Ruined && b.Team == allies && Vec2.Distance(b.Center, p) <= 3.2f) Heal(b, b.MaxHp * 0.08f);
                     _tmp2.Clear();
-                    foreach (var u in _w.UnitsInRadius(allies, p, 3.2f, _tmp2).ToArray())
+                    foreach (var u in _w.UnitsInRadius(allies, p, 3.2f, _tmp2).Snapshot(_w))
                     {
                         Heal(u, u.MaxHp * 0.08f);
                         u.Status.Cleanse();
@@ -507,6 +506,42 @@ namespace Runavelle.Core
                     break;
             }
             if (Mods.Has(Hook.GoldOnReaction) && _w.Rng.Chance(0.1f)) _w.PendingGold += (int)Mods.HookValue(Hook.GoldOnReaction);
+            if (victims == Team.Enemy) LeaveBattlefieldZone(r.Id, p, src);
+        }
+
+        public const int MaxReactionZones = 6;
+
+        /// <summary>
+        /// Elemental Battlefield: some reactions leave a short-lived ground state (wet field, ice slick, burning ground,
+        /// mire). Bounded: at most 6 at once, a nearby zone of the same kind is refreshed instead of stacked, zone ticks
+        /// are generation-1 so they prime the next hit but can never chain reactions on their own.
+        /// </summary>
+        private void LeaveBattlefieldZone(ReactionId id, Vec2 p, DamageInfo src)
+        {
+            ZoneKind kind; ElementId e; float dps, status, dur, radius;
+            switch (id)
+            {
+                case ReactionId.Melt: case ReactionId.SteamBurst: case ReactionId.Rainfall:
+                    kind = ZoneKind.Rain; e = ElementId.Water; dps = 0f; status = 14f; dur = 4f; radius = 1.3f; break;
+                case ReactionId.FlashFreeze: case ReactionId.Blizzard: case ReactionId.SoulFrost:
+                    kind = ZoneKind.Blizzard; e = ElementId.Ice; dps = 0f; status = 12f; dur = 3f; radius = 1.2f; break;
+                case ReactionId.Firestorm: case ReactionId.Overload: case ReactionId.Magma:
+                    kind = ZoneKind.Burning; e = ElementId.Fire; dps = 6f; status = 12f; dur = 3f; radius = 1.2f; break;
+                case ReactionId.Mire: case ReactionId.Sandstorm:
+                    kind = ZoneKind.Mud; e = ElementId.None; dps = 0f; status = 0.3f; dur = 3f; radius = 1.3f; break;
+                default: return;
+            }
+            int count = 0;
+            foreach (var z in _w.Zones)
+            {
+                if (!z.FromReaction) continue;
+                count++;
+                if (z.Kind == kind && Vec2.Distance(z.Position, p) < radius) { z.Remaining = Math.Max(z.Remaining, dur); return; }
+            }
+            if (count >= MaxReactionZones) return;
+            var zone = SpawnZone(kind, Team.Player, p, radius, dur, dps, e, status, src);
+            zone.FromReaction = true;
+            zone.SourceName = "Chiến trường " + Elements.Name(e == ElementId.None ? ElementId.Earth : e);
         }
 
         private static Team OtherTeam(Team t) => t == Team.Player ? Team.Enemy : Team.Player;
@@ -539,7 +574,7 @@ namespace Runavelle.Core
                 _w.Analytics.NightBuildingsLost++;
                 if (b.IsWallLike)
                 {
-                    _w.Analytics.Breaches.Add(new BreachRecord { Night = _w.Night, X = b.Center.X, Y = b.Center.Y, LevelId = b.Level.Id, Cause = info.SourceName });
+                    _w.Analytics.Breaches.Add(new BreachRecord { Night = _w.Night, X = b.Center.X, Y = b.Center.Y, LevelId = b.Level.Id, Cause = info.SourceName, Time = _w.Time - _w.NightStartTime });
                     _w.Emit(SimEventType.WallBreached, b.Center, 0, ElementId.None, b.Id, b.Level.Name);
                 }
                 else _w.Emit(SimEventType.BuildingDestroyed, b.Center, 0, ElementId.None, b.Id, b.Level.Name);
@@ -577,6 +612,8 @@ namespace Runavelle.Core
             if (u.Team == Team.Enemy)
             {
                 _w.Analytics.AddKill(u.Def.Id);
+                _w.Analytics.KillsBySource.TryGetValue(info.Source, out int ks);
+                _w.Analytics.KillsBySource[info.Source] = ks + 1;
                 if (!u.Summoned) _w.PendingGold += (int)Math.Round(_w.Mods.Apply(u.Def.Bounty, Stat.Bounty, Scope.Any));
                 if (Mods.Has(Hook.ManaOnKill) && _w.Rng.Chance(Mods.HookValue(Hook.ManaOnKill))) _w.PendingMana += 1;
                 if (u.Status.Gauge[(int)ElementId.Shadow] >= StatusState.ReactThreshold)

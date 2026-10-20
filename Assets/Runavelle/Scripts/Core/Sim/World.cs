@@ -84,6 +84,10 @@ namespace Runavelle.Core
         public int TopologyVersion;
         /// <summary>Hazard state: high tide / mist density / etc. controlled by the HazardSystem.</summary>
         public bool TideHigh;
+        /// <summary>Last Bastion decree already fired this night (cap: once per night).</summary>
+        public bool LastBastionUsed;
+        /// <summary>World.Time when the current night started (for night-relative analytics).</summary>
+        public float NightStartTime;
         /// <summary>Thin-ice tiles cracked open by Fire this night (impassable water until dawn). Key = y * width + x.</summary>
         public readonly HashSet<int> CrackedIce = new HashSet<int>();
         public int NextId = 1;
@@ -141,6 +145,11 @@ namespace Runavelle.Core
             var b = BuildingAt(x, y);
             return b == null || b.Ruined || b.IsGate;
         }
+
+        // ---------------------------------------------------------------- pooled scratch lists (no per-hit allocations)
+        private readonly Stack<List<Unit>> _listPool = new Stack<List<Unit>>();
+        public List<Unit> RentList() => _listPool.Count > 0 ? _listPool.Pop() : new List<Unit>(32);
+        public void ReturnList(List<Unit> l) { l.Clear(); _listPool.Push(l); }
 
         public void RebuildSpatial()
         {
