@@ -1,0 +1,36 @@
+{
+ "id": "20261020-103740",
+ "scope": "all",
+ "quality": "release",
+ "force": false,
+ "dry_run": false,
+ "stages": [
+  {
+   "stage": "blender",
+   "rendered": 143,
+   "failed": [],
+   "seconds": 1184.5
+  },
+  {
+   "stage": "validate",
+   "block": 0,
+   "warn": 1,
+   "examples": [
+    "building/wall_stone_5: halo"
+   ]
+  },
+  {
+   "stage": "import",
+   "imported": 0,
+   "reason": "--no-import"
+  }
+ ],
+ "plan": {
+  "scope_keys": 556,
+  "blender_keys": 143,
+  "render": 143,
+  "render_cached": 0,
+  "procedural_keys": 413
+ },
+ "seconds": 1206.8
+}

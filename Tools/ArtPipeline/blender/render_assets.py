@@ -63,8 +63,26 @@ def reset():
     w.use_nodes = True
     bg = w.node_tree.nodes["Background"]
     bg.inputs[0].default_value = srgb('#b8c8e8')
-    bg.inputs[1].default_value = 0.55
+    bg.inputs[1].default_value = 0.0  # no sky light: its occlusion made the shadow catcher paint grey boxes
     s.world = w
+    # cool fill from the camera side, shadowless: replaces the sky ambient without touching the catcher
+    fill = bpy.data.lights.new("fill", 'SUN')
+    fill.energy = 1.1
+    fill.color = srgb('#c8d4f0')[:3]
+    fill.use_shadow = False
+    if hasattr(fill, "cycles"):
+        fill.cycles.cast_shadow = False
+    fo = bpy.data.objects.new("fill", fill)
+    fo.rotation_euler = (math.radians(50), 0, math.radians(10))
+    s.collection.objects.link(fo)
+    top = bpy.data.lights.new("top", 'SUN')
+    top.energy = 0.6
+    top.color = srgb('#e8ecff')[:3]
+    if hasattr(top, "cycles"):
+        top.cycles.cast_shadow = False
+    top.use_shadow = False
+    to = bpy.data.objects.new("top", top)
+    s.collection.objects.link(to)
     # key (upper-left, front), warm rim (back-right)
     key = bpy.data.lights.new("key", 'SUN')
     key.energy = 3.4
@@ -216,7 +234,17 @@ class Kit:
         for c in list(o.users_collection):
             c.objects.unlink(o)
         bpy.data.collections["helpers"].objects.link(o)
-        o.is_holdout = True
+        # a Holdout *shader* on ordinary geometry: transparent pixels AND a real occluder for Freestyle
+        # (object-level is_holdout hides pixels but Freestyle still draws the lines behind it)
+        m = bpy.data.materials.new("holdout")
+        m.use_nodes = True
+        nt = m.node_tree
+        nt.nodes.clear()
+        out = nt.nodes.new("ShaderNodeOutputMaterial")
+        hn = nt.nodes.new("ShaderNodeHoldout")
+        nt.links.new(hn.outputs[0], out.inputs["Surface"])
+        o.data.materials.append(m)
+        o.visible_shadow = False
         return o
 
     def bevel(self, o, w=0.025):
