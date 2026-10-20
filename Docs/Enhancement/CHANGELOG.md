@@ -32,3 +32,7 @@
 - Harness: `tune.<field>=value` knob overrides, `nobreach`.
 - Kingdom Chronicle with save/profile migration, search, replay; History screen tab "Biên niên"; report shows tonight's entries.
 - `World.Observer` hook (emits before the 4000-event cap).
+
+## P8 Balance lab / P4 General–army synergy
+- AutoPlayer policies GreedyEconomy, WallFirst, MageHeavy, GeneralCarry, RandomPlay; `Tools/Balance/policy_report.py`; economy wealth fuzz test.
+- Battle Link + Rally Strike (AuraSystem / GeneralSystem), visible ring colour, swing/projectile colour, label.

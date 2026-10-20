@@ -137,6 +137,14 @@ namespace Runavelle.Core
             if (!g.IsPlayerControlled) power *= 0.8f;
             _w.Emit(SimEventType.UltimateCast, g.Position, ult.CastRadius, g.General.Element, g.Id, ult.Name);
             foreach (var e in ult.Effects) Execute(g, e, power);
+            if (AiTuning.UltimateRallyStrike)
+            {
+                // Rally Strike: the army answers its General's signal — squads inside the cast radius attack at once (one free swing each)
+                int n = 0;
+                foreach (var s in _w.UnitsInRadius(Team.Player, g.Position, ult.CastRadius, _tmp))
+                    if (s.Role == UnitRole.Soldier && !s.Dead && s.AttackCooldown > 0f) { s.AttackCooldown = 0f; s.AiDecisionTimer = 0f; n++; }
+                if (n > 0) _w.Emit(SimEventType.SynergyStrike, g.Position, n, g.General.Element, g.Id, "Phối hợp!");
+            }
             if (g.Evolution != null) foreach (var e in g.Evolution.ExtraUltEffects) Execute(g, e, power);
             if (_w.Mods.Has(Hook.WallsMendOnUltimate))
                 foreach (var b in _w.Buildings)

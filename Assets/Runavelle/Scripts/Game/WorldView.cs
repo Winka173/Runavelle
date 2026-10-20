@@ -649,6 +649,12 @@ namespace Runavelle.Game
                 _body.color = c;
                 _shadow.transform.localPosition = new Vector3(0, -0.02f, 0);
                 _ring.gameObject.SetActive(u.State != UnitState.Burrowed);
+                if (u.Role == UnitRole.Soldier && u.Team == Team.Player)
+                {
+                    // Battle Link: a soldier carrying its General's element shows it under its feet
+                    var lent = u.Buffs.GrantElement;
+                    _ring.color = lent != ElementId.None ? ArtLibrary.ElementColor(lent, 0.8f) : new Color(0.35f, 0.75f, 1f, 0.55f);
+                }
                 // hp bar only when damaged (or generals/bosses)
                 bool showHp = (u.Hp < u.MaxHp - 0.5f || u.Role == UnitRole.General || u.IsBoss) && u.State != UnitState.Downed && !u.Stealthed;
                 _hpBg.gameObject.SetActive(showHp);

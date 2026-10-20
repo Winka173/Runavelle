@@ -146,6 +146,14 @@ namespace Runavelle.Game
                         Music.Breach();
                         NearestAiBark(BarkTrigger.WallBreach, e.Position, 14f);
                         break;
+                    case SimEventType.SynergyStrike:
+                    {
+                        // Rally Strike: squads answer the ultimate together (label always; ring only without reduced motion)
+                        var col = ArtLibrary.ElementColor(e.Element == ElementId.None ? ElementId.Light : e.Element, 0.9f);
+                        if (!Settings.ReducedMotion) vfx.Ring(at, col, 2.4f, 0.45f, "fx/ring_thick");
+                        vfx.Label(at + new Vector2(0, 1.2f), $"Phối hợp! ×{(int)e.Value}", col, 26f, 1.2f);
+                        break;
+                    }
                     case SimEventType.BreachResponse:
                     {
                         // autonomous squad/general decision after a breach: say it where they are heading

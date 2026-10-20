@@ -163,6 +163,13 @@ namespace Runavelle.Core
                 b.Regen = Math.Max(b.Regen, aura.RegenFraction * power);
                 b.MoveMult = Math.Max(b.MoveMult, Scale(aura.MoveSpeedMult));
                 if (aura.GrantElement != ElementId.None) { b.GrantElement = aura.GrantElement; b.GrantStatus = aura.GrantStatus * power; }
+                else if (AiTuning.GeneralLinkStatus > 0f && b.GrantElement == ElementId.None && u.Attack.Element == ElementId.None && g.General.Element != ElementId.None)
+                {
+                    // Battle Link: element-less soldiers fighting beside a General carry its element (a real status on hit →
+                    // reactions with towers through the one ReactionTable); weaker than dedicated element auras
+                    b.GrantElement = g.General.Element;
+                    b.GrantStatus = AiTuning.GeneralLinkStatus * power;
+                }
             }
             if (aura.AffectsTowers || aura.AffectsWalls)
                 foreach (var bld in _w.Buildings)

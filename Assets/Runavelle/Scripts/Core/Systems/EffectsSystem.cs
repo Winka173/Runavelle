@@ -66,14 +66,15 @@ namespace Runavelle.Core
             if (grant == ElementId.None && attacker is Unit su && su.SecondaryElement != ElementId.None) { grant = su.SecondaryElement; }
             if (a.ProjectileSpeed <= 0f)
             {
-                _w.Emit(SimEventType.MeleeSwing, attacker.Position, 0, a.Element, attacker.Id, null, target.Id);
+                // a lent/granted element colours the swing so the synergy is visible, not only a number
+                _w.Emit(SimEventType.MeleeSwing, attacker.Position, 0, a.Element != ElementId.None ? a.Element : grant, attacker.Id, null, target.Id);
                 Impact(target, target.Position, info, a.Splash);
                 if (grant != ElementId.None && !target.Dead) _combat.ApplyElement(target, grant, attacker.Buffs.GrantElement != ElementId.None ? attacker.Buffs.GrantStatus : 18f, info);
                 return;
             }
             var p = _projectilePool.Count > 0 ? _projectilePool.Pop() : new Projectile();
             p.Id = _w.AllocId(); p.Team = attacker.Team; p.Position = attacker.Position; p.PrevPosition = attacker.Position; p.TargetId = target.Id;
-            p.TargetPos = _w.ClosestPoint(attacker.Position, target); p.Speed = a.ProjectileSpeed; p.Payload = info; p.Splash = a.Splash; p.Element = a.Element; p.Visual = visual;
+            p.TargetPos = _w.ClosestPoint(attacker.Position, target); p.Speed = a.ProjectileSpeed; p.Payload = info; p.Splash = a.Splash; p.Element = a.Element != ElementId.None ? a.Element : grant; p.Visual = visual;
             p.Dead = false;
             p.GrantElement = grant;
             p.GrantStatus = attacker.Buffs.GrantElement != ElementId.None ? attacker.Buffs.GrantStatus : 18f;

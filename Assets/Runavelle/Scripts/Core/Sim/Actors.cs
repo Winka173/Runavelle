@@ -239,7 +239,7 @@ namespace Runavelle.Core
     {
         Hit, Kill, Reaction, BuildingDestroyed, WallBreached, Spawned, UltimateCast, Dash, BossPhase, Announcement, Heal,
         ProjectileFired, MeleeSwing, CastleHit, GeneralDowned, GeneralRevived, StatusApplied, Telegraph, Freeze, Summon, Building, Upgrade, Sell,
-        NightStart, NightEnd, Hazard, Stealth, Explosion, BreachResponse
+        NightStart, NightEnd, Hazard, Stealth, Explosion, BreachResponse, SynergyStrike
     }
 
     public struct SimEvent

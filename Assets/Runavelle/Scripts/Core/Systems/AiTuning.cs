@@ -19,6 +19,9 @@ namespace Runavelle.Core
         public static float RallyDistance = 4f;            // max march from the barracks door toward its front (tiles)
         public static float RallyRangedBack = 1.4f;        // ranged squads form up this far behind the melee line
         public static float LeashSlack = 1.5f;
+        // P4 general–army synergy (visible behaviour, not hidden stats)
+        public static float GeneralLinkStatus = 6f;        // element status a General lends to element-less soldiers in its aura (0 = off)
+        public static bool UltimateRallyStrike = true;     // casting the ultimate makes squads in its radius strike at once
         // P3 breach crisis
         public static float BreachResponseRadius = 7f;     // squads whose post/barracks is this close to a gap react
         public static float BreachThreatRadius = 6f;       // enemy HP counted around the gap
