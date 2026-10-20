@@ -88,3 +88,12 @@ Challenges (`seeds=2`, Moonstone/Stormcliff/Sunken, 18 runs each): No Walls 89%,
 learned to build magic towers when archers are banned; 22% before), Lone General 100%, Horde 100%, Pauper 78%,
 Glass Castle 72%, Cursed Crown 94%, Blitz 72%. Lone General and Horde stayed at 100% even after a nerf — they are
 easy for the bot; human difficulty unmeasured.
+
+## Measured: Quality Enhancement pass (soldiers now deploy, staged waves, AI fixes)
+`seeds=2 maps=all generals=all` (256 runs): **196 wins (77%)**, 0 exceptions, 216 s. Ascension sweep (96 runs each):
+A3 53%, A6 57%, A10 26%. Metrics (all 256 runs): median first breach 48 s into a night, castle HP left 97% at night end
+(won nights dominate), reactions 0.24/s, player General 36% of player damage; kill share: player General 41%,
+Archer Towers 17%, Soldiers 14%, AI Generals 12%, Magic Towers 12%, hazards 2%. Last Bastion: 0 triggers because the
+bot never drafts it (it picks the first non-cursed decree); behaviour covered by tests.
+Note: the squad-deployment fix (soldiers used to stay inside their Barracks) makes armies matter; bot win rate moved
+from 74% to 77% at Ascension 0.
