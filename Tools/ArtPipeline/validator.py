@@ -52,7 +52,8 @@ class Spec:
     def category(self, key):
         best, cfg = "", None
         for prefix, c in self.d["categories"].items():
-            if key.startswith(prefix) and len(prefix) > len(best):
+            hit = fnmatch.fnmatch(key, prefix + "*") if c.get("_match") == "glob" else key.startswith(prefix)
+            if hit and len(prefix) > len(best):
                 best, cfg = prefix, c
         return best, cfg or {}
 
@@ -100,10 +101,15 @@ def analyse(img):
         semi = (alpha > 0.04) & (alpha < 0.5)
         near = np.zeros_like(opaque)
         near[1:, :] |= opaque[:-1, :]; near[:-1, :] |= opaque[1:, :]; near[:, 1:] |= opaque[:, :-1]; near[:, :-1] |= opaque[:, 1:]
-        fringe = semi & near
+        clear = alpha < 0.03
+        touch_clear = np.zeros_like(opaque)
+        touch_clear[1:, :] |= clear[:-1, :]; touch_clear[:-1, :] |= clear[1:, :]; touch_clear[:, 1:] |= clear[:, :-1]; touch_clear[:, :-1] |= clear[:, 1:]
+        fringe = semi & near & touch_clear  # a 1-px band between opaque and empty: where matte halos live
         if fringe.sum() >= 8:
+            f = rgb[fringe].astype(np.float32) / 255.0
             fl = lum(rgb[fringe])
-            m["halo"] = float(((fl > 0.75) & (fl > m["rim_lum"] + 0.35)).mean())
+            sat = f.max(axis=1) - f.min(axis=1)
+            m["halo"] = float(((fl > 0.7) & (sat < 0.15) & (fl > m["rim_lum"] + 0.35)).mean())
         else:
             m["halo"] = 0.0
     m["mask"] = opaque
@@ -128,8 +134,9 @@ def check_asset(key, entry, path, spec, out):
     m = analyse(img)
     if (m["w"], m["h"]) != (entry.get("w"), entry.get("h")):
         add(BLOCK, "manifest_size", f"manifest says {entry.get('w')}x{entry.get('h')}, file is {m['w']}x{m['h']}")
-    if max(m["w"], m["h"]) > spec.t["max_dim"]:
-        add(BLOCK, "max_dim", f"{m['w']}x{m['h']} exceeds {spec.t['max_dim']} px")
+    max_dim = cfg.get("max_dim", spec.t["max_dim"])
+    if max(m["w"], m["h"]) > max_dim:
+        add(BLOCK, "max_dim", f"{m['w']}x{m['h']} exceeds {max_dim} px")
     if entry.get("ppu") != spec.d["ppu"]:
         add(BLOCK, "ppu", f"ppu {entry.get('ppu')} != project ppu {spec.d['ppu']}")
     px, py = entry.get("px", 0.5), entry.get("py", 0.5)
@@ -148,6 +155,12 @@ def check_asset(key, entry, path, spec, out):
         add(WARN, "clipped", f"opaque pixels touch the canvas edge (bbox {m['bbox']}) — silhouette may be cropped")
     if m.get("halo", 0) > spec.t["halo_max"]:
         add(WARN, "halo", f"bright fringe on {m['halo']:.0%} of edge pixels (white halo / un-premultiplied edge)")
+    if cfg.get("anchor") == "footprint":
+        # buildings are positioned at their footprint centre: the pivot must sit above the base, inside the footprint
+        above = py * m["h"] - (m["h"] - 1 - m["foot_row"])
+        lo, hi = cfg.get("pivot_above_foot_px", [8, 112])
+        if not lo <= above <= hi:
+            add(WARN, "foot_pivot", f"pivot {above:.0f}px above the lowest opaque pixel, expected {lo}..{hi}px (footprint centre)")
     if cfg.get("anchor") == "foot":
         pivot_from_bottom = py * m["h"]
         foot_from_bottom = m["h"] - 1 - m["foot_row"]
@@ -159,7 +172,7 @@ def check_asset(key, entry, path, spec, out):
         lo, hi = cfg["world_h"]
         if not lo <= h_world <= hi:
             add(WARN, "scale", f"visible height {h_world:.2f} world units outside [{lo}, {hi}]")
-    if not cfg.get("tint") and "mean_lum" in m and not cfg.get("opaque"):
+    if not cfg.get("tint") and not cfg.get("no_readability") and "mean_lum" in m and not cfg.get("opaque"):
         worst = 99.0
         for name, bg in spec.d["backgrounds"].items():
             bl = float(lum(np.array(bg, dtype=np.uint8)))
@@ -208,7 +221,7 @@ def manifest_checks(art, manifest, out):
             out.append({"asset": k, "category": "manifest", "severity": BLOCK, "check": "duplicate_name", "message": f"case-insensitive duplicates {v} (collide on Windows/macOS)"})
 
 
-def element_cvd_check(art, manifest, out):
+def element_cvd_check(art, manifest, out, spec_t):
     """Element status icons must stay distinguishable for deuteranopia/protanopia by colour OR shape."""
     keys = [k for k in manifest if k.startswith("icon/el_") and k != "icon/el_none"]
     data = {}
@@ -219,23 +232,23 @@ def element_cvd_check(art, manifest, out):
         a = np.asarray(Image.open(p).convert("RGBA"), dtype=np.float32) / 255.0
         mask = a[..., 3] > 0.5
         lin = np.where(a[..., :3] <= 0.04045, a[..., :3] / 12.92, ((a[..., :3] + 0.055) / 1.055) ** 2.4)
-        data[k] = (mask, lin[mask].mean(axis=0) if mask.any() else np.zeros(3))
+        L = (0.2126 * lin[..., 0] + 0.7152 * lin[..., 1] + 0.0722 * lin[..., 2]) * mask
+        data[k] = (mask, lin[mask].mean(axis=0) if mask.any() else np.zeros(3), L)
     for kind, M in CVD.items():
         ks = sorted(data)
         for i in range(len(ks)):
             for j in range(i + 1, len(ks)):
-                ma, ca = data[ks[i]]
-                mb, cb = data[ks[j]]
-                da = M @ ca
-                db = M @ cb
-                cdist = float(np.linalg.norm(da - db))
-                if ma.shape == mb.shape:
-                    iou = float((ma & mb).sum() / max(1, (ma | mb).sum()))
-                else:
-                    iou = 0.0
-                if cdist < 0.08 and iou > 0.85:
+                ma, ca, la = data[ks[i]]
+                mb, cb, lb = data[ks[j]]
+                cdist = float(np.linalg.norm(M @ ca - M @ cb))
+                corr = 1.0
+                if la.shape == lb.shape:
+                    xa, xb = la - la.mean(), lb - lb.mean()
+                    den = float(np.sqrt((xa * xa).sum() * (xb * xb).sum())) or 1.0
+                    corr = float((xa * xb).sum() / den)
+                if cdist < spec_t["cvd_color_min"] and corr > spec_t["cvd_pattern_max"]:
                     out.append({"asset": f"{ks[i]} vs {ks[j]}", "category": "icon", "severity": BLOCK, "check": "cvd_" + kind,
-                                "message": f"indistinguishable under {kind}: colour distance {cdist:.3f}, shape IoU {iou:.2f}"})
+                                "message": f"indistinguishable under {kind}: colour distance {cdist:.3f} and glyph pattern correlation {corr:.2f}"})
 
 
 def code_reference_check(code_dir, manifest, out):
@@ -277,7 +290,7 @@ def run(art, spec_path, waivers_path, out_dir, code_dir=None, write=True):
         if m:
             total_bytes += m["w"] * m["h"] * 4
     frame_checks(results, manifest, spec, findings)
-    element_cvd_check(art, manifest, findings)
+    element_cvd_check(art, manifest, findings, spec.t)
     code_reference_check(code_dir, manifest, findings)
     provenance_check(art, findings)
     mb = total_bytes / 1048576

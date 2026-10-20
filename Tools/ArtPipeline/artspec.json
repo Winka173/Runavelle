@@ -2,26 +2,184 @@
   "_doc": "Art specification used by validator.py. Categories are matched by key prefix (longest wins). Values are measurable gates; aesthetics still need the human checklist in Docs/Enhancement/ART_BIBLE.md.",
   "ppu": 64,
   "categories": {
-    "terrain/":   {"opaque": true,  "edge_ok": true,  "size": [64, 64], "anchor": "center"},
-    "building/":  {"opaque": false, "edge_ok": false, "world_h": [0.6, 7.0], "anchor": "foot", "foot_tol_px": 10},
-    "building/emblem_": {"opaque": false, "edge_ok": false, "world_h": [0.5, 3.0], "anchor": "any"},
-    "building/prop_":   {"opaque": false, "edge_ok": false, "world_h": [0.3, 2.0], "anchor": "any"},
-    "unit/":      {"opaque": false, "edge_ok": false, "world_h": [0.6, 2.4], "anchor": "foot", "foot_tol_px": 8, "frames": true},
-    "enemy/":     {"opaque": false, "edge_ok": false, "world_h": [0.5, 3.4], "anchor": "foot", "foot_tol_px": 10, "frames": true},
-    "enemy/boss_":{"opaque": false, "edge_ok": false, "world_h": [1.2, 3.6], "anchor": "foot", "foot_tol_px": 14, "frames": true},
-    "general/":   {"opaque": false, "edge_ok": false, "world_h": [0.9, 2.4], "anchor": "foot", "foot_tol_px": 8, "frames": true},
-    "portrait/":  {"opaque": false, "edge_ok": true,  "anchor": "any"},
-    "icon/":      {"opaque": false, "edge_ok": true,  "anchor": "any"},
-    "ui/":        {"opaque": false, "edge_ok": true,  "anchor": "any"},
-    "fx/":        {"opaque": false, "edge_ok": true,  "anchor": "any", "tint": true},
-    "decor/":     {"opaque": false, "edge_ok": false, "anchor": "any"}
+    "terrain/": {
+      "opaque": true,
+      "edge_ok": true,
+      "size": [
+        64,
+        64
+      ],
+      "anchor": "center"
+    },
+    "building/": {
+      "opaque": false,
+      "edge_ok": false,
+      "world_h": [
+        0.6,
+        7.0
+      ],
+      "anchor": "footprint",
+      "pivot_above_foot_px": [
+        8,
+        112
+      ]
+    },
+    "building/emblem_": {
+      "opaque": false,
+      "edge_ok": false,
+      "world_h": [
+        0.5,
+        3.0
+      ],
+      "anchor": "any"
+    },
+    "building/prop_": {
+      "opaque": false,
+      "edge_ok": false,
+      "world_h": [
+        0.3,
+        2.0
+      ],
+      "anchor": "any"
+    },
+    "unit/": {
+      "opaque": false,
+      "edge_ok": false,
+      "world_h": [
+        0.6,
+        2.4
+      ],
+      "anchor": "foot",
+      "foot_tol_px": 8,
+      "frames": true
+    },
+    "enemy/": {
+      "opaque": false,
+      "edge_ok": false,
+      "world_h": [
+        0.5,
+        3.4
+      ],
+      "anchor": "foot",
+      "foot_tol_px": 10,
+      "frames": true
+    },
+    "enemy/boss_": {
+      "opaque": false,
+      "edge_ok": false,
+      "world_h": [
+        1.2,
+        3.6
+      ],
+      "anchor": "foot",
+      "foot_tol_px": 14,
+      "frames": true
+    },
+    "general/": {
+      "opaque": false,
+      "edge_ok": false,
+      "world_h": [
+        0.9,
+        2.4
+      ],
+      "anchor": "foot",
+      "foot_tol_px": 8,
+      "frames": true
+    },
+    "portrait/": {
+      "opaque": false,
+      "edge_ok": true,
+      "anchor": "any"
+    },
+    "icon/": {
+      "opaque": false,
+      "edge_ok": true,
+      "anchor": "any"
+    },
+    "ui/": {
+      "opaque": false,
+      "edge_ok": true,
+      "anchor": "any",
+      "max_dim": 2048,
+      "no_readability": true
+    },
+    "fx/": {
+      "opaque": false,
+      "edge_ok": true,
+      "anchor": "any",
+      "tint": true
+    },
+    "decor/": {
+      "opaque": false,
+      "edge_ok": false,
+      "anchor": "any"
+    },
+    "terrain/*blob": {
+      "_match": "glob",
+      "opaque": false,
+      "edge_ok": true,
+      "anchor": "center",
+      "no_readability": true
+    },
+    "building/wall_": {
+      "opaque": false,
+      "edge_ok": true,
+      "world_h": [
+        0.6,
+        3.0
+      ],
+      "anchor": "footprint",
+      "pivot_above_foot_px": [
+        -8,
+        60
+      ],
+      "_why": "wall/gate modules must touch the canvas edges to connect seamlessly"
+    },
+    "building/gate_": {
+      "opaque": false,
+      "edge_ok": true,
+      "world_h": [
+        0.6,
+        3.0
+      ],
+      "anchor": "footprint",
+      "pivot_above_foot_px": [
+        -8,
+        60
+      ],
+      "_why": "wall/gate modules must touch the canvas edges to connect seamlessly"
+    },
+    "building/ruin_": {
+      "opaque": false,
+      "edge_ok": true,
+      "anchor": "any"
+    },
+    "fx/pixel": {
+      "opaque": true,
+      "edge_ok": true,
+      "anchor": "any",
+      "tint": true
+    }
   },
   "thresholds": {
     "halo_max": 0.08,
     "frame_iou_min": 0.55,
     "readability_min": 1.6,
     "texture_budget_mb": 64,
-    "max_dim": 512
+    "max_dim": 512,
+    "cvd_color_min": 0.08,
+    "cvd_pattern_max": 0.92
   },
-  "backgrounds": {"day_grass": [96, 140, 70], "night_grass": [34, 40, 66]}
+  "backgrounds": {
+    "day_grass": [
+      96,
+      140,
+      70
+    ],
+    "night_grass": [
+      34,
+      40,
+      66
+    ]
+  }
 }

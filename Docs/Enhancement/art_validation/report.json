@@ -1,498 +1,27 @@
 {
  "summary": {
-  "generated": "2026-10-20T01:55:06",
+  "generated": "2026-10-20T01:59:59",
   "assets": 543,
-  "findings": 368,
-  "block": 35,
-  "warn": 330,
-  "waived": 3,
+  "findings": 104,
+  "block": 0,
+  "warn": 90,
+  "waived": 14,
   "texture_mb_rgba32": 28.65,
   "by_check": {
-   "foot_pivot": 108,
-   "clipped": 137,
-   "halo": 52,
-   "readability": 4,
+   "clipped": 85,
    "scale": 2,
-   "no_alpha": 2,
-   "opaque_expected": 24,
-   "tile_size": 24,
-   "max_dim": 2,
-   "frame_jump": 1,
-   "cvd_deuteranopia": 5,
-   "cvd_protanopia": 4
+   "foot_pivot": 1,
+   "readability": 1,
+   "frame_jump": 1
   }
  },
  "findings": [
   {
-   "asset": "building/archer_1",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/archer_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/archer_3a",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/archer_3b",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/barracks_1",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/barracks_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/barracks_elite",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/barracks_legion",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/castle_1",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 100px vs lowest opaque pixel 11px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/castle_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 100px vs lowest opaque pixel 11px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/castle_3a",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 100px vs lowest opaque pixel 11px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/castle_3b",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 100px vs lowest opaque pixel 11px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/gate_bastion_h",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 15, 63, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/gate_bastion_v",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 1px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/gate_rune_h",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 15, 63, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/gate_rune_v",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 1px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/gate_stone_h",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 15, 63, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/gate_stone_v",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 1px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/gate_wood_h",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 15, 63, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/gate_wood_v",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 1px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/house_1",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/house_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/house_3a",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/house_3b",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_1_earth",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_1_fire",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_1_ice",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 18% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_1_ice",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_1_light",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 21% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_1_light",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_1_lightning",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 16% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_1_lightning",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_1_shadow",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_1_water",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_1_wind",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_2_earth",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_2_fire",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_2_ice",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 23% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_2_ice",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_2_light",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 27% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_2_light",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_2_lightning",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 20% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_2_lightning",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_2_shadow",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_2_water",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_2_wind",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_catalyst_earth",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_catalyst_fire",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_catalyst_ice",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 53% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_catalyst_ice",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_catalyst_light",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 58% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_catalyst_light",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_catalyst_lightning",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 45% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_catalyst_lightning",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_catalyst_shadow",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_catalyst_water",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_catalyst_wind",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
    "asset": "building/magic_spire_earth",
    "category": "building/",
    "severity": "WARN",
    "check": "clipped",
    "message": "opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_spire_earth",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
    "waived": false
   },
   {
@@ -504,35 +33,11 @@
    "waived": false
   },
   {
-   "asset": "building/magic_spire_fire",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
    "asset": "building/magic_spire_ice",
    "category": "building/",
    "severity": "WARN",
    "check": "clipped",
    "message": "opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_spire_ice",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 23% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_spire_ice",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
    "waived": false
   },
   {
@@ -544,43 +49,11 @@
    "waived": false
   },
   {
-   "asset": "building/magic_spire_light",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 27% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_spire_light",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
    "asset": "building/magic_spire_lightning",
    "category": "building/",
    "severity": "WARN",
    "check": "clipped",
    "message": "opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_spire_lightning",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 20% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_spire_lightning",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
    "waived": false
   },
   {
@@ -592,31 +65,7 @@
    "waived": false
   },
   {
-   "asset": "building/magic_spire_shadow",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
    "asset": "building/magic_spire_water",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_spire_water",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/magic_spire_wind",
    "category": "building/",
    "severity": "WARN",
    "check": "clipped",
@@ -627,784 +76,8 @@
    "asset": "building/magic_spire_wind",
    "category": "building/",
    "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/ruin_1",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 36px vs lowest opaque pixel 11px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/ruin_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/ruin_3",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 100px vs lowest opaque pixel 11px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/shrine_1",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/shrine_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 10% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/shrine_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/shrine_3a",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 10% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "building/shrine_3a",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/shrine_3b",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_10",
-   "category": "building/",
-   "severity": "WARN",
    "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 29, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_10",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_11",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 5, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_11",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_12",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 14, 48, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_12",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_13",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 5, 48, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_13",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_14",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 14, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_14",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_15",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 5, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_15",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [15, 14, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_3",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [15, 5, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_3",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_6",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [15, 14, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_6",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_7",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [15, 5, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_7",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_8",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 14, 48, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_8",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_9",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 5, 48, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_bastion_9",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_10",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 33, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_10",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_11",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 9, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_11",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_12",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 18, 46, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_12",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_13",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 9, 46, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_13",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_14",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 18, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_14",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_15",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 9, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_15",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [17, 18, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_3",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [17, 9, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_3",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_6",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [17, 18, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_6",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_7",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [17, 9, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_7",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_8",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 18, 46, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_8",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_9",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 9, 46, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_rune_9",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_10",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 35, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_10",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_11",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 11, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_11",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_12",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 20, 46, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_12",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_13",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 11, 46, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_13",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_14",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 20, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_14",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_15",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 11, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_15",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [17, 20, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_3",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [17, 11, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_3",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_6",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [17, 20, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_6",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_7",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [17, 11, 63, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_7",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_8",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 20, 46, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_8",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_9",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 11, 46, 90]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_stone_9",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 32px vs lowest opaque pixel 21px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_wood_10",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 34, 63, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_wood_11",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 15, 63, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_wood_12",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 21, 43, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_wood_13",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 15, 43, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_wood_14",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 21, 63, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_wood_15",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 15, 63, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_wood_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [20, 21, 63, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_wood_3",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [20, 15, 63, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_wood_6",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [20, 21, 63, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_wood_7",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [20, 15, 63, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_wood_8",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 21, 43, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/wall_wood_9",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "clipped",
-   "message": "opaque pixels touch the canvas edge (bbox [0, 15, 43, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "building/well_1",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/well_2",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/well_3a",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 9px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "building/well_3b",
-   "category": "building/",
-   "severity": "WARN",
-   "check": "foot_pivot",
-   "message": "pivot 68px vs lowest opaque pixel 8px from bottom (> 10px): units will float or sink",
+   "message": "opaque pixels touch the canvas edge (bbox [21, 0, 130, 238]) — silhouette may be cropped",
    "waived": false
   },
   {
@@ -1439,7 +112,8 @@
    "severity": "WARN",
    "check": "readability",
    "message": "low contrast vs day/night ground (min ratio 1.52 < 1.6)",
-   "waived": false
+   "waived": true,
+   "waiver": "Ground clutter meant to blend into grass."
   },
   {
    "asset": "enemy/boss_bone_colossus_0",
@@ -1458,22 +132,6 @@
    "waived": false
   },
   {
-   "asset": "enemy/boss_frost_queen_0",
-   "category": "enemy/boss_",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 12% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "enemy/boss_frost_queen_1",
-   "category": "enemy/boss_",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 33% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
    "asset": "enemy/boss_hollow_emperor_0",
    "category": "enemy/boss_",
    "severity": "WARN",
@@ -1482,27 +140,11 @@
    "waived": false
   },
   {
-   "asset": "enemy/boss_hollow_emperor_0",
-   "category": "enemy/boss_",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 21% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
    "asset": "enemy/boss_hollow_emperor_1",
    "category": "enemy/boss_",
    "severity": "WARN",
    "check": "clipped",
    "message": "opaque pixels touch the canvas edge (bbox [31, 0, 191, 184]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "enemy/boss_hollow_emperor_1",
-   "category": "enemy/boss_",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 17% of edge pixels (white halo / un-premultiplied edge)",
    "waived": false
   },
   {
@@ -1533,25 +175,10 @@
    "asset": "enemy/boss_storm_serpent_0",
    "category": "enemy/boss_",
    "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 12% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "enemy/boss_storm_serpent_0",
-   "category": "enemy/boss_",
-   "severity": "WARN",
    "check": "foot_pivot",
    "message": "pivot 12px vs lowest opaque pixel 40px from bottom (> 14px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "enemy/boss_storm_serpent_1",
-   "category": "enemy/boss_",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 19% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
+   "waived": true,
+   "waiver": "Flyer: pivot is the ground shadow."
   },
   {
    "asset": "enemy/boss_storm_serpent_1",
@@ -1559,7 +186,8 @@
    "severity": "WARN",
    "check": "foot_pivot",
    "message": "pivot 12px vs lowest opaque pixel 34px from bottom (> 14px): units will float or sink",
-   "waived": false
+   "waived": true,
+   "waiver": "Flyer: pivot is the ground shadow."
   },
   {
    "asset": "enemy/boss_tempest_roc_0",
@@ -1567,7 +195,8 @@
    "severity": "WARN",
    "check": "foot_pivot",
    "message": "pivot 8px vs lowest opaque pixel 53px from bottom (> 14px): units will float or sink",
-   "waived": false
+   "waived": true,
+   "waiver": "Flyer: pivot is the ground shadow."
   },
   {
    "asset": "enemy/boss_tempest_roc_1",
@@ -1575,7 +204,8 @@
    "severity": "WARN",
    "check": "foot_pivot",
    "message": "pivot 8px vs lowest opaque pixel 34px from bottom (> 14px): units will float or sink",
-   "waived": false
+   "waived": true,
+   "waiver": "Flyer: pivot is the ground shadow."
   },
   {
    "asset": "enemy/catapult_1",
@@ -1591,7 +221,8 @@
    "severity": "WARN",
    "check": "foot_pivot",
    "message": "pivot 8px vs lowest opaque pixel 24px from bottom (> 10px): units will float or sink",
-   "waived": false
+   "waived": true,
+   "waiver": "Flyer: pivot is the ground shadow."
   },
   {
    "asset": "enemy/clockwork_drone_0",
@@ -1607,7 +238,8 @@
    "severity": "WARN",
    "check": "foot_pivot",
    "message": "pivot 8px vs lowest opaque pixel 24px from bottom (> 10px): units will float or sink",
-   "waived": false
+   "waived": true,
+   "waiver": "Flyer: pivot is the ground shadow."
   },
   {
    "asset": "enemy/clockwork_drone_1",
@@ -1666,14 +298,6 @@
    "waived": false
   },
   {
-   "asset": "enemy/fallen_templar_1",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 16% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
    "asset": "enemy/flame_priest_0",
    "category": "enemy/",
    "severity": "WARN",
@@ -1690,35 +314,11 @@
    "waived": false
   },
   {
-   "asset": "enemy/frost_wolf_1",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 9% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "enemy/frost_wraith_1",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 18% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
    "asset": "enemy/glacier_golem_1",
    "category": "enemy/",
    "severity": "WARN",
    "check": "clipped",
    "message": "opaque pixels touch the canvas edge (bbox [13, 4, 119, 112]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "enemy/glacier_golem_1",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 14% of edge pixels (white halo / un-premultiplied edge)",
    "waived": false
   },
   {
@@ -1754,22 +354,6 @@
    "waived": false
   },
   {
-   "asset": "enemy/necromancer_0",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 10% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "enemy/necromancer_1",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 26% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
    "asset": "enemy/orc_brute_1",
    "category": "enemy/",
    "severity": "WARN",
@@ -1791,22 +375,6 @@
    "severity": "WARN",
    "check": "clipped",
    "message": "opaque pixels touch the canvas edge (bbox [9, 17, 111, 88]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "enemy/rime_caster_0",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 9% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "enemy/rime_caster_1",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 22% of edge pixels (white halo / un-premultiplied edge)",
    "waived": false
   },
   {
@@ -1850,44 +418,13 @@
    "waived": false
   },
   {
-   "asset": "enemy/sky_lancer_1",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 16% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "enemy/storm_harpy_1",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 15% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "enemy/thunder_bird_0",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 24% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
    "asset": "enemy/thunder_bird_0",
    "category": "enemy/",
    "severity": "WARN",
    "check": "foot_pivot",
    "message": "pivot 8px vs lowest opaque pixel 31px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "enemy/thunder_bird_1",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 38% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
+   "waived": true,
+   "waiver": "Flyer: pivot is the ground shadow, the body hovers above it on purpose."
   },
   {
    "asset": "enemy/thunder_bird_1",
@@ -1895,23 +432,8 @@
    "severity": "WARN",
    "check": "foot_pivot",
    "message": "pivot 8px vs lowest opaque pixel 22px from bottom (> 10px): units will float or sink",
-   "waived": false
-  },
-  {
-   "asset": "enemy/void_shifter_0",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 10% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "enemy/void_shifter_1",
-   "category": "enemy/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 26% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
+   "waived": true,
+   "waiver": "Flyer: pivot is the ground shadow, the body hovers above it on purpose."
   },
   {
    "asset": "enemy/yeti_0",
@@ -1930,14 +452,6 @@
    "waived": false
   },
   {
-   "asset": "fx/pixel",
-   "category": "fx/",
-   "severity": "WARN",
-   "check": "no_alpha",
-   "message": "sprite has no transparency (box silhouette)",
-   "waived": false
-  },
-  {
    "asset": "general/aurelia_1",
    "category": "general/",
    "severity": "WARN",
@@ -1946,27 +460,11 @@
    "waived": false
   },
   {
-   "asset": "general/aurelia_1",
-   "category": "general/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 23% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
    "asset": "general/brannoc_1",
    "category": "general/",
    "severity": "WARN",
    "check": "clipped",
    "message": "opaque pixels touch the canvas edge (bbox [33, 2, 127, 124]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "general/brannoc_1",
-   "category": "general/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 13% of edge pixels (white halo / un-premultiplied edge)",
    "waived": false
   },
   {
@@ -1983,38 +481,6 @@
    "severity": "WARN",
    "check": "clipped",
    "message": "opaque pixels touch the canvas edge (bbox [12, 16, 111, 104]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "general/hilda_1",
-   "category": "general/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 14% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "general/isolde_0",
-   "category": "general/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 9% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "general/isolde_1",
-   "category": "general/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 34% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "general/lyra_1",
-   "category": "general/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 30% of edge pixels (white halo / un-premultiplied edge)",
    "waived": false
   },
   {
@@ -2066,22 +532,6 @@
    "waived": false
   },
   {
-   "asset": "general/seraphine_0",
-   "category": "general/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 37% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "general/seraphine_1",
-   "category": "general/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 54% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
    "asset": "icon/el_shadow",
    "category": "icon/",
    "severity": "WARN",
@@ -2090,428 +540,13 @@
    "waived": false
   },
   {
-   "asset": "terrain/chasm_blob_0",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/chasm_blob_0",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/chasm_blob_1",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/chasm_blob_1",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/chasm_blob_2",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/chasm_blob_2",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/dirt_blob_0",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/dirt_blob_0",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/dirt_blob_1",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/dirt_blob_1",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/dirt_blob_2",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/dirt_blob_2",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/ice_blob_0",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/ice_blob_0",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/ice_blob_1",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/ice_blob_1",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/ice_blob_2",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/ice_blob_2",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/lava_blob_0",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/lava_blob_0",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/lava_blob_1",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/lava_blob_1",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/lava_blob_2",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/lava_blob_2",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/plateau_blob_0",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/plateau_blob_0",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/plateau_blob_1",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/plateau_blob_1",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/plateau_blob_2",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/plateau_blob_2",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/sand_blob_0",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/sand_blob_0",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/sand_blob_1",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/sand_blob_1",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/sand_blob_2",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/sand_blob_2",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/shallows_blob_0",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/shallows_blob_0",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/shallows_blob_1",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/shallows_blob_1",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/shallows_blob_2",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/shallows_blob_2",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/water_blob_0",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/water_blob_0",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/water_blob_1",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/water_blob_1",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "terrain/water_blob_2",
-   "category": "terrain/",
-   "severity": "WARN",
-   "check": "opaque_expected",
-   "message": "tile should be fully opaque (seams at runtime)",
-   "waived": false
-  },
-  {
-   "asset": "terrain/water_blob_2",
-   "category": "terrain/",
-   "severity": "BLOCK",
-   "check": "tile_size",
-   "message": "expected [64, 64], got [104, 104]",
-   "waived": false
-  },
-  {
-   "asset": "ui/bar_bg",
-   "category": "ui/",
-   "severity": "WARN",
-   "check": "readability",
-   "message": "low contrast vs day/night ground (min ratio 1.08 < 1.6)",
-   "waived": false
-  },
-  {
    "asset": "ui/joystick_base",
    "category": "ui/",
    "severity": "WARN",
    "check": "halo",
-   "message": "bright fringe on 23% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "ui/logo",
-   "category": "ui/",
-   "severity": "BLOCK",
-   "check": "max_dim",
-   "message": "1024x256 exceeds 512 px",
-   "waived": false
-  },
-  {
-   "asset": "ui/panel_dark",
-   "category": "ui/",
-   "severity": "WARN",
-   "check": "readability",
-   "message": "low contrast vs day/night ground (min ratio 1.27 < 1.6)",
-   "waived": false
-  },
-  {
-   "asset": "ui/title_bg",
-   "category": "ui/",
-   "severity": "BLOCK",
-   "check": "max_dim",
-   "message": "1280x720 exceeds 512 px",
-   "waived": false
+   "message": "bright fringe on 54% of edge pixels (white halo / un-premultiplied edge)",
+   "waived": true,
+   "waiver": "Translucent white touch ring by design (drawn over the scene)."
   },
   {
    "asset": "ui/title_bg",
@@ -2528,39 +563,8 @@
    "severity": "WARN",
    "check": "no_alpha",
    "message": "sprite has no transparency (box silhouette)",
-   "waived": false
-  },
-  {
-   "asset": "unit/archer_a_1",
-   "category": "unit/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 13% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "unit/archer_b_1",
-   "category": "unit/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 15% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "unit/battlemage_a_1",
-   "category": "unit/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 13% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "unit/battlemage_b_1",
-   "category": "unit/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 15% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
+   "waived": true,
+   "waiver": "Full-screen opaque backdrop."
   },
   {
    "asset": "unit/cavalry_0",
@@ -2608,14 +612,6 @@
    "severity": "WARN",
    "check": "clipped",
    "message": "opaque pixels touch the canvas edge (bbox [24, 0, 95, 91]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "unit/cavalry_b_1",
-   "category": "unit/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 14% of edge pixels (white halo / un-premultiplied edge)",
    "waived": false
   },
   {
@@ -2691,14 +687,6 @@
    "waived": false
   },
   {
-   "asset": "unit/griffinrider_b_1",
-   "category": "unit/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 17% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
    "asset": "unit/knight_0",
    "category": "unit/",
    "severity": "WARN",
@@ -2744,14 +732,6 @@
    "severity": "WARN",
    "check": "clipped",
    "message": "opaque pixels touch the canvas edge (bbox [6, 0, 69, 72]) — silhouette may be cropped",
-   "waived": false
-  },
-  {
-   "asset": "unit/knight_b_1",
-   "category": "unit/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 19% of edge pixels (white halo / un-premultiplied edge)",
    "waived": false
   },
   {
@@ -2851,22 +831,6 @@
    "waived": false
   },
   {
-   "asset": "unit/runegolem_b_1",
-   "category": "unit/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 14% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
-   "asset": "unit/shieldguardian_a_1",
-   "category": "unit/",
-   "severity": "WARN",
-   "check": "halo",
-   "message": "bright fringe on 22% of edge pixels (white halo / un-premultiplied edge)",
-   "waived": false
-  },
-  {
    "asset": "unit/spearman_1",
    "category": "unit/",
    "severity": "WARN",
@@ -2896,78 +860,6 @@
    "severity": "WARN",
    "check": "frame_jump",
    "message": "boss_storm_serpent_0→boss_storm_serpent_1 silhouette IoU 0.44 < 0.55 (identity drift / popping)",
-   "waived": false
-  },
-  {
-   "asset": "icon/el_earth vs icon/el_fire",
-   "category": "icon",
-   "severity": "BLOCK",
-   "check": "cvd_deuteranopia",
-   "message": "indistinguishable under deuteranopia: colour distance 0.024, shape IoU 1.00",
-   "waived": false
-  },
-  {
-   "asset": "icon/el_earth vs icon/el_lightning",
-   "category": "icon",
-   "severity": "BLOCK",
-   "check": "cvd_deuteranopia",
-   "message": "indistinguishable under deuteranopia: colour distance 0.067, shape IoU 1.00",
-   "waived": false
-  },
-  {
-   "asset": "icon/el_fire vs icon/el_lightning",
-   "category": "icon",
-   "severity": "BLOCK",
-   "check": "cvd_deuteranopia",
-   "message": "indistinguishable under deuteranopia: colour distance 0.047, shape IoU 1.00",
-   "waived": false
-  },
-  {
-   "asset": "icon/el_light vs icon/el_wind",
-   "category": "icon",
-   "severity": "BLOCK",
-   "check": "cvd_deuteranopia",
-   "message": "indistinguishable under deuteranopia: colour distance 0.044, shape IoU 1.00",
-   "waived": false
-  },
-  {
-   "asset": "icon/el_shadow vs icon/el_water",
-   "category": "icon",
-   "severity": "BLOCK",
-   "check": "cvd_deuteranopia",
-   "message": "indistinguishable under deuteranopia: colour distance 0.068, shape IoU 1.00",
-   "waived": false
-  },
-  {
-   "asset": "icon/el_earth vs icon/el_fire",
-   "category": "icon",
-   "severity": "BLOCK",
-   "check": "cvd_protanopia",
-   "message": "indistinguishable under protanopia: colour distance 0.016, shape IoU 1.00",
-   "waived": false
-  },
-  {
-   "asset": "icon/el_earth vs icon/el_lightning",
-   "category": "icon",
-   "severity": "BLOCK",
-   "check": "cvd_protanopia",
-   "message": "indistinguishable under protanopia: colour distance 0.070, shape IoU 1.00",
-   "waived": false
-  },
-  {
-   "asset": "icon/el_fire vs icon/el_lightning",
-   "category": "icon",
-   "severity": "BLOCK",
-   "check": "cvd_protanopia",
-   "message": "indistinguishable under protanopia: colour distance 0.073, shape IoU 1.00",
-   "waived": false
-  },
-  {
-   "asset": "icon/el_light vs icon/el_wind",
-   "category": "icon",
-   "severity": "BLOCK",
-   "check": "cvd_protanopia",
-   "message": "indistinguishable under protanopia: colour distance 0.018, shape IoU 1.00",
    "waived": false
   }
  ],
@@ -3197,7 +1089,7 @@
    "mean_lum": 0.3548966944217682,
    "p90_lum": 0.6334598064422607,
    "rim_lum": 0.02610258385539055,
-   "halo": 0.07175925925925926,
+   "halo": 0.0,
    "readability": 3.5064729494023186
   },
   "building/emblem_arcanum": {
@@ -3539,7 +1431,7 @@
    "mean_lum": 0.3057396709918976,
    "p90_lum": 0.5236883759498596,
    "rim_lum": 0.0507882684469223,
-   "halo": 0.17941176470588235,
+   "halo": 0.0,
    "readability": 2.64764595900444
   },
   "building/magic_1_light": {
@@ -3558,7 +1450,7 @@
    "mean_lum": 0.31231820583343506,
    "p90_lum": 0.5236883759498596,
    "rim_lum": 0.05509567633271217,
-   "halo": 0.2088235294117647,
+   "halo": 0.0,
    "readability": 2.5391306377224208
   },
   "building/magic_1_lightning": {
@@ -3577,7 +1469,7 @@
    "mean_lum": 0.30425888299942017,
    "p90_lum": 0.5236883759498596,
    "rim_lum": 0.05035196989774704,
-   "halo": 0.16470588235294117,
+   "halo": 0.0,
    "readability": 2.65915708421524
   },
   "building/magic_1_shadow": {
@@ -3691,7 +1583,7 @@
    "mean_lum": 0.3181079030036926,
    "p90_lum": 0.5293008685112,
    "rim_lum": 0.059941165149211884,
-   "halo": 0.23295454545454544,
+   "halo": 0.0,
    "readability": 2.427222335750018
   },
   "building/magic_2_light": {
@@ -3710,7 +1602,7 @@
    "mean_lum": 0.325043261051178,
    "p90_lum": 0.5293008685112,
    "rim_lum": 0.06537161022424698,
-   "halo": 0.26704545454545453,
+   "halo": 0.0,
    "readability": 2.31297501308919
   },
   "building/magic_2_lightning": {
@@ -3729,7 +1621,7 @@
    "mean_lum": 0.3166511654853821,
    "p90_lum": 0.5293008685112,
    "rim_lum": 0.05930992588400841,
-   "halo": 0.19602272727272727,
+   "halo": 0.0,
    "readability": 2.4412389772518166
   },
   "building/magic_2_shadow": {
@@ -3843,7 +1735,7 @@
    "mean_lum": 0.3557717502117157,
    "p90_lum": 0.5967957377433777,
    "rim_lum": 0.29724588990211487,
-   "halo": 0.5264957264957265,
+   "halo": 0.0,
    "readability": 2.423802639778114
   },
   "building/magic_catalyst_light": {
@@ -3862,7 +1754,7 @@
    "mean_lum": 0.3678944706916809,
    "p90_lum": 0.6536152958869934,
    "rim_lum": 0.33312472701072693,
-   "halo": 0.5811965811965812,
+   "halo": 0.0,
    "readability": 2.6367282776309766
   },
   "building/magic_catalyst_lightning": {
@@ -3881,7 +1773,7 @@
    "mean_lum": 0.3539066016674042,
    "p90_lum": 0.5830454230308533,
    "rim_lum": 0.2932835519313812,
-   "halo": 0.452991452991453,
+   "halo": 0.0,
    "readability": 2.3722747042133627
   },
   "building/magic_catalyst_shadow": {
@@ -3938,7 +1830,7 @@
    "mean_lum": 0.3486022353172302,
    "p90_lum": 0.5603480935096741,
    "rim_lum": 0.27673882246017456,
-   "halo": 0.0017094017094017094,
+   "halo": 0.0,
    "readability": 2.2872187213132786
   },
   "building/magic_spire_earth": {
@@ -3995,7 +1887,7 @@
    "mean_lum": 0.3201529085636139,
    "p90_lum": 0.5293008685112,
    "rim_lum": 0.05003015697002411,
-   "halo": 0.22606382978723405,
+   "halo": 0.0,
    "readability": 2.66771201557262
   },
   "building/magic_spire_light": {
@@ -4014,7 +1906,7 @@
    "mean_lum": 0.3261260390281677,
    "p90_lum": 0.5293008685112,
    "rim_lum": 0.05406062677502632,
-   "halo": 0.2712765957446808,
+   "halo": 0.0,
    "readability": 2.5643863576323445
   },
   "building/magic_spire_lightning": {
@@ -4033,7 +1925,7 @@
    "mean_lum": 0.31886041164398193,
    "p90_lum": 0.5293008685112,
    "rim_lum": 0.04955633357167244,
-   "halo": 0.19946808510638298,
+   "halo": 0.0,
    "readability": 2.680408589740171
   },
   "building/magic_spire_shadow": {
@@ -4223,7 +2115,7 @@
    "mean_lum": 0.41136807203292847,
    "p90_lum": 0.7086564302444458,
    "rim_lum": 0.0395750030875206,
-   "halo": 0.07761194029850746,
+   "halo": 0.0,
    "readability": 2.9790861565231226
   },
   "building/shrine_2": {
@@ -4242,7 +2134,7 @@
    "mean_lum": 0.41948503255844116,
    "p90_lum": 0.7277235388755798,
    "rim_lum": 0.06274395436048508,
-   "halo": 0.09869375907111756,
+   "halo": 0.0,
    "readability": 2.9144415408812074
   },
   "building/shrine_3a": {
@@ -4261,7 +2153,7 @@
    "mean_lum": 0.4222612977027893,
    "p90_lum": 0.7349001169204712,
    "rim_lum": 0.06491981446743011,
-   "halo": 0.10159651669085631,
+   "halo": 0.0,
    "readability": 2.941335052688304
   },
   "building/shrine_3b": {
@@ -5933,7 +3825,7 @@
    "mean_lum": 0.2434786856174469,
    "p90_lum": 0.6407240629196167,
    "rim_lum": 0.040762800723314285,
-   "halo": 0.016,
+   "halo": 0.02631578947368421,
    "readability": 2.94009935283985
   },
   "enemy/bone_summoner_0": {
@@ -6066,7 +3958,7 @@
    "mean_lum": 0.3804618716239929,
    "p90_lum": 0.6264330744743347,
    "rim_lum": 0.0236966535449028,
-   "halo": 0.12202380952380952,
+   "halo": 0.0,
    "readability": 3.6209466621975976
   },
   "enemy/boss_frost_queen_1": {
@@ -6085,7 +3977,7 @@
    "mean_lum": 0.38665348291397095,
    "p90_lum": 0.6264330744743347,
    "rim_lum": 0.05959087237715721,
-   "halo": 0.32926829268292684,
+   "halo": 0.0,
    "readability": 2.5348656088309305
   },
   "enemy/boss_gatebreaker_0": {
@@ -6142,7 +4034,7 @@
    "mean_lum": 0.13003098964691162,
    "p90_lum": 0.5446096062660217,
    "rim_lum": 0.13494758307933807,
-   "halo": 0.20631067961165048,
+   "halo": 0.0,
    "readability": 2.2282403071073182
   },
   "enemy/boss_hollow_emperor_1": {
@@ -6161,7 +4053,7 @@
    "mean_lum": 0.11731314659118652,
    "p90_lum": 0.4752141535282135,
    "rim_lum": 0.12685759365558624,
-   "halo": 0.1673228346456693,
+   "halo": 0.0,
    "readability": 1.9681877561716281
   },
   "enemy/boss_rift_warlock_0": {
@@ -6294,7 +4186,7 @@
    "mean_lum": 0.15321889519691467,
    "p90_lum": 0.2679626941680908,
    "rim_lum": 0.025564072653651237,
-   "halo": 0.11538461538461539,
+   "halo": 0.0,
    "readability": 3.5314620069734204
   },
   "enemy/boss_storm_serpent_1": {
@@ -6313,7 +4205,7 @@
    "mean_lum": 0.15879589319229126,
    "p90_lum": 0.2962421476840973,
    "rim_lum": 0.03334886580705643,
-   "halo": 0.18726591760299627,
+   "halo": 0.0,
    "readability": 3.201623070508016
   },
   "enemy/boss_tempest_roc_0": {
@@ -6750,7 +4642,7 @@
    "mean_lum": 0.19367332756519318,
    "p90_lum": 0.4491831362247467,
    "rim_lum": 0.02320614457130432,
-   "halo": 0.03164556962025317,
+   "halo": 0.0,
    "readability": 3.645208380133029
   },
   "enemy/fallen_templar_1": {
@@ -6769,7 +4661,7 @@
    "mean_lum": 0.1978418081998825,
    "p90_lum": 0.45476219058036804,
    "rim_lum": 0.04770742356777191,
-   "halo": 0.1572052401746725,
+   "halo": 0.0,
    "readability": 2.73112975375361
   },
   "enemy/fire_imp_0": {
@@ -6864,7 +4756,7 @@
    "mean_lum": 0.30481815338134766,
    "p90_lum": 0.6671172976493835,
    "rim_lum": 0.024420060217380524,
-   "halo": 0.04487179487179487,
+   "halo": 0.0,
    "readability": 3.585748935019356
   },
   "enemy/frost_wolf_1": {
@@ -6883,7 +4775,7 @@
    "mean_lum": 0.3169042766094208,
    "p90_lum": 0.6792309284210205,
    "rim_lum": 0.03376701846718788,
-   "halo": 0.08928571428571429,
+   "halo": 0.0,
    "readability": 3.1856410381023195
   },
   "enemy/frost_wraith_0": {
@@ -6921,7 +4813,7 @@
    "mean_lum": 0.3047448694705963,
    "p90_lum": 0.613340437412262,
    "rim_lum": 0.0668741762638092,
-   "halo": 0.17985611510791366,
+   "halo": 0.0,
    "readability": 2.485802254790556
   },
   "enemy/gale_raider_0": {
@@ -7016,7 +4908,7 @@
    "mean_lum": 0.3233792781829834,
    "p90_lum": 0.5874757170677185,
    "rim_lum": 0.018778443336486816,
-   "halo": 0.028708133971291867,
+   "halo": 0.0,
    "readability": 3.8798733836272263
   },
   "enemy/glacier_golem_1": {
@@ -7035,7 +4927,7 @@
    "mean_lum": 0.3357430696487427,
    "p90_lum": 0.5774338841438293,
    "rim_lum": 0.042927805334329605,
-   "halo": 0.13768115942028986,
+   "halo": 0.0,
    "readability": 2.8716017849392554
   },
   "enemy/goblin_0": {
@@ -7282,7 +5174,7 @@
    "mean_lum": 0.08991637080907822,
    "p90_lum": 0.17310097813606262,
    "rim_lum": 0.021925348788499832,
-   "halo": 0.09701492537313433,
+   "halo": 0.0,
    "readability": 3.0768252030052388
   },
   "enemy/necromancer_1": {
@@ -7301,7 +5193,7 @@
    "mean_lum": 0.09792764484882355,
    "p90_lum": 0.23404750227928162,
    "rim_lum": 0.04766761139035225,
-   "halo": 0.25766871165644173,
+   "halo": 0.0,
    "readability": 2.7322430421894044
   },
   "enemy/ogre_gatesmasher_0": {
@@ -7434,7 +5326,7 @@
    "mean_lum": 0.1700727641582489,
    "p90_lum": 0.31216347217559814,
    "rim_lum": 0.021446391940116882,
-   "halo": 0.088,
+   "halo": 0.0,
    "readability": 3.7349912909837557
   },
   "enemy/rime_caster_1": {
@@ -7453,7 +5345,7 @@
    "mean_lum": 0.17775611579418182,
    "p90_lum": 0.31666725873947144,
    "rim_lum": 0.04161546379327774,
-   "halo": 0.2222222222222222,
+   "halo": 0.0,
    "readability": 2.9127359140011113
   },
   "enemy/rune_sentinel_0": {
@@ -7681,7 +5573,7 @@
    "mean_lum": 0.20724105834960938,
    "p90_lum": 0.6130744814872742,
    "rim_lum": 0.0628107339143753,
-   "halo": 0.16334661354581673,
+   "halo": 0.0,
    "readability": 2.4848056114371238
   },
   "enemy/storm_harpy_0": {
@@ -7719,7 +5611,7 @@
    "mean_lum": 0.1446225941181183,
    "p90_lum": 0.4054548740386963,
    "rim_lum": 0.0651780515909195,
-   "halo": 0.1513157894736842,
+   "halo": 0.0,
    "readability": 2.3168620061080007
   },
   "enemy/thunder_bird_0": {
@@ -7738,7 +5630,7 @@
    "mean_lum": 0.17194625735282898,
    "p90_lum": 0.5508586168289185,
    "rim_lum": 0.03360353782773018,
-   "halo": 0.2446043165467626,
+   "halo": 0.0,
    "readability": 3.1918703275262286
   },
   "enemy/thunder_bird_1": {
@@ -7757,7 +5649,7 @@
    "mean_lum": 0.22387848794460297,
    "p90_lum": 0.6216385960578918,
    "rim_lum": 0.06175541877746582,
-   "halo": 0.375886524822695,
+   "halo": 0.0,
    "readability": 2.5168987782474797
   },
   "enemy/void_shifter_0": {
@@ -7776,7 +5668,7 @@
    "mean_lum": 0.06420677155256271,
    "p90_lum": 0.11422442644834518,
    "rim_lum": 0.022258268669247627,
-   "halo": 0.09701492537313433,
+   "halo": 0.01282051282051282,
    "readability": 2.264848224633006
   },
   "enemy/void_shifter_1": {
@@ -7795,7 +5687,7 @@
    "mean_lum": 0.0729048028588295,
    "p90_lum": 0.15048350393772125,
    "rim_lum": 0.04891740530729294,
-   "halo": 0.25766871165644173,
+   "halo": 0.01639344262295082,
    "readability": 2.6977219109170694
   },
   "enemy/wolf_rider_0": {
@@ -8504,7 +6396,7 @@
    "mean_lum": 0.2870064675807953,
    "p90_lum": 0.6493874788284302,
    "rim_lum": 0.018379269167780876,
-   "halo": 0.017777777777777778,
+   "halo": 0.0,
    "readability": 3.9025227224026025
   },
   "general/aurelia_1": {
@@ -8523,7 +6415,7 @@
    "mean_lum": 0.28794699907302856,
    "p90_lum": 0.6592166423797607,
    "rim_lum": 0.07746975123882294,
-   "halo": 0.2313167259786477,
+   "halo": 0.0,
    "readability": 2.6577187660081094
   },
   "general/brannoc_0": {
@@ -8542,7 +6434,7 @@
    "mean_lum": 0.19890709221363068,
    "p90_lum": 0.5411632061004639,
    "rim_lum": 0.0182038526982069,
-   "halo": 0.0058823529411764705,
+   "halo": 0.0,
    "readability": 3.912559791150393
   },
   "general/brannoc_1": {
@@ -8561,7 +6453,7 @@
    "mean_lum": 0.19747504591941833,
    "p90_lum": 0.5391674637794495,
    "rim_lum": 0.059810228645801544,
-   "halo": 0.12987012987012986,
+   "halo": 0.0,
    "readability": 2.4301165288462525
   },
   "general/corvin_0": {
@@ -8637,7 +6529,7 @@
    "mean_lum": 0.15682458877563477,
    "p90_lum": 0.32550162076950073,
    "rim_lum": 0.05228297412395477,
-   "halo": 0.012658227848101266,
+   "halo": 0.0,
    "readability": 2.6089547547293273
   },
   "general/hilda_0": {
@@ -8656,7 +6548,7 @@
    "mean_lum": 0.21691526472568512,
    "p90_lum": 0.5014051198959351,
    "rim_lum": 0.019556667655706406,
-   "halo": 0.029850746268656716,
+   "halo": 0.0,
    "readability": 3.8364640035577686
   },
   "general/hilda_1": {
@@ -8675,7 +6567,7 @@
    "mean_lum": 0.22773119807243347,
    "p90_lum": 0.48823070526123047,
    "rim_lum": 0.04269404709339142,
-   "halo": 0.13993174061433447,
+   "halo": 0.0,
    "readability": 2.8788434644534324
   },
   "general/isolde_0": {
@@ -8694,7 +6586,7 @@
    "mean_lum": 0.3526360094547272,
    "p90_lum": 0.6470063924789429,
    "rim_lum": 0.022891268134117126,
-   "halo": 0.08571428571428572,
+   "halo": 0.0,
    "readability": 3.6609549881551215
   },
   "general/isolde_1": {
@@ -8713,7 +6605,7 @@
    "mean_lum": 0.3586759865283966,
    "p90_lum": 0.6470063924789429,
    "rim_lum": 0.058129992336034775,
-   "halo": 0.34101382488479265,
+   "halo": 0.0,
    "readability": 2.611962070014397
   },
   "general/kaelen_0": {
@@ -8770,7 +6662,7 @@
    "mean_lum": 0.19678851962089539,
    "p90_lum": 0.557247519493103,
    "rim_lum": 0.02282211184501648,
-   "halo": 0.07428571428571429,
+   "halo": 0.0,
    "readability": 3.664431652799016
   },
   "general/lyra_1": {
@@ -8789,7 +6681,7 @@
    "mean_lum": 0.2037317156791687,
    "p90_lum": 0.5567073225975037,
    "rim_lum": 0.05759130418300629,
-   "halo": 0.2995391705069124,
+   "halo": 0.0,
    "readability": 2.480234380416563
   },
   "general/maelis_0": {
@@ -8998,7 +6890,7 @@
    "mean_lum": 0.4183627963066101,
    "p90_lum": 0.7422052025794983,
    "rim_lum": 0.16658088564872742,
-   "halo": 0.3715415019762846,
+   "halo": 0.0,
    "readability": 2.9687101339866597
   },
   "general/seraphine_1": {
@@ -9017,7 +6909,7 @@
    "mean_lum": 0.4261803925037384,
    "p90_lum": 0.7347333431243896,
    "rim_lum": 0.20197653770446777,
-   "halo": 0.5426621160409556,
+   "halo": 0.0,
    "readability": 2.940710084489536
   },
   "general/tharion_0": {
@@ -11514,8 +9406,7 @@
    "mean_lum": 0.013336570002138615,
    "p90_lum": 0.017438719049096107,
    "rim_lum": 0.017292750999331474,
-   "halo": 0.0,
-   "readability": 1.0775324725716162
+   "halo": 0.0
   },
   "ui/bar_fill": {
    "w": 64,
@@ -11533,8 +9424,7 @@
    "mean_lum": 0.7758099436759949,
    "p90_lum": 0.921582043170929,
    "rim_lum": 0.781025767326355,
-   "halo": 0.0,
-   "readability": 3.6409069874437683
+   "halo": 0.0
   },
   "ui/button": {
    "w": 96,
@@ -11552,8 +9442,7 @@
    "mean_lum": 0.4482523500919342,
    "p90_lum": 0.6843075752258301,
    "rim_lum": 0.01692298613488674,
-   "halo": 0.0,
-   "readability": 3.987443882595066
+   "halo": 0.0
   },
   "ui/button_blue": {
    "w": 96,
@@ -11571,8 +9460,7 @@
    "mean_lum": 0.24529552459716797,
    "p90_lum": 0.4528341591358185,
    "rim_lum": 0.01692298613488674,
-   "halo": 0.0,
-   "readability": 3.987443882595066
+   "halo": 0.0
   },
   "ui/button_down": {
    "w": 96,
@@ -11590,8 +9478,7 @@
    "mean_lum": 0.3352870047092438,
    "p90_lum": 0.5586786270141602,
    "rim_lum": 0.01692298613488674,
-   "halo": 0.0,
-   "readability": 3.987443882595066
+   "halo": 0.0
   },
   "ui/button_green": {
    "w": 96,
@@ -11609,8 +9496,7 @@
    "mean_lum": 0.3153863549232483,
    "p90_lum": 0.5351816415786743,
    "rim_lum": 0.01692298613488674,
-   "halo": 0.0,
-   "readability": 3.987443882595066
+   "halo": 0.0
   },
   "ui/button_hover": {
    "w": 96,
@@ -11628,8 +9514,7 @@
    "mean_lum": 0.5233427286148071,
    "p90_lum": 0.7656609416007996,
    "rim_lum": 0.01692298613488674,
-   "halo": 0.0,
-   "readability": 3.987443882595066
+   "halo": 0.0
   },
   "ui/button_off": {
    "w": 96,
@@ -11647,8 +9532,7 @@
    "mean_lum": 0.28808093070983887,
    "p90_lum": 0.5106885433197021,
    "rim_lum": 0.01692298613488674,
-   "halo": 0.0,
-   "readability": 3.987443882595066
+   "halo": 0.0
   },
   "ui/button_purple": {
    "w": 96,
@@ -11666,8 +9550,7 @@
    "mean_lum": 0.21913611888885498,
    "p90_lum": 0.419085830450058,
    "rim_lum": 0.01692298613488674,
-   "halo": 0.0,
-   "readability": 3.987443882595066
+   "halo": 0.0
   },
   "ui/button_red": {
    "w": 96,
@@ -11685,8 +9568,7 @@
    "mean_lum": 0.2276870459318161,
    "p90_lum": 0.42497873306274414,
    "rim_lum": 0.01692298613488674,
-   "halo": 0.0,
-   "readability": 3.987443882595066
+   "halo": 0.0
   },
   "ui/joystick_base": {
    "w": 256,
@@ -11704,8 +9586,7 @@
    "mean_lum": 0.5082114934921265,
    "p90_lum": 0.5888063311576843,
    "rim_lum": 0.4723600149154663,
-   "halo": 0.2307017543859649,
-   "readability": 2.39386313393006
+   "halo": 0.5389344262295082
   },
   "ui/joystick_knob": {
    "w": 112,
@@ -11723,8 +9604,7 @@
    "mean_lum": 0.7086789011955261,
    "p90_lum": 0.8400716781616211,
    "rim_lum": 0.01711139641702175,
-   "halo": 0.0,
-   "readability": 3.9762494287909917
+   "halo": 0.0
   },
   "ui/logo": {
    "w": 1024,
@@ -11742,8 +9622,7 @@
    "mean_lum": 0.3645552694797516,
    "p90_lum": 0.7138847708702087,
    "rim_lum": 0.0166497603058815,
-   "halo": 0.0,
-   "readability": 4.003790117831831
+   "halo": 0.0
   },
   "ui/panel": {
    "w": 96,
@@ -11761,8 +9640,7 @@
    "mean_lum": 0.5993451476097107,
    "p90_lum": 0.7892352938652039,
    "rim_lum": 0.016910191625356674,
-   "halo": 0.0,
-   "readability": 3.9882063581988145
+   "halo": 0.0
   },
   "ui/panel_dark": {
    "w": 96,
@@ -11780,8 +9658,7 @@
    "mean_lum": 0.03468554466962814,
    "p90_lum": 0.04226696491241455,
    "rim_lum": 0.016910191625356674,
-   "halo": 0.0,
-   "readability": 1.2724700959140642
+   "halo": 0.0
   },
   "ui/title_bg": {
    "w": 1280,
@@ -11799,8 +9676,7 @@
    "mean_lum": 0.09610776603221893,
    "p90_lum": 0.1661524772644043,
    "rim_lum": 0.04707907885313034,
-   "halo": 0.0,
-   "readability": 2.748807001684317
+   "halo": 0.0
   },
   "ui/tooltip": {
    "w": 64,
@@ -11818,8 +9694,7 @@
    "mean_lum": 0.04687625542283058,
    "p90_lum": 0.0741567611694336,
    "rim_lum": 0.01701497659087181,
-   "halo": 0.0,
-   "readability": 1.7122679384069748
+   "halo": 0.0
   },
   "ui/ult_button": {
    "w": 160,
@@ -11837,8 +9712,7 @@
    "mean_lum": 0.34683677554130554,
    "p90_lum": 0.6262622475624084,
    "rim_lum": 0.01717597432434559,
-   "halo": 0.0,
-   "readability": 3.9724269629512095
+   "halo": 0.0
   },
   "unit/archer_0": {
    "w": 80,
@@ -11875,7 +9749,7 @@
    "mean_lum": 0.13502980768680573,
    "p90_lum": 0.30450767278671265,
    "rim_lum": 0.03610934317111969,
-   "halo": 0.013422818791946308,
+   "halo": 0.02197802197802198,
    "readability": 3.098986031495456
   },
   "unit/archer_a_0": {
@@ -11913,7 +9787,7 @@
    "mean_lum": 0.16665956377983093,
    "p90_lum": 0.3882119059562683,
    "rim_lum": 0.054871998727321625,
-   "halo": 0.1348314606741573,
+   "halo": 0.0,
    "readability": 2.54454625550135
   },
   "unit/archer_b_0": {
@@ -11951,7 +9825,7 @@
    "mean_lum": 0.16726046800613403,
    "p90_lum": 0.3919007182121277,
    "rim_lum": 0.055102113634347916,
-   "halo": 0.15168539325842698,
+   "halo": 0.0,
    "readability": 2.5389751208708335
   },
   "unit/battlemage_0": {
@@ -12027,7 +9901,7 @@
    "mean_lum": 0.17361614108085632,
    "p90_lum": 0.3554774224758148,
    "rim_lum": 0.051157478243112564,
-   "halo": 0.12578616352201258,
+   "halo": 0.0,
    "readability": 2.6379824438408983
   },
   "unit/battlemage_b_0": {
@@ -12065,7 +9939,7 @@
    "mean_lum": 0.17762036621570587,
    "p90_lum": 0.35668885707855225,
    "rim_lum": 0.05171893164515495,
-   "halo": 0.1509433962264151,
+   "halo": 0.0,
    "readability": 2.6234216910521315
   },
   "unit/cavalry_0": {
@@ -12160,7 +10034,7 @@
    "mean_lum": 0.15997281670570374,
    "p90_lum": 0.4809473752975464,
    "rim_lum": 0.017891013994812965,
-   "halo": 0.012552301255230125,
+   "halo": 0.0,
    "readability": 3.9305886886434878
   },
   "unit/cavalry_b_1": {
@@ -12179,7 +10053,7 @@
    "mean_lum": 0.15921138226985931,
    "p90_lum": 0.46274319291114807,
    "rim_lum": 0.05769846960902214,
-   "halo": 0.14393939393939395,
+   "halo": 0.0,
    "readability": 2.477766421726329
   },
   "unit/crossbowman_0": {
@@ -12502,7 +10376,7 @@
    "mean_lum": 0.23584380745887756,
    "p90_lum": 0.5879186391830444,
    "rim_lum": 0.01812995970249176,
-   "halo": 0.015706806282722512,
+   "halo": 0.0,
    "readability": 3.9168033099363306
   },
   "unit/griffinrider_b_1": {
@@ -12521,7 +10395,7 @@
    "mean_lum": 0.24031206965446472,
    "p90_lum": 0.5946025848388672,
    "rim_lum": 0.06316044181585312,
-   "halo": 0.1735159817351598,
+   "halo": 0.0,
    "readability": 2.4155840175931007
   },
   "unit/knight_0": {
@@ -12616,7 +10490,7 @@
    "mean_lum": 0.22053460776805878,
    "p90_lum": 0.5932185649871826,
    "rim_lum": 0.026510143652558327,
-   "halo": 0.03305785123966942,
+   "halo": 0.0,
    "readability": 3.487794414298236
   },
   "unit/knight_b_1": {
@@ -12635,7 +10509,7 @@
    "mean_lum": 0.23589803278446198,
    "p90_lum": 0.6012526154518127,
    "rim_lum": 0.05515946075320244,
-   "halo": 0.18562874251497005,
+   "halo": 0.0,
    "readability": 2.537590529251759
   },
   "unit/mage_0": {
@@ -12844,7 +10718,7 @@
    "mean_lum": 0.22592997550964355,
    "p90_lum": 0.4010445773601532,
    "rim_lum": 0.019498568028211594,
-   "halo": 0.023809523809523808,
+   "halo": 0.0,
    "readability": 3.839671222581526
   },
   "unit/runegolem_b_1": {
@@ -12863,7 +10737,7 @@
    "mean_lum": 0.23821015655994415,
    "p90_lum": 0.4115791618824005,
    "rim_lum": 0.044424884021282196,
-   "halo": 0.14410480349344978,
+   "halo": 0.0,
    "readability": 2.8260733855749667
   },
   "unit/shieldguardian_0": {
@@ -12920,7 +10794,7 @@
    "mean_lum": 0.22583408653736115,
    "p90_lum": 0.519923746585846,
    "rim_lum": 0.02021770179271698,
-   "halo": 0.030303030303030304,
+   "halo": 0.0,
    "readability": 3.8003472750546012
   },
   "unit/shieldguardian_a_1": {
@@ -12939,7 +10813,7 @@
    "mean_lum": 0.23453116416931152,
    "p90_lum": 0.5151523947715759,
    "rim_lum": 0.07245217263698578,
-   "halo": 0.21839080459770116,
+   "halo": 0.0,
    "readability": 2.179231661814941
   },
   "unit/shieldguardian_b_0": {

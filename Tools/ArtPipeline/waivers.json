@@ -1,8 +1,65 @@
 {
   "_doc": "Consciously accepted exceptions. Each waiver needs a reason and an expiry (YYYY-MM-DD); expired waivers stop applying.",
   "waivers": [
-    {"asset": "ui/title_bg", "check": "ppu", "reason": "Full-screen backdrop authored at 100 ppu on purpose (fills 1920x1080 at camera size 5.4).", "expires": "2027-06-30"},
-    {"asset": "fx/*", "check": "readability", "reason": "FX sprites are white masks tinted at runtime; readability is judged on the tinted result in previews.", "expires": "2027-06-30"},
-    {"asset": "decor/bird_*", "check": "readability", "reason": "Distant silhouettes, intentionally low contrast ambient detail.", "expires": "2027-06-30"}
+    {
+      "asset": "ui/title_bg",
+      "check": "ppu",
+      "reason": "Full-screen backdrop authored at 100 ppu on purpose (fills 1920x1080 at camera size 5.4).",
+      "expires": "2027-06-30"
+    },
+    {
+      "asset": "fx/*",
+      "check": "readability",
+      "reason": "FX sprites are white masks tinted at runtime; readability is judged on the tinted result in previews.",
+      "expires": "2027-06-30"
+    },
+    {
+      "asset": "decor/bird_*",
+      "check": "readability",
+      "reason": "Distant silhouettes, intentionally low contrast ambient detail.",
+      "expires": "2027-06-30"
+    },
+    {
+      "asset": "enemy/thunder_bird_*",
+      "check": "foot_pivot",
+      "reason": "Flyer: pivot is the ground shadow, the body hovers above it on purpose.",
+      "expires": "2027-06-30"
+    },
+    {
+      "asset": "enemy/boss_storm_serpent_*",
+      "check": "foot_pivot",
+      "reason": "Flyer: pivot is the ground shadow.",
+      "expires": "2027-06-30"
+    },
+    {
+      "asset": "enemy/boss_tempest_roc_*",
+      "check": "foot_pivot",
+      "reason": "Flyer: pivot is the ground shadow.",
+      "expires": "2027-06-30"
+    },
+    {
+      "asset": "enemy/clockwork_drone_*",
+      "check": "foot_pivot",
+      "reason": "Flyer: pivot is the ground shadow.",
+      "expires": "2027-06-30"
+    },
+    {
+      "asset": "ui/joystick_base",
+      "check": "halo",
+      "reason": "Translucent white touch ring by design (drawn over the scene).",
+      "expires": "2027-06-30"
+    },
+    {
+      "asset": "ui/title_bg",
+      "check": "no_alpha",
+      "reason": "Full-screen opaque backdrop.",
+      "expires": "2027-06-30"
+    },
+    {
+      "asset": "decor/reeds_0",
+      "check": "readability",
+      "reason": "Ground clutter meant to blend into grass.",
+      "expires": "2027-06-30"
+    }
   ]
 }

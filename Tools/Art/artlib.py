@@ -10,7 +10,8 @@ import random
 import skia
 
 INK = (0x2B, 0x20, 0x2E)
-OUT_ROOT = os.path.join(os.path.dirname(__file__), "..", "..", "Assets", "Runavelle", "Resources", "Art")
+# RUNAVELLE_ART_OUT lets Tools/ArtPipeline generate into a staging folder (transactional import), default = game folder
+OUT_ROOT = os.environ.get("RUNAVELLE_ART_OUT") or os.path.join(os.path.dirname(__file__), "..", "..", "Assets", "Runavelle", "Resources", "Art")
 TILE = 64
 MANIFEST = {}
 
@@ -156,8 +157,18 @@ class Canvas:
         img = self.surface.makeImageSnapshot()
         img.save(path, skia.kPNG)
         px, py = pivot if pivot else (self.w / 2, self.h / 2)
-        MANIFEST[key] = {"w": self.w, "h": self.h, "px": round(px / self.w, 4), "py": round(1 - py / self.h, 4), "ppu": ppu}
+        MANIFEST[key] = {"w": self.w, "h": self.h, "px": round(px / self.w, 4), "py": round(1 - py / self.h, 4), "ppu": ppu, "src": _caller_module()}
         return path
+
+
+def _caller_module():
+    """Provenance: the generator module that produced the sprite (first frame outside artlib)."""
+    import inspect
+    for fr in inspect.stack()[2:]:
+        mod = os.path.splitext(os.path.basename(fr.filename))[0]
+        if mod != "artlib":
+            return "Tools/Art/" + mod + ".py"
+    return "unknown"
 
 
 def write_manifest():

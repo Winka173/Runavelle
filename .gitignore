@@ -35,3 +35,4 @@ Tools/**/obj/
 Tools/.unityrefs/
 !Tools/**/*.csproj
 Tools/Sim/out/
+__pycache__/
