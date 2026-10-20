@@ -56,32 +56,148 @@
 "w": 152
 },
 "building/castle_1": {
-"h": 296,
+"h": 384,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3378,
-"w": 216
+"py": 0.2917,
+"sha256": "4caea36c10beda93",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
+},
+"building/castle_1_arcanum": {
+"h": 384,
+"ppu": 64,
+"px": 0.5,
+"py": 0.2917,
+"sha256": "592e486e9e77baef",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
+},
+"building/castle_1_fortress": {
+"h": 384,
+"ppu": 64,
+"px": 0.5,
+"py": 0.2917,
+"sha256": "467926180a7a964d",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
+},
+"building/castle_1_legion": {
+"h": 384,
+"ppu": 64,
+"px": 0.5,
+"py": 0.2917,
+"sha256": "de047998e320b8bd",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
 },
 "building/castle_2": {
-"h": 296,
+"h": 384,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3378,
-"w": 216
+"py": 0.2917,
+"sha256": "676046c4d35b80ac",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
+},
+"building/castle_2_arcanum": {
+"h": 384,
+"ppu": 64,
+"px": 0.5,
+"py": 0.2917,
+"sha256": "96b77041b1e746f1",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
+},
+"building/castle_2_fortress": {
+"h": 384,
+"ppu": 64,
+"px": 0.5,
+"py": 0.2917,
+"sha256": "689f79a3e9986648",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
+},
+"building/castle_2_legion": {
+"h": 384,
+"ppu": 64,
+"px": 0.5,
+"py": 0.2917,
+"sha256": "67ebdef7e00b005b",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
 },
 "building/castle_3a": {
-"h": 296,
+"h": 384,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3378,
-"w": 216
+"py": 0.2917,
+"sha256": "6de73b5830a4c01a",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
+},
+"building/castle_3a_arcanum": {
+"h": 384,
+"ppu": 64,
+"px": 0.5,
+"py": 0.2917,
+"sha256": "e1d7b5e67f2addf3",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
+},
+"building/castle_3a_fortress": {
+"h": 384,
+"ppu": 64,
+"px": 0.5,
+"py": 0.2917,
+"sha256": "979dfea87b369726",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
+},
+"building/castle_3a_legion": {
+"h": 384,
+"ppu": 64,
+"px": 0.5,
+"py": 0.2917,
+"sha256": "1f3fe4620b17824e",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
 },
 "building/castle_3b": {
-"h": 296,
+"h": 384,
 "ppu": 64,
 "px": 0.5,
-"py": 0.3378,
-"w": 216
+"py": 0.2917,
+"sha256": "2951bedfd45a0535",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
+},
+"building/castle_3b_arcanum": {
+"h": 384,
+"ppu": 64,
+"px": 0.5,
+"py": 0.2917,
+"sha256": "ca50d445e09b7555",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
+},
+"building/castle_3b_fortress": {
+"h": 384,
+"ppu": 64,
+"px": 0.5,
+"py": 0.2917,
+"sha256": "ae7f1da7504730d4",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
+},
+"building/castle_3b_legion": {
+"h": 384,
+"ppu": 64,
+"px": 0.5,
+"py": 0.2917,
+"sha256": "1eeb7beb8f4461a7",
+"src": "Tools/ArtPipeline/blender/render_assets.py",
+"w": 256
 },
 "building/emblem_arcanum": {
 "h": 128,

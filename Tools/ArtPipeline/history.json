@@ -1,0 +1,25 @@
+[
+ {
+  "id": "20261020-022412",
+  "date": "2026-10-20T02:24:12",
+  "keys": [
+   "building/castle_1",
+   "building/castle_1_arcanum",
+   "building/castle_1_fortress",
+   "building/castle_1_legion",
+   "building/castle_2",
+   "building/castle_2_arcanum",
+   "building/castle_2_fortress",
+   "building/castle_2_legion",
+   "building/castle_3a",
+   "building/castle_3a_arcanum",
+   "building/castle_3a_fortress",
+   "building/castle_3a_legion",
+   "building/castle_3b",
+   "building/castle_3b_arcanum",
+   "building/castle_3b_fortress",
+   "building/castle_3b_legion"
+  ],
+  "forced": false
+ }
+]

@@ -46,7 +46,13 @@ namespace Runavelle.Tests
                 Need($"building/gate_{mat}_h"); Need($"building/gate_{mat}_v");
             }
             foreach (var e in Elements.All) Need(ElementGrammar.For(e).Icon);
-            foreach (var k in new[] { "fortress", "legion", "arcanum" }) { Need("building/emblem_" + k); Need("building/prop_" + k); }
+            foreach (var k in T.Db.Kingdoms.Select(x => x.Id))
+            {
+                Need("building/emblem_" + k); Need("building/prop_" + k);
+                // castle growth: every tier has a rendered form for every kingdom evolution
+                foreach (var l in T.Db.Levels.Values.Where(l => T.Db.BuildingOfLevel(l.Id).Family == BuildingFamily.Castle))
+                    Need(ArtKeys.CastleVariant(ArtKeys.LevelPreview(l, T.Db), k));
+            }
             Assert.IsEmpty(missing, string.Join(", ", missing.Distinct().Take(40)));
         }
     }

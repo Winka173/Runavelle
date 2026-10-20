@@ -9,8 +9,8 @@ element colours only on magic.
 | Property | Value |
 |---|---|
 | Pixels per unit | 64 (1 tile = 64 px); UI backdrop exception (100) waived |
-| Camera | orthographic, elevation 35°, azimuth 45° for 3D renders; 2D sprites drawn front-3/4 |
-| Light rig (3D) | key sun from upper-left (az 135°, el 50°, warm 1.0), cool fill (0.25), rim from back-right (0.35) — shadows fall down-right in all assets |
+| Camera | orthographic, elevation 35°, **azimuth 0°** (grid is axis-aligned; 45° would turn footprints into diamonds — changed after the first render test). Ground depth stretched ×1/sin35° on *positions and box depths only*, round shapes keep true form, so a 1×1 tile footprint is 64×64 px on screen. 2D sprites drawn front-3/4 to match |
+| Light rig (3D) | key sun from upper-left, 20° off zenith (warm #fff1dc, 3.4), sky fill #b8c8e8 (0.55), warm rim from back-right (1.2); contact shadow via shadow-catcher plane clipped to the canvas width. Implemented in `Tools/ArtPipeline/blender/render_assets.py` |
 | Outline | ink 2–4 px at 64 ppu (Freestyle for 3D renders, stroke for 2D) |
 | Pivots | characters: foot contact (±8 px); buildings: footprint centre; walls: tile centre |
 | Canvas | no opaque pixel on the canvas edge except tiles/walls (connections) |

@@ -211,6 +211,7 @@ def frame_checks(results, manifest, spec, out):
 
 def manifest_checks(art, manifest, out):
     pngs = {os.path.relpath(p, art)[:-4].replace(os.sep, "/") for p in glob.glob(os.path.join(art, "**", "*.png"), recursive=True)}
+    pngs = {k for k in pngs if not k.startswith("_")}  # _raw/ etc. are pipeline intermediates, never shipped
     for k in sorted(pngs - set(manifest)):
         out.append({"asset": k, "category": "manifest", "severity": BLOCK, "check": "unlisted_file", "message": "PNG exists but is missing from manifest.json (no pivot/ppu for Unity)"})
     lower = {}

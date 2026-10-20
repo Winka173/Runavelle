@@ -193,7 +193,7 @@ namespace Runavelle.Game
                 if (b.Dead) continue;
                 _seen.Add(b.Id);
                 if (!_buildings.TryGetValue(b.Id, out var bv)) { bv = new BuildingView(this, b); _buildings[b.Id] = bv; }
-                bv.Sync(b, WallMask(b), _nightBlend, settings);
+                bv.Sync(b, WallMask(b), _nightBlend, settings, _s.KingdomEvolution);
             }
             _remove.Clear();
             foreach (var kv in _buildings) if (!_seen.Contains(kv.Key)) _remove.Add(kv.Key);
@@ -376,6 +376,8 @@ namespace Runavelle.Game
                 _props.Clear();
                 _propsFor = k;
                 if (k == null || c == null) return;
+                // rendered castle variants already carry the kingdom dressing; overlay props are the fallback
+                if (ArtLibrary.Has(ArtKeys.CastleVariant(ArtKeys.Building(c, 0), k))) return;
                 int n = k == "fortress" ? 1 : k == "legion" ? 2 : 3;
                 for (int i = 0; i < n; i++) _props.Add(NewSR("prop_" + k, ArtLibrary.Get("building/prop_" + k), 0));
             }
@@ -688,9 +690,14 @@ namespace Runavelle.Game
                 _crack = v.NewSR("crack", ArtLibrary.Get("fx/crack_1"), 0, _go.transform);
             }
 
-            public void Sync(Building b, int mask, float night, GameSettings s)
+            public void Sync(Building b, int mask, float night, GameSettings s, string kingdom)
             {
                 var key = ArtLibrary.BuildingKey(b, mask);
+                if (b.Def.Family == BuildingFamily.Castle && !b.Ruined && kingdom != null)
+                {
+                    var dressed = ArtKeys.CastleVariant(key, kingdom);
+                    if (ArtLibrary.Has(dressed)) key = dressed;
+                }
                 if (key != _key) { _sr.sprite = ArtLibrary.Get(key); _key = key; }
                 _go.transform.position = new Vector3(b.Center.X, b.Center.Y, 0);
                 _sr.sortingOrder = SortY(b.Origin.Y + 0.05f);

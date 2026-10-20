@@ -103,6 +103,7 @@ def cmd_render(a):
         print("render FAILED (see Build/art_pipeline.log)")
         return 1
     m = load_manifest(STAGING)
+    m.update(downsample_raw(STAGING, a.only))
     for k in m:
         p = os.path.join(STAGING, k + ".png")
         if os.path.exists(p):
@@ -110,6 +111,25 @@ def cmd_render(a):
     save_manifest(STAGING, m)
     print([ln for ln in r.stdout.splitlines() if ln.startswith("RENDER_DONE")][-1])
     return 0
+
+
+def downsample_raw(staging, only=None):
+    """2x Blender renders (staging/_raw) -> 1x sprites: premultiplied-alpha Lanczos, so edges get no dark/white fringe."""
+    from PIL import Image
+    raw = os.path.join(staging, "_raw")
+    rm = json.load(open(os.path.join(raw, "render_manifest.json")))
+    out = {}
+    for key, e in rm.items():
+        if only and not any(key == o or key.startswith(o) for o in only):
+            continue
+        src = os.path.join(raw, key + ".png")
+        im = Image.open(src).convert("RGBA").convert("RGBa")
+        im = im.resize((e["w"], e["h"]), Image.LANCZOS).convert("RGBA")
+        dst = os.path.join(staging, key + ".png")
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        im.save(dst, optimize=True)
+        out[key] = {"w": e["w"], "h": e["h"], "px": e["px"], "py": e["py"], "ppu": e["ppu"], "src": e["src"]}
+    return out
 
 
 def log(r):

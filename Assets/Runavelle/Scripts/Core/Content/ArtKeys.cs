@@ -51,6 +51,9 @@ namespace Runavelle.Core
             }
         }
 
+        /// <summary>Castle dressed for the chosen kingdom evolution: building/castle_&lt;tier&gt;_&lt;kingdom&gt; (null kingdom = base form).</summary>
+        public static string CastleVariant(string baseKey, string kingdom) => string.IsNullOrEmpty(kingdom) ? baseKey : baseKey + "_" + kingdom;
+
         public static string LevelPreview(BuildingLevel l, ContentDatabase db)
         {
             var def = db.BuildingOfLevel(l.Id);
