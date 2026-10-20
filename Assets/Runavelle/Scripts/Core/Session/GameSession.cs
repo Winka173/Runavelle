@@ -26,6 +26,8 @@ namespace Runavelle.Core
         public int Night;
         public bool Victory;
         public float Duration;
+        /// <summary>P6 actionable post-night tips, each citing a measured number (NightInsights).</summary>
+        public readonly List<string> Insights = new List<string>();
         public int Kills;
         public float CastleDamage;
         public int SoldiersLost;
@@ -94,6 +96,9 @@ namespace Runavelle.Core
         /// <summary>Set at day boundaries; the host saves and clears it.</summary>
         public bool AutosaveRequested;
         private float _enrageAt = 240f;
+        private Dictionary<string, float> _castleDmgAtStart = new Dictionary<string, float>();
+        /// <summary>Castle damage per attacker during the last night (diff of the run totals).</summary>
+        public Dictionary<string, float> CastleDamageThisNight { get; private set; } = new Dictionary<string, float>();
 
         public GameSession(ContentDatabase content, RunSetup setup)
         {
@@ -349,6 +354,7 @@ namespace Runavelle.Core
             _enrageAt = 240f + Night * 6f;
             UndoStack.Clear();
             W.Analytics.ResetNight();
+            _castleDmgAtStart = new Dictionary<string, float>(W.Analytics.CastleDamageBy);
             W.PendingGold = 0;
             W.PendingMana = 0;
             Enemies.ManaDrained = 0;
@@ -379,6 +385,14 @@ namespace Runavelle.Core
             W.Analytics.Nights.Add(new NightRecord { Night = Night, Duration = NightTime, Kills = rep.Kills, CastleDamage = rep.CastleDamage, Gold = Economy.Gold, Mana = Economy.Mana,
                 SoldiersLost = rep.SoldiersLost, BuildingsLost = rep.BuildingsLost, Lanes = string.Join(",", Plan.Lanes), CastleHpFrac = W.Castle != null ? W.Castle.HpFraction : 0f });
             LastReport = rep;
+            var dmg = new Dictionary<string, float>();
+            foreach (var kv in W.Analytics.CastleDamageBy)
+            {
+                _castleDmgAtStart.TryGetValue(kv.Key, out float before);
+                if (kv.Value - before > 0.5f) dmg[kv.Key] = kv.Value - before;
+            }
+            CastleDamageThisNight = dmg;
+            rep.Insights.AddRange(NightInsights.For(this, rep, dmg));
             W.Emit(SimEventType.NightEnd, W.Castle.Center, victory ? 1 : 0);
             ChronicleNightEnd(rep);
             if (!victory)

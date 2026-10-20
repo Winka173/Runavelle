@@ -16,6 +16,7 @@ namespace Runavelle.Game
 
         private void DrawRun()
         {
+            DrawUrgentEdges();
             if (Session == null) return;
             var s = Session;
             DrawWorldLabels();
@@ -382,7 +383,8 @@ namespace Runavelle.Game
             var r = new Rect(Gui.Safe.x + 16, Gui.Safe.yMax - 420, 560, 250);
             Gui.DrawPanel(r);
             Gui.Text(new Rect(r.x + 20, r.y + 12, 520, 40), l.Name + "  " + CostShort(Session.CostOf(l), false), Gui.H2);
-            Gui.Text(new Rect(r.x + 20, r.y + 54, 520, 100), l.Description + (l.IncomePerDawn.IsFree ? "" : $"  (hoà vốn ~{BreakEven(l):0.#} ngày)"), Gui.LabelSmall);
+            var roi = BuildInsight.Lines(l, Session.CostOf(l));
+            Gui.Text(new Rect(r.x + 20, r.y + 54, 520, 100), l.Description + (roi.Count > 0 ? "\n<color=#2a5d8a>" + roi[0] + "</color>" : ""), Gui.LabelSmall);
             bool linear = def.IsLinear && !l.IsGate;
             string help = Input.TouchMode ? (linear ? (WallDragging ? "Chạm điểm cuối rồi bấm XÂY" : "Chạm điểm đầu của tường") : "Chạm để chọn vị trí rồi bấm XÂY")
                                             : (linear ? "Giữ và kéo chuột để vẽ tường" : "Bấm để xây · Shift: xây liên tục · Chuột phải: huỷ");
@@ -410,13 +412,6 @@ namespace Runavelle.Game
         private Int2 _verdictOrigin;
         private int _verdictNight;
         private bool _verdictBad;
-
-        private float BreakEven(BuildingLevel l)
-        {
-            var c = Session.CostOf(l);
-            float value = l.IncomePerDawn.Gold + l.IncomePerDawn.Mana * 1.3f;
-            return value <= 0 ? 0 : (c.Gold + c.Mana * 1.3f) / value;
-        }
 
         /// <summary>Debug overlay: why each soldier / AI General is doing what it does (Settings → Bảng gỡ lỗi AI).</summary>
         /// <summary>Crisis markers: breaches of the current night pulse over the gap (highest HUD priority).</summary>
@@ -694,6 +689,7 @@ namespace Runavelle.Game
                 L(rep.ObjectiveDone ? "<color=#2e8b57>Đạt nhiệm vụ phụ: " + rep.Objective + " (+" + Gui.Money(rep.ObjectiveReward.Gold, rep.ObjectiveReward.Mana) + ")</color>"
                                     : "<color=#8a7a6a>Chưa đạt nhiệm vụ phụ: " + rep.Objective + "</color>");
             foreach (var n in rep.Notes) L("<color=#c0392b>" + n + "</color>");
+            foreach (var tip in rep.Insights) L("<color=#2a5d8a>Gợi ý:</color> " + tip); // measured, see NightInsights
             var top = RunAnalytics.Top(s.W.Analytics.Reactions.ToDictionary(k => k.Key, k => k.Value), 3);
             if (top.Count > 0) L("Phản ứng nổi bật: " + string.Join(", ", top.Select(t => ReactionTable.Get(t.Key).Name + " ×" + t.Value)));
             DrawHighlights(new Rect(r.xMax + 16, r.y, 420, r.height), rep.Night);
@@ -816,8 +812,10 @@ namespace Runavelle.Game
             var r = Modal(1500, 820);
             Gui.Text(new Rect(r.x, r.y + 14, r.width, 70), win ? "CHIẾN THẮNG!" : "Lâu Đài đã sụp đổ", new GUIStyle(Gui.H1) { alignment = TextAnchor.MiddleCenter, fontSize = 52, normal = { textColor = win ? new Color(0.2f, 0.5f, 0.15f) : new Color(0.7f, 0.15f, 0.1f) } });
             DrawEndAnalytics(new Rect(r.x + 40, r.y + 100, r.width - 80, r.height - 220), win);
-            if (Gui.Btn(new Rect(r.center.x - 460, r.yMax - 96, 420, 72), "CHƠI LẠI", true, Gui.ButtonBig, "green")) { PickMap = s.Setup.MapId; PickGeneral = s.Setup.GeneralId; StartNewRun(); }
-            if (Gui.Btn(new Rect(r.center.x + 40, r.yMax - 96, 420, 72), "VỀ MENU", true, Gui.ButtonBig)) QuitToTitle();
+            if (Gui.Btn(new Rect(r.center.x - 690, r.yMax - 96, 420, 72), "CHƠI LẠI", true, Gui.ButtonBig, "green")) { PickMap = s.Setup.MapId; PickGeneral = s.Setup.GeneralId; StartNewRun(); }
+            // quick retry: same map, General, seed and rules — the same waves, a different plan
+            if (Gui.Btn(new Rect(r.center.x - 210, r.yMax - 96, 420, 72), "THỬ LẠI MÃ NÀY", s.Chronicle != null, Gui.ButtonBig)) ReplayChronicle(s.Chronicle);
+            if (Gui.Btn(new Rect(r.center.x + 270, r.yMax - 96, 420, 72), "VỀ MENU", true, Gui.ButtonBig)) QuitToTitle();
         }
 
         private void DrawEndAnalytics(Rect r, bool win)

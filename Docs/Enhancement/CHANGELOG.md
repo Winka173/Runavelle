@@ -36,3 +36,7 @@
 ## P8 Balance lab / P4 General–army synergy
 - AutoPlayer policies GreedyEconomy, WallFirst, MageHeavy, GeneralCarry, RandomPlay; `Tools/Balance/policy_report.py`; economy wealth fuzz test.
 - Battle Link + Rally Strike (AuraSystem / GeneralSystem), visible ring colour, swing/projectile colour, label.
+
+## P6 Loop polish
+- `Core/QA/Insights.cs` (BuildInsight, NightInsights), NightReport.Insights, GameSession.CastleDamageThisNight.
+- Report shows "Gợi ý" lines; build help shows ROI/DPS; defeat/victory screen "THỬ LẠI MÃ NÀY"; `GameRoot.Urgent.cs` edge arrows + tap-to-peek.

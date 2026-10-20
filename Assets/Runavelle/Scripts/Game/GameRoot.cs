@@ -228,7 +228,8 @@ namespace Runavelle.Game
             Vector2 look = g != null ? WorldView.V(g.Velocity) * 0.25f : Vector2.zero;
             Rig.ShakeAgg.Strength = Settings.ScreenShake ? Settings.ShakeAmount : 0f;
             Rig.ReducedMotion = Settings.ReducedMotion;
-            Rig.Update(dt, follow, g != null ? WorldView.V(g.Position) : Rig.Focus, look, Input);
+            if (Peeking(out var peekAt)) Rig.Update(dt, true, peekAt, Vector2.zero, Input); // player-requested look; ends on any move input
+            else Rig.Update(dt, follow, g != null ? WorldView.V(g.Position) : Rig.Focus, look, Input);
             View.Sync(Paused ? 0f : dt, Settings, Session.Phase == RunPhase.Day);
             Rig.Cam.backgroundColor = Color.Lerp(new Color(0.24f, 0.36f, 0.22f), new Color(0.07f, 0.07f, 0.14f), Session.W.IsNight ? 1f : 0f);
         }

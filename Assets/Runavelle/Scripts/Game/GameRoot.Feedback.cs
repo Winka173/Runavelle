@@ -48,7 +48,7 @@ namespace Runavelle.Game
             else if (e.Element != ElementId.None) kind = DamageTextKind.Elemental;
             if (enemy || e.Value >= 8f) vfx.Damage.Add(e.ActorId, e.Value, kind, e.Element, e.Position);
             if (e.Element != ElementId.None && Settings.VfxLevel >= 1 && _budget.Allow(ImpactTier.Light, now)) vfx.Element(at, e.Element, tier >= ImpactTier.Medium ? 0.9f : 0.55f);
-            if (target == w.Castle) { Rig.Shake(FeedbackRules.ShakeFor(tier)); AudioService.Play("castle_hit", 0.6f, 2, 0.3f, category: SoundCategory.Combat); }
+            if (target == w.Castle) { RecordCastleUrgent(WorldView.V(w.Castle.Center)); Rig.Shake(FeedbackRules.ShakeFor(tier)); AudioService.Play("castle_hit", 0.6f, 2, 0.3f, category: SoundCategory.Combat); }
             else AudioService.Play(e.Element == ElementId.None ? "hit" : ElementGrammar.For(e.Element).Sound, 0.32f, 3, 0.05f, category: SoundCategory.Combat);
         }
 
@@ -136,6 +136,7 @@ namespace Runavelle.Game
                         break;
                     }
                     case SimEventType.WallBreached:
+                        RecordUrgent(at, "Tường thủng", new Color(1f, 0.55f, 0.25f));
                         vfx.Smoke(at, 12, new Color(0.7f, 0.65f, 0.6f, 0.8f));
                         vfx.Element(at, ElementId.Earth, 1.6f);
                         vfx.Decal("fx/rubble_" + (e.ActorId % 3), at, 1.1f, 0f, Color.white);
@@ -216,6 +217,7 @@ namespace Runavelle.Game
                         AudioService.Play("summon", 0.7f, 2, 0.2f, category: SoundCategory.Combat);
                         break;
                     case SimEventType.BossPhase:
+                        RecordUrgent(at, "Trùm", new Color(0.85f, 0.3f, 0.9f));
                         ShowBanner(e.Text);
                         Rig.Shake(FeedbackRules.ShakeFor(tier) * 0.7f);
                         AudioService.Play("horn", 0.8f, 1, 1f, category: SoundCategory.Stinger);
@@ -226,6 +228,7 @@ namespace Runavelle.Game
                         AudioService.Play("warning", 0.7f, 1, 0.8f, category: SoundCategory.Ui);
                         break;
                     case SimEventType.GeneralDowned:
+                        RecordUrgent(at, e.Text + " gục", new Color(1f, 0.85f, 0.35f));
                         ShowBanner(e.Text + " gục ngã! Hồi sinh sau 12 giây.");
                         if (w.Get(e.ActorId) is Unit dg && !dg.IsPlayerControlled) Barks.Say(BarkTrigger.Injured, dg, Session.NightTime);
                         break;
