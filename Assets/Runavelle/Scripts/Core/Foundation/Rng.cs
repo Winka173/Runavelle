@@ -21,6 +21,15 @@ namespace Runavelle.Core
             if ((_s0 | _s1 | _s2 | _s3) == 0) _s0 = 1;
         }
 
+        /// <summary>Exact generator state (for save/load continuity).</summary>
+        public uint[] GetState() => new[] { _s0, _s1, _s2, _s3 };
+
+        public void SetState(uint[] s)
+        {
+            if (s == null || s.Length != 4 || (s[0] | s[1] | s[2] | s[3]) == 0) return;
+            _s0 = s[0]; _s1 = s[1]; _s2 = s[2]; _s3 = s[3];
+        }
+
         /// <summary>Derive an independent stream for a sub-system without disturbing this stream.</summary>
         public static Rng Derive(ulong seed, ulong salt) => new Rng(seed * 0x9E3779B97F4A7C15UL ^ (salt + 0xD1B54A32D192ED03UL));
 

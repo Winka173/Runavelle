@@ -207,7 +207,7 @@ namespace Runavelle.Game
             Gui.DrawPanel(r);
             Gui.Text(new Rect(r.x, r.y + 16, r.width, 60), "Cài Đặt", new GUIStyle(Gui.H1) { alignment = TextAnchor.MiddleCenter });
             float y = r.y + 100, lx = r.x + 60, bx = r.x + 640, bw = 380, bh = 58, step = 70;
-            string[] tabs = { "Hình ảnh", "Âm thanh", "Điều khiển & trợ năng" };
+            string[] tabs = { "Hình ảnh", "Âm thanh", "Điều khiển & trợ năng", "Phím" };
             float tw = (r.width - 120) / tabs.Length;
             for (int t = 0; t < tabs.Length; t++)
                 if (Gui.Btn(new Rect(r.x + 60 + t * tw, y, tw - 10, 54), tabs[t], _settingsTab != t, Gui.ButtonSmall, _settingsTab == t ? "blue" : null)) _settingsTab = t;
@@ -238,6 +238,28 @@ namespace Runavelle.Game
                 Row("Môi trường", Pct(Settings.Ambience), () => Settings.Ambience = Step(Settings.Ambience));
                 Row("Lời thoại Tướng đồng minh", Pct(Settings.Voice), () => Settings.Voice = Step(Settings.Voice));
                 Row("Phụ đề cảnh báo & lời thoại", Settings.Captions ? "Bật" : "Tắt", () => Settings.Captions = !Settings.Captions);
+            }
+            else if (_settingsTab == 3)
+            {
+                // keyboard remapping: click a row, then press the new key (Esc in capture mode cancels)
+                if (_rebind.HasValue && Event.current.type == EventType.KeyDown && Event.current.keyCode != KeyCode.None)
+                {
+                    var kc = Event.current.keyCode;
+                    if (kc != KeyCode.Escape || _rebind.Value == InputAction.Pause)
+                    {
+                        var lost = Settings.Keys.Rebind(_rebind.Value, kc.ToString(), out _rebindError);
+                        if (_rebindError == null && lost.HasValue) _rebindError = $"{kc} đã chuyển từ {ActionLabel(lost.Value)}";
+                    }
+                    _rebind = null;
+                    Event.current.Use();
+                }
+                foreach (InputAction act in System.Enum.GetValues(typeof(InputAction)))
+                {
+                    var a = act;
+                    Row(ActionLabel(a), _rebind == a ? "Nhấn phím…" : string.Join(" / ", Settings.Keys.Keys(a)), () => { _rebind = a; _rebindError = null; });
+                }
+                Row("Khôi phục mặc định", "Đặt lại", () => { Settings.Keys.ResetDefaults(); _rebind = null; _rebindError = null; });
+                if (_rebindError != null) Gui.Text(new Rect(lx, r.yMax - 140, 900, 36), _rebindError, Gui.LabelSmall, new Color(0.85f, 0.5f, 0.1f));
             }
             else
             {
@@ -275,6 +297,25 @@ namespace Runavelle.Game
         }
 
         // ------------------------------------------------------------------ history / profile
+        private InputAction? _rebind;
+        private string _rebindError;
+
+        private static string ActionLabel(InputAction a)
+        {
+            switch (a)
+            {
+                case InputAction.MoveUp: return "Di chuyển lên";
+                case InputAction.MoveDown: return "Di chuyển xuống";
+                case InputAction.MoveLeft: return "Di chuyển trái";
+                case InputAction.MoveRight: return "Di chuyển phải";
+                case InputAction.Ultimate: return "Tối thượng";
+                case InputAction.Dash: return "Lướt";
+                case InputAction.Pause: return "Tạm dừng";
+                case InputAction.Speed: return "Tốc độ 1×/2×";
+                default: return "Bắt đầu đêm";
+            }
+        }
+
         private void DrawHistory()
         {
             Backdrop();

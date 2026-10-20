@@ -29,20 +29,46 @@ namespace Runavelle.Game
         public Rect UltButtonScreen, DashButtonScreen;
         private bool _dragPanning;
 
+        /// <summary>Keyboard bindings (set from Settings.Keys); KeyCodes are resolved once per change.</summary>
+        public InputBindings Bindings = new InputBindings();
+        private InputBindings _resolvedFor;
+        private int _resolvedVersion = -1;
+        private readonly System.Collections.Generic.Dictionary<InputAction, KeyCode[]> _codes = new System.Collections.Generic.Dictionary<InputAction, KeyCode[]>();
+
+        private KeyCode[] Codes(InputAction a)
+        {
+            if (_resolvedFor != Bindings || _resolvedVersion != Bindings.Version)
+            {
+                _codes.Clear();
+                foreach (InputAction act in System.Enum.GetValues(typeof(InputAction)))
+                {
+                    var list = new System.Collections.Generic.List<KeyCode>();
+                    foreach (var k in Bindings.Keys(act))
+                        if (System.Enum.TryParse(k, out KeyCode kc)) list.Add(kc);
+                    _codes[act] = list.ToArray();
+                }
+                _resolvedFor = Bindings; _resolvedVersion = Bindings.Version;
+            }
+            return _codes[a];
+        }
+
+        private bool Down(InputAction a) { foreach (var k in Codes(a)) if (Input.GetKeyDown(k)) return true; return false; }
+        private bool Held(InputAction a) { foreach (var k in Codes(a)) if (Input.GetKey(k)) return true; return false; }
+
         public void Update(bool nightControls, bool touchUi)
         {
             TouchMode = touchUi || Input.touchCount > 0;
-            UltPressed = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton3) || Input.GetKeyDown(KeyCode.JoystickButton5);
-            DashPressed = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.JoystickButton4);
-            PausePressed = Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7);
-            SpeedPressed = Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.JoystickButton6);
+            UltPressed = Down(InputAction.Ultimate) || Input.GetKeyDown(KeyCode.JoystickButton3) || Input.GetKeyDown(KeyCode.JoystickButton5);
+            DashPressed = Down(InputAction.Dash) || Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.JoystickButton4);
+            PausePressed = Down(InputAction.Pause) || Input.GetKeyDown(KeyCode.JoystickButton7);
+            SpeedPressed = Down(InputAction.Speed) || Input.GetKeyDown(KeyCode.JoystickButton6);
             CancelPressed = Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.JoystickButton2);
             UndoPressed = (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)) && Input.GetKeyDown(KeyCode.Z);
-            StartNightPressed = Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.N);
+            StartNightPressed = Down(InputAction.StartNight);
 
-            // keyboard / gamepad movement
-            float h = (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) ? 1f : 0f) - (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) ? 1f : 0f);
-            float v = (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) ? 1f : 0f) - (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) ? 1f : 0f);
+            // keyboard (remappable) / gamepad movement
+            float h = (Held(InputAction.MoveRight) ? 1f : 0f) - (Held(InputAction.MoveLeft) ? 1f : 0f);
+            float v = (Held(InputAction.MoveUp) ? 1f : 0f) - (Held(InputAction.MoveDown) ? 1f : 0f);
             Vector2 kb = Vector2.ClampMagnitude(new Vector2(h, v), 1f);
             Vector2 pad = Vector2.zero;
             try { pad = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); } catch { }

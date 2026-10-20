@@ -24,6 +24,12 @@ public static class Program
             Perf.Run(args[1], args[2], ulong.Parse(args[3]), int.Parse(args[4]));
             return 0;
         }
+        if (args.Length > 0 && args[0] == "stress")
+        {
+            // stress <map> <extraEnemies> [seed]
+            Stress.Run(args[1], int.Parse(args[2]), args.Length > 3 ? ulong.Parse(args[3]) : 1000);
+            return 0;
+        }
         if (args.Length > 0 && args[0] == "plan")
         {
             // plan <map> [seed]: wave composition per night (balance debugging)

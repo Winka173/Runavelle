@@ -91,7 +91,7 @@ namespace Runavelle.Tests
             var old = RunSave.Deserialize(T.Db, MiniJson.Write(root));
             Assert.AreEqual(1, old.Chronicle.Entries.Count);
             StringAssert.Contains("bản lưu cũ", old.Chronicle.Entries[0].Text);
-            Assert.AreEqual(2, MiniJson.Int(RunSave.Migrate((Dictionary<string, object>)MiniJson.Parse(MiniJson.Write(root))), "saveVersion"));
+            Assert.AreEqual(RunSave.Version, MiniJson.Int(RunSave.Migrate((Dictionary<string, object>)MiniJson.Parse(MiniJson.Write(root))), "saveVersion"));
         }
 
         [Test]

@@ -40,3 +40,8 @@
 ## P6 Loop polish
 - `Core/QA/Insights.cs` (BuildInsight, NightInsights), NightReport.Insights, GameSession.CastleDamageThisNight.
 - Report shows "Gợi ý" lines; build help shows ROI/DPS; defeat/victory screen "THỬ LẠI MÃ NÀY"; `GameRoot.Urgent.cs` edge arrows + tap-to-peek.
+
+## P9
+- `InputBindings` + Settings "Phím" tab + InputAdapter (version-cached KeyCodes, gamepad fixed).
+- Save v3 (exact continuity) + `GameSession.NormalizeTransients` at save/load; Rng state get/set.
+- `Tools/Sim stress <map> <extra>`; Perf counters.

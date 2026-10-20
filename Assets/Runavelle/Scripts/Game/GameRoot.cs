@@ -196,6 +196,7 @@ namespace Runavelle.Game
         {
             float dt = Mathf.Min(Time.unscaledDeltaTime, 0.1f);
             bool night = Session != null && Session.Phase == RunPhase.Night && Screen == AppScreen.Run;
+            Input.Bindings = Settings.Keys;
             Input.Update(night, Settings.TouchControls);
             if (Screen != AppScreen.Run || Session == null) { Rig.Cam.backgroundColor = new Color(0.16f, 0.14f, 0.22f); return; }
 

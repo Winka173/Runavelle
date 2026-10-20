@@ -30,6 +30,8 @@ namespace Runavelle.Game
         public bool FastDay;
         /// <summary>Accessibility: night combat runs at 75% speed (reaction time), stacks with the x2 toggle.</summary>
         public bool SlowNights;
+        /// <summary>Keyboard remapping (gamepad/touch fixed).</summary>
+        public InputBindings Keys = new InputBindings();
 
         public void Load(Profile p)
         {
@@ -57,6 +59,7 @@ namespace Runavelle.Game
             Ui = float.Parse(Get("uivol", "0.8"), inv);
             Voice = float.Parse(Get("voice", "0.9"), inv);
             SlowNights = Get("slownights", "0") == "1";
+            Keys = InputBindings.Parse(Get("keys", ""));
         }
 
         public void Save(Profile p)
@@ -73,6 +76,7 @@ namespace Runavelle.Game
             p.Settings["ui"] = UiScale.ToString(ci);
             p.Settings["quality"] = Quality.ToString();
             p.Settings["touch"] = TouchControls ? "1" : "0";
+            p.Settings["keys"] = Keys.Serialize();
             p.Settings["fastday"] = FastDay ? "1" : "0";
             var inv = System.Globalization.CultureInfo.InvariantCulture;
             p.Settings["shakeamt"] = ShakeAmount.ToString(inv);

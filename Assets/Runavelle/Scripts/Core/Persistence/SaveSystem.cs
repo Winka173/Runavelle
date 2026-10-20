@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Runavelle.Core
@@ -69,13 +70,15 @@ namespace Runavelle.Core
     /// </summary>
     public static class RunSave
     {
-        public const int Version = 2; // 2: Kingdom Chronicle ("chronicle"); v1 saves load with a fresh chronicle
+        // 2: Kingdom Chronicle ("chronicle"); 3: exact continuity — world RNG/time/ids, unit & building dynamic state
+        public const int Version = 3;
 
         public static bool CanSave(GameSession s) => s.Phase == RunPhase.Day || s.Phase == RunPhase.DecreeDraft || s.Phase == RunPhase.GeneralEvolution || s.Phase == RunPhase.KingdomEvolution;
 
         public static string Serialize(GameSession s)
         {
             if (!CanSave(s)) throw new InvalidOperationException("Runs are saved only at day boundaries");
+            s.NormalizeTransients(); // the saved run and the live run continue from the same rested state
             var root = new Dictionary<string, object>
             {
                 ["saveVersion"] = Version,
@@ -118,6 +121,9 @@ namespace Runavelle.Core
                     ["level"] = b.Level.Id, ["x"] = b.Origin.X, ["y"] = b.Origin.Y, ["ruined"] = b.Ruined,
                     ["primary"] = (int)b.Primary, ["secondary"] = (int)b.Secondary, ["g"] = b.Invested.Gold, ["m"] = b.Invested.Mana,
                     ["day"] = b.DayBuilt, ["squad"] = b.Squad.Count,
+                    ["id"] = b.Id, ["hp"] = b.Hp, ["shot"] = b.ShotCounter, ["shield"] = b.ShieldHp, ["rt"] = b.RespawnTimer,
+                    ["soldiers"] = b.Squad.Select(id => s.W.Get(id) as Unit).Where(u => u != null && !u.Dead)
+                        .Select(u => (object)new Dictionary<string, object> { ["id"] = u.Id, ["x"] = u.Position.X, ["y"] = u.Position.Y, ["hp"] = u.Hp, ["f"] = u.FacingX }).ToList(),
                 });
             }
             root["buildings"] = bl;
@@ -125,6 +131,19 @@ namespace Runavelle.Core
             foreach (var n in s.W.Analytics.Nights)
                 nights.Add(new Dictionary<string, object> { ["n"] = n.Night, ["d"] = n.Duration, ["k"] = n.Kills, ["c"] = n.CastleDamage, ["g"] = n.Gold, ["m"] = n.Mana, ["l"] = n.Lanes ?? "" });
             root["nights"] = nights;
+            // v3 dynamic state
+            var gens = new List<object>();
+            foreach (var g in new[] { s.W.PlayerGeneral }.Concat(s.W.AIGenerals))
+                if (g != null)
+                    gens.Add(new Dictionary<string, object> { ["slot"] = g.IsPlayerControlled ? -1 : g.AiSlot, ["id"] = g.Id, ["x"] = g.Position.X, ["y"] = g.Position.Y, ["hp"] = g.Hp,
+                        ["downed"] = g.State == UnitState.Downed, ["dt"] = g.DownedTimer, ["ult"] = g.UltCooldown, ["dash"] = g.DashCooldown, ["f"] = g.FacingX, ["rev"] = g.ReviveCount });
+            root["generals"] = gens;
+            root["rng"] = s.W.Rng.GetState().Select(v => (object)(double)v).ToList();
+            root["time"] = s.W.Time;
+            root["tick"] = s.W.Tick;
+            root["nextId"] = s.W.NextId;
+            root["unitOrder"] = s.W.Units.Where(u => !u.Dead).Select(u => (object)u.Id).ToList();
+            root["buildingOrder"] = s.W.Buildings.Where(b => !b.Dead).Select(b => (object)b.Id).ToList();
             if (s.Chronicle != null) root["chronicle"] = s.Chronicle.ToJson();
             return MiniJson.Write(root);
         }
@@ -147,6 +166,7 @@ namespace Runavelle.Core
                 v = 1;
             }
             if (v == 1) v = 2; // v1 → v2: no field changes; a missing "chronicle" is rebuilt by RestoreChronicle
+            if (v == 2) v = 3; // v2 → v3: no field changes; without the dynamic block the load falls back to rested defaults
             root["saveVersion"] = (double)v;
             return root;
         }
@@ -177,6 +197,58 @@ namespace Runavelle.Core
 
     public sealed partial class GameSession
     {
+        /// <summary>v3: generals' state, world RNG/time/id counter and list order — makes a loaded run continue bit-identically.</summary>
+        private void RestoreDynamic(Dictionary<string, object> root)
+        {
+            if (!root.ContainsKey("rng")) return; // older save: rested defaults
+            foreach (var go in MiniJson.Arr(root, "generals") ?? new List<object>())
+            {
+                int slot = MiniJson.Int(go, "slot", -9);
+                var g = slot == -1 ? W.PlayerGeneral : W.AIGenerals.FirstOrDefault(x => x.AiSlot == slot);
+                if (g == null) continue;
+                g.Position = g.PrevPosition = new Vec2(MiniJson.Float(go, "x"), MiniJson.Float(go, "y"));
+                g.Hp = Math.Min(g.MaxHp, MiniJson.Float(go, "hp", g.MaxHp));
+                if (MiniJson.Bool(go, "downed")) { g.State = UnitState.Downed; g.DownedTimer = MiniJson.Float(go, "dt"); }
+                g.UltCooldown = MiniJson.Float(go, "ult");
+                g.DashCooldown = MiniJson.Float(go, "dash");
+                g.FacingX = MiniJson.Float(go, "f", 1f);
+                g.ReviveCount = MiniJson.Int(go, "rev");
+            }
+            var rng = MiniJson.Arr(root, "rng");
+            if (rng != null && rng.Count == 4) W.Rng.SetState(rng.Select(v => (uint)Convert.ToDouble(v, System.Globalization.CultureInfo.InvariantCulture)).ToArray());
+            W.Time = MiniJson.Float(root, "time", W.Time);
+            W.Tick = MiniJson.Int(root, "tick", W.Tick);
+            W.NextId = Math.Max(W.NextId, MiniJson.Int(root, "nextId", W.NextId));
+            void Reorder<T>(List<T> list, string key) where T : Actor
+            {
+                var order = MiniJson.Arr(root, key);
+                if (order == null) return;
+                var rank = new Dictionary<int, int>();
+                for (int k = 0; k < order.Count; k++) rank[(int)Convert.ToDouble(order[k], System.Globalization.CultureInfo.InvariantCulture)] = k;
+                var sorted = list.OrderBy(a => rank.TryGetValue(a.Id, out int r) ? r : int.MaxValue).ThenBy(a => a.Id).ToList();
+                list.Clear();
+                list.AddRange(sorted);
+            }
+            Reorder(W.Units, "unitOrder");
+            Reorder(W.Buildings, "buildingOrder");
+            NormalizeTransients();
+        }
+
+        /// <summary>Clears per-actor transient combat/AI state (paths, targets, cooldowns, statuses). Called when saving and after
+        /// loading so both continue from the same rested day state; it never touches HP, positions or progression.</summary>
+        public void NormalizeTransients()
+        {
+            foreach (var u in W.Units)
+            {
+                u.Path.Clear(); u.PathIndex = 0; u.RepathTimer = 0f; u.AiDecisionTimer = 0f; u.TargetId = -1; u.IgnoreTargetId = -1; u.IgnoreTimer = 0f;
+                u.ChaseTimer = 0f; u.AttackCooldown = 0f; u.SecondaryCooldown = 0f; u.AttackAnim = 0f; u.IFrames = 0f; u.StuckTimer = 0f; u.LastProgressPos = u.Position;
+                u.LastHitTime = -999f; u.MoveInput = Vec2.Zero; u.PrevPosition = u.Position;
+                if (u.State != UnitState.Downed) u.State = UnitState.Idle;
+                u.Status.Clear();
+            }
+            foreach (var b in W.Buildings) { b.AttackCooldown = 0f; b.LastHitTime = -999f; b.Status.Clear(); }
+        }
+
         internal void RestoreFrom(Dictionary<string, object> root)
         {
             // remove the default buildings created by the constructor except the castle
@@ -214,12 +286,17 @@ namespace Runavelle.Core
                 if (!Content.Levels.ContainsKey(lvl)) continue; // unknown content is skipped, never crashes a load
                 var origin = new Int2(MiniJson.Int(o, "x"), MiniJson.Int(o, "y"));
                 Building b;
+                bool hasDyn = o is Dictionary<string, object> od && od.ContainsKey("id");
                 if (Content.BuildingOfLevel(lvl).Family == BuildingFamily.Castle)
                 {
                     b = W.Castle;
                     b.Level = Content.Level(lvl);
                 }
-                else b = Spawner.CreateBuilding(lvl, origin);
+                else
+                {
+                    if (hasDyn) W.NextId = MiniJson.Int(o, "id"); // recreate with the same id (AI tie-breaks and order use ids)
+                    b = Spawner.CreateBuilding(lvl, origin);
+                }
                 int p = MiniJson.Int(o, "primary"), sec = MiniJson.Int(o, "secondary");
                 b.Primary = Elements.IsValid(p) ? (ElementId)p : ElementId.None;
                 b.Secondary = Elements.IsValid(sec) ? (ElementId)sec : ElementId.None;
@@ -228,10 +305,31 @@ namespace Runavelle.Core
                 Spawner.ApplyBuildingStats(b, true);
                 b.Ruined = MiniJson.Bool(o, "ruined");
                 if (b.Ruined) b.Hp = 0;
+                if (hasDyn && !b.Ruined)
+                {
+                    b.Hp = Math.Min(b.MaxHp, MiniJson.Float(o, "hp", b.MaxHp));
+                    b.ShotCounter = MiniJson.Int(o, "shot");
+                    b.ShieldHp = MiniJson.Float(o, "shield");
+                    b.RespawnTimer = MiniJson.Float(o, "rt");
+                }
                 if (b.Def.Family == BuildingFamily.Barracks && !b.Ruined)
                 {
-                    int n = Math.Min(Spawner.SquadSize(b), MiniJson.Int(o, "squad", Spawner.SquadSize(b)));
-                    for (int i = 0; i < n; i++) Spawner.SpawnSoldier(b, b.Center);
+                    var saved = MiniJson.Arr(o, "soldiers");
+                    if (saved != null)
+                    {
+                        foreach (var so in saved)
+                        {
+                            W.NextId = MiniJson.Int(so, "id");
+                            var u = Spawner.SpawnSoldier(b, new Vec2(MiniJson.Float(so, "x"), MiniJson.Float(so, "y")));
+                            u.Hp = Math.Min(u.MaxHp, MiniJson.Float(so, "hp", u.MaxHp));
+                            u.FacingX = MiniJson.Float(so, "f", 1f);
+                        }
+                    }
+                    else
+                    {
+                        int n = Math.Min(Spawner.SquadSize(b), MiniJson.Int(o, "squad", Spawner.SquadSize(b)));
+                        for (int i = 0; i < n; i++) Spawner.SpawnSoldier(b, b.Center);
+                    }
                 }
             }
             W.TopologyVersion++;
@@ -249,6 +347,8 @@ namespace Runavelle.Core
                 AiSlotCommissioned[i] = true;
                 AiGeneralIds[i] = gid;
                 AiGeneralLanes[i] = MiniJson.Str(ai[i], "lane");
+                var savedGen = (MiniJson.Arr(root, "generals") ?? new List<object>()).FirstOrDefault(x => MiniJson.Int(x, "slot", -9) == i);
+                if (savedGen != null) W.NextId = MiniJson.Int(savedGen, "id");
                 Spawner.SpawnGeneral(Content.Generals[gid], Generals_RespawnPoint(), false, i, null);
             }
             Plan = MakePlan();
@@ -257,6 +357,7 @@ namespace Runavelle.Core
             if (AiGeneralLanes[0] != null || AiGeneralLanes[1] != null) PlaceAIGenerals();
             RebuildModifiers();
             Plan = MakePlan();
+            RestoreDynamic(root);
             foreach (var b in W.Buildings) if (!b.Ruined) b.Hp = b.MaxHp;
             string phase = MiniJson.Str(root, "phase", "Day");
             if (Enum.TryParse(phase, out RunPhase ph)) Phase = ph;
