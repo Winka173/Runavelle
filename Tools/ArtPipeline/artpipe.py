@@ -128,10 +128,18 @@ def downsample_raw(staging, only=None):
         src = os.path.join(raw, key + ".png")
         im = Image.open(src).convert("RGBA").convert("RGBa")
         im = im.resize((e["w"], e["h"]), Image.LANCZOS).convert("RGBA")
+        w, h, px, py = e["w"], e["h"], e["px"] * e["w"], (1 - e["py"]) * e["h"]  # pivot in pixels from top-left
+        if e.get("trim"):
+            # crop empty margins (memory) while keeping the pivot at the same world point; 2 px breathing room
+            bbox = im.getchannel("A").point(lambda v: 255 if v > 0 else 0).getbbox()
+            if bbox:
+                l, t, r, b = max(0, bbox[0] - 2), max(0, bbox[1] - 2), min(w, bbox[2] + 2), min(h, bbox[3] + 2)
+                im = im.crop((l, t, r, b))
+                px, py, w, h = px - l, py - t, r - l, b - t
         dst = os.path.join(staging, key + ".png")
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         im.save(dst, optimize=True)
-        out[key] = {"w": e["w"], "h": e["h"], "px": e["px"], "py": e["py"], "ppu": e["ppu"], "src": e["src"]}
+        out[key] = {"w": w, "h": h, "px": round(px / w, 4), "py": round(1 - py / h, 4), "ppu": e["ppu"], "src": e["src"]}
     return out
 
 

@@ -134,5 +134,48 @@ class ValidatorTests(unittest.TestCase):
         self.assertIn(("clipped", "WARN"), self.checks(f))
 
 
+    # ---- Phase 3 fixtures (intentionally broken) -------------------------------------------------------------------
+    def test_missing_attack_frame_blocks(self):
+        self.put("enemy/lonely_0", sprite())
+        self.assertIn(("missing_frame", "BLOCK"), self.checks(self.run_validator(), "enemy/lonely"))
+
+    def test_identical_adjacent_frames_warn(self):
+        self.put("unit/frozen_0", sprite())
+        self.put("unit/frozen_1", sprite())
+        self.assertIn(("identical_frames", "WARN"), self.checks(self.run_validator(), "unit/frozen"))
+
+    def test_rgb_under_zero_alpha_warns(self):
+        a = sprite()
+        a[a[..., 3] == 0, :3] = 250  # bright colour hidden under fully transparent pixels
+        self.put("unit/fringe_0", a)
+        self.put("unit/fringe_1", sprite(body=(21, 12, 45, 70)))
+        self.assertIn(("zero_alpha_rgb", "WARN"), self.checks(self.run_validator(), "unit/fringe_0"))
+
+    def test_illegal_texture_dimension_blocks(self):
+        self.put("fx/huge", np.zeros((2, 4100, 4), np.uint8) + np.array([200, 200, 200, 255], np.uint8), py=0.5)
+        self.assertIn(("illegal_dim", "BLOCK"), self.checks(self.run_validator(), "fx/huge"))
+
+    def test_broken_unity_meta_links_block(self):
+        self.put("unit/a_0", sprite()); self.put("unit/a_1", sprite(body=(21, 12, 45, 70)))
+        self.put("unit/b_0", sprite()); self.put("unit/b_1", sprite(body=(21, 12, 45, 70)))
+        guid = "0123456789abcdef0123456789abcdef"
+        for k in ("unit/a_0", "unit/a_1", "unit/b_0"):  # b_1 has no meta; a_1 duplicates a_0's GUID
+            with open(os.path.join(self.art, k + ".png.meta"), "w") as f:
+                f.write("fileFormatVersion: 2\nguid: " + (guid if k != "unit/b_0" else "f" * 32) + "\n")
+        c = self.checks(self.run_validator())
+        self.assertIn(("meta_missing", "BLOCK"), c)
+        self.assertIn(("meta_duplicate_guid", "BLOCK"), c)
+
+    def test_atlas_bleed_and_bounds_block(self):
+        out = []
+        validator.atlas_layout_check([("a", 2, 2, 10, 10, 0), ("b", 13, 2, 10, 10, 0), ("c", 0, 40, 10, 10, 0)], 64, 2, out)
+        self.assertIn("atlas_bleed", {f["check"] for f in out})   # a and b only 1 px apart
+        self.assertIn("atlas_bounds", {f["check"] for f in out})  # c touches the page edge
+        import pack
+        good = pack.layout_pack([("k%d" % i, 30 + i, 20 + i % 7, ) for i in range(40)], PAGE=256)
+        out = []
+        validator.atlas_layout_check(good, 256, pack.PAD, out)
+        self.assertEqual([], [f for f in out if f["check"] == "atlas_bleed"], "the packer itself never bleeds")
+
 if __name__ == "__main__":
     unittest.main()

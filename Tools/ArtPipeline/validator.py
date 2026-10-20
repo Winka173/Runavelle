@@ -112,7 +112,16 @@ def analyse(img):
             m["halo"] = float(((fl > 0.7) & (sat < 0.15) & (fl > m["rim_lum"] + 0.35)).mean())
         else:
             m["halo"] = 0.0
+    # colour hiding under alpha 0 next to the silhouette: bilinear filtering / mipmaps bleed it in as a fringe unless the
+    # importer dilates (alphaIsTransparency). Measured, reported as WARN when it is a large share of the border.
+    zero = a[..., 3] == 0
+    if opaque.any() and zero.any():
+        near = np.zeros_like(opaque)
+        near[1:, :] |= opaque[:-1, :]; near[:-1, :] |= opaque[1:, :]; near[:, 1:] |= opaque[:, :-1]; near[:, :-1] |= opaque[:, 1:]
+        border = zero & near
+        m["zero_alpha_rgb"] = float((lum(rgb[border]) > 0.6).mean()) if border.any() else 0.0
     m["mask"] = opaque
+    m["raw"] = a
     return m
 
 
@@ -134,6 +143,10 @@ def check_asset(key, entry, path, spec, out):
     m = analyse(img)
     if (m["w"], m["h"]) != (entry.get("w"), entry.get("h")):
         add(BLOCK, "manifest_size", f"manifest says {entry.get('w')}x{entry.get('h')}, file is {m['w']}x{m['h']}")
+    if not (1 <= m["w"] <= 4096 and 1 <= m["h"] <= 4096):
+        add(BLOCK, "illegal_dim", f"{m['w']}x{m['h']} is not a legal texture size (1..4096)")
+    if m.get("zero_alpha_rgb", 0) > 0.3:
+        add(WARN, "zero_alpha_rgb", f"{m['zero_alpha_rgb']:.0%} of fully transparent border pixels carry bright RGB (bleeds under filtering)")
     max_dim = cfg.get("max_dim", spec.t["max_dim"])
     if max(m["w"], m["h"]) > max_dim:
         add(BLOCK, "max_dim", f"{m['w']}x{m['h']} exceeds {max_dim} px")
@@ -194,6 +207,12 @@ def frame_checks(results, manifest, spec, out):
     for base, keys in sorted(groups.items()):
         keys.sort(key=lambda k: int(k.rsplit("_", 1)[1]))
         idx = [int(k.rsplit("_", 1)[1]) for k in keys]
+        if len(idx) < 2 and re.match(r"^(unit|enemy|general)/", base):
+            out.append({"asset": base, "category": "frames", "severity": BLOCK, "check": "missing_frame", "message": f"only frame(s) {idx}: idle (_0) and attack (_1) are both required"})
+        raws = [results.get(k, {}) or {} for k in keys]
+        for ka, kb, ra, rb in zip(keys, keys[1:], raws, raws[1:]):
+            if "raw" in ra and "raw" in rb and ra["raw"].shape == rb["raw"].shape and np.array_equal(ra["raw"], rb["raw"]):
+                out.append({"asset": base, "category": "frames", "severity": WARN, "check": "identical_frames", "message": f"{os.path.basename(ka)} and {os.path.basename(kb)} are pixel-identical (no visible animation)"})
         if idx != list(range(len(idx))):
             out.append({"asset": base, "category": "frames", "severity": BLOCK, "check": "frame_sequence", "message": f"frames {idx} are not a contiguous 0..n sequence"})
         dims = {(manifest[k]["w"], manifest[k]["h"], manifest[k]["px"], manifest[k]["py"]) for k in keys}
@@ -277,6 +296,48 @@ def provenance_check(art, out):
             out.append({"asset": os.path.basename(ttf), "category": "license", "severity": BLOCK, "check": "license", "message": "font without licence file"})
 
 
+def meta_checks(art, manifest, out):
+    """Unity linkage. No .meta at all = not imported by an Editor yet (reported in the summary, not a defect);
+    once any exist, every sprite needs one and GUIDs must be unique."""
+    metas = glob.glob(os.path.join(art, "**", "*.png.meta"), recursive=True)
+    if not metas:
+        return "not imported (no .meta files)"
+    guids = {}
+    for mp in metas:
+        key = os.path.relpath(mp, art)[:-len(".png.meta")].replace(os.sep, "/")
+        g = re.search(r"guid: ([0-9a-f]{32})", open(mp, encoding="utf-8", errors="replace").read())
+        if not g:
+            out.append({"asset": key, "category": "unity", "severity": BLOCK, "check": "meta_broken", "message": "meta file has no GUID"})
+            continue
+        if g.group(1) in guids:
+            out.append({"asset": key, "category": "unity", "severity": BLOCK, "check": "meta_duplicate_guid", "message": f"GUID also used by {guids[g.group(1)]}"})
+        guids[g.group(1)] = key
+        if key not in manifest:
+            out.append({"asset": key, "category": "unity", "severity": WARN, "check": "meta_orphan", "message": "meta without a manifest sprite"})
+    for key in manifest:
+        if not os.path.exists(os.path.join(art, key + ".png.meta")):
+            out.append({"asset": key, "category": "unity", "severity": BLOCK, "check": "meta_missing", "message": "sprite has no .meta while others do (partial import / broken GUID link)"})
+    return f"{len(metas)} .meta files"
+
+
+def atlas_layout_check(layout, page, pad, out, label="atlas"):
+    """layout: [(key, x, y, w, h, page_index)] in pixels incl. no padding; rects must stay pad px apart and inside the page."""
+    by_page = {}
+    for r in layout:
+        by_page.setdefault(r[5], []).append(r)
+    for pg, rects in by_page.items():
+        for k, x, y, w, h, _ in rects:
+            if x < pad or y < pad or x + w + pad > page or y + h + pad > page:
+                out.append({"asset": k, "category": "atlas", "severity": BLOCK, "check": "atlas_bounds", "message": f"{label} page {pg}: rect touches the page edge (< {pad}px)"})
+        rects = sorted(rects, key=lambda r: r[1])
+        for i, a in enumerate(rects):
+            for b in rects[i + 1:]:
+                if b[1] >= a[1] + a[3] + pad:
+                    break
+                if not (b[2] >= a[2] + a[4] + pad or a[2] >= b[2] + b[4] + pad):
+                    out.append({"asset": a[0], "category": "atlas", "severity": BLOCK, "check": "atlas_bleed", "message": f"{label} page {pg}: closer than {pad}px to {b[0]} (bleed/overlap)"})
+
+
 def run(art, spec_path, waivers_path, out_dir, code_dir=None, write=True):
     spec = Spec(spec_path)
     waivers = Waivers(waivers_path)
@@ -294,6 +355,13 @@ def run(art, spec_path, waivers_path, out_dir, code_dir=None, write=True):
     element_cvd_check(art, manifest, findings, spec.t)
     code_reference_check(code_dir, manifest, findings)
     provenance_check(art, findings)
+    unity_meta = meta_checks(art, manifest, findings)
+    try:
+        import pack
+        for group, layout in pack.layouts(art, manifest).items():
+            atlas_layout_check(layout, pack.PAGE, pack.PAD, findings, "atlas " + group)
+    except ImportError:
+        pass
     mb = total_bytes / 1048576
     if mb > spec.t["texture_budget_mb"]:
         findings.append({"asset": "*", "category": "budget", "severity": BLOCK, "check": "texture_budget", "message": f"uncompressed RGBA32 {mb:.1f} MB > {spec.t['texture_budget_mb']} MB"})
@@ -309,12 +377,13 @@ def run(art, spec_path, waivers_path, out_dir, code_dir=None, write=True):
         "block": len(blocking), "warn": sum(1 for f in findings if f["severity"] == WARN and not f["waived"]),
         "waived": sum(1 for f in findings if f["waived"]),
         "texture_mb_rgba32": round(mb, 2),
+        "unity_meta": unity_meta,
         "by_check": {},
     }
     for f in findings:
         if not f["waived"]:
             summary["by_check"][f["check"]] = summary["by_check"].get(f["check"], 0) + 1
-    per_asset = {k: {kk: vv for kk, vv in (v or {}).items() if kk not in ("mask",)} for k, v in results.items()}
+    per_asset = {k: {kk: vv for kk, vv in (v or {}).items() if kk not in ("mask", "raw")} for k, v in results.items()}
     if write:
         os.makedirs(out_dir, exist_ok=True)
         with open(os.path.join(out_dir, "report.json"), "w") as f:

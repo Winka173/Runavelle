@@ -1,0 +1,19 @@
+{
+  "_doc": "Art pipeline configuration. golden = benchmark slice that must pass review before a full regeneration (Phase 1).",
+  "golden": [
+    "building/castle_1", "building/castle_2", "building/castle_3a", "building/castle_3b",
+    "building/castle_3a_fortress", "building/castle_3a_legion", "building/castle_3a_arcanum",
+    "building/archer_1", "building/archer_2", "building/magic_1_fire", "building/magic_spire_shadow",
+    "building/house_2", "building/barracks_1",
+    "building/wall_stone_0", "building/wall_stone_5", "building/wall_stone_6", "building/wall_stone_10", "building/wall_stone_12",
+    "building/wall_stone_15", "building/gate_stone_h", "building/gate_stone_v", "building/ruin_1",
+    "general/roland_0", "general/roland_1", "general/lyra_0", "general/lyra_1",
+    "unit/swordsman_0", "unit/swordsman_1", "unit/mage_0", "unit/mage_1",
+    "enemy/ram_crew_0", "enemy/boss_gatebreaker_0", "fx/rally_flag"
+  ],
+  "platforms": {
+    "android": {"max_texture": 2048, "compression": "ASTC 6x6 (estimate in atlas_report.md)"},
+    "ios": {"max_texture": 2048, "compression": "ASTC 6x6"},
+    "windows": {"max_texture": 4096, "compression": "BC7"}
+  }
+}

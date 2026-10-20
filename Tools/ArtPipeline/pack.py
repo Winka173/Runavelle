@@ -27,6 +27,31 @@ def shelf_pack(sizes, PAGE=PAGE):
     return pages, used
 
 
+def layout_pack(items, PAGE=PAGE):
+    """Real shelf layout: items [(key, w, h)] → [(key, x, y, w, h, page)] with PAD on every side (validated by validator.atlas_layout_check)."""
+    out, page, x, y, shelf_h = [], 0, PAD, PAD, 0
+    for key, w, h in sorted(items, key=lambda s: (-s[2], s[0])):
+        if w + 2 * PAD > PAGE or h + 2 * PAD > PAGE:
+            out.append((key, PAD, PAD, w, h, f"solo:{key}"))
+            continue
+        if x + w + PAD > PAGE:
+            x, y, shelf_h = PAD, y + shelf_h, 0
+        if y + h + PAD > PAGE:
+            page, x, y, shelf_h = page + 1, PAD, PAD, 0
+        out.append((key, x, y, w, h, page))
+        x += w + 2 * PAD
+        shelf_h = max(shelf_h, h + 2 * PAD)
+    return out
+
+
+def layouts(art, manifest):
+    groups = {}
+    for k, e in manifest.items():
+        g = next((name for name, pre in GROUPS.items() if k.startswith(pre)), "Other")
+        groups.setdefault(g, []).append((k, e["w"], e["h"]))
+    return {g: layout_pack(items) for g, items in groups.items()}
+
+
 def report(art, out_md):
     with open(os.path.join(art, "manifest.json")) as f:
         man = json.load(f)

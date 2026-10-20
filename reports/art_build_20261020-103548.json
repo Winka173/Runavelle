@@ -1,0 +1,34 @@
+{
+ "id": "20261020-103548",
+ "scope": "building/house_,building/barracks_1,building/archer_1,building/shrine_1,building/well_1",
+ "quality": "release",
+ "force": false,
+ "dry_run": false,
+ "stages": [
+  {
+   "stage": "blender",
+   "rendered": 8,
+   "failed": [],
+   "seconds": 79.7
+  },
+  {
+   "stage": "validate",
+   "block": 0,
+   "warn": 0,
+   "examples": []
+  },
+  {
+   "stage": "import",
+   "imported": 0,
+   "reason": "--no-import"
+  }
+ ],
+ "plan": {
+  "scope_keys": 8,
+  "blender_keys": 8,
+  "render": 8,
+  "render_cached": 0,
+  "procedural_keys": 0
+ },
+ "seconds": 92.0
+}
