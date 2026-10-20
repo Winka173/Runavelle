@@ -278,6 +278,7 @@ namespace Runavelle.Game
             SyncKingdom();
             SyncKingdomProps();
             SyncAmbient(dt, settings);
+            SyncLivingKingdom(dt, settings);
             SyncBanner();
             SyncHazards();
             SyncLaneMarkers(showLaneForecast);
@@ -410,6 +411,46 @@ namespace Runavelle.Game
                     sr.sortingOrder = Mathf.Sin(a) > 0 ? baseOrder - 10 : baseOrder + 10;
                 }
             }
+        }
+
+        // ------------------------------------------------------------------ living kingdom (P1, decorative, budgeted by AmbientDirector)
+        private readonly List<AmbientEmitter> _emitters = new List<AmbientEmitter>();
+        private readonly Dictionary<int, float> _emitAcc = new Dictionary<int, float>();
+        private readonly List<SpriteRenderer> _torches = new List<SpriteRenderer>();
+        private float _emitRefresh;
+
+        private void SyncLivingKingdom(float dt, GameSettings s)
+        {
+            if ((_emitRefresh -= dt) <= 0f) { _emitRefresh = 0.5f; AmbientDirector.Emitters(_s.W, s.AmbientLevel, _emitters); }
+            int torches = 0;
+            for (int i = 0; i < _emitters.Count; i++)
+            {
+                var e = _emitters[i];
+                var at = V(e.Position);
+                if (e.Kind == AmbientKind.Torch)
+                {
+                    if (_torches.Count <= torches) _torches.Add(NewSR("torch", ArtLibrary.Get("fx/glow"), OrderLight));
+                    var sr = _torches[torches++];
+                    sr.gameObject.SetActive(true);
+                    sr.transform.position = new Vector3(at.x, at.y + 0.4f, 0);
+                    float flick = s.ReducedMotion ? 1f : 0.82f + 0.18f * Mathf.PerlinNoise(Time * 3.1f, i * 1.7f);
+                    sr.transform.localScale = new Vector3(0.9f * flick, 0.9f * flick, 1);
+                    sr.color = new Color(1f, 0.62f, 0.25f, 0.55f * flick);
+                    continue;
+                }
+                if (dt <= 0f) continue;
+                int key = e.BuildingId * 4 + (int)e.Kind;
+                _emitAcc.TryGetValue(key, out float acc);
+                acc += dt * e.Rate;
+                if (acc >= 1f)
+                {
+                    acc -= 1f;
+                    if (e.Kind == AmbientKind.ChimneySmoke) Vfx.Smoke(at, 1, new Color(0.85f, 0.85f, 0.88f, 0.45f));
+                    else Vfx.Element(at + new Vector2(Random.Range(-0.4f, 0.4f), 0.2f), ElementId.Water, 0.25f);
+                }
+                _emitAcc[key] = acc;
+            }
+            for (int i = torches; i < _torches.Count; i++) _torches[i].gameObject.SetActive(false);
         }
 
         // ------------------------------------------------------------------ ambient life (purely decorative)
